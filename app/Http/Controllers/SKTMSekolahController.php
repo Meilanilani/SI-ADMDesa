@@ -13,6 +13,7 @@ class SKTMSekolahController extends Controller
     {
         $this->middleware('auth');
     }
+
     
     /**
      * Display a listing of the resource.
@@ -64,7 +65,11 @@ class SKTMSekolahController extends Controller
         $sktmsekolah = Warga::where('no_nik','=',$no_nik)->first();
         if(isset($sktmsekolah)){
             $data = array(
-            'nama_lengkap' =>  $sktmsekolah['nama_lengkap'],);
+            'nama_lengkap' =>  $sktmsekolah['nama_lengkap'],
+            'tempat_lahir' =>  $sktmsekolah['tempat_lahir'],
+            'tanggal_lahir' =>  $sktmsekolah['tanggal_lahir'],
+            'agama' =>  $sktmsekolah['agama'],
+            'pekerjaan' =>  $sktmsekolah['pekerjaan'],);
         return json_encode($data);}
     }
 
@@ -219,3 +224,4 @@ class SKTMSekolahController extends Controller
     
     }
 }
+

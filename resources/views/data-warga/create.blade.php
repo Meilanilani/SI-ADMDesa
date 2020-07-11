@@ -27,9 +27,9 @@
                 @foreach ($errors->all() as $error)
                 <li> {{ $error }}</li>
                 @endforeach
-            </ul>
-        </div>
-        @endif
+                  </ul>
+              </div>
+              @endif
                       <form method="POST" action="{{ route('datawarga.store') }}">
                         @csrf
                 <div class="form-group">
