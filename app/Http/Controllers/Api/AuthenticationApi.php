@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Str;
 use Auth;
 use App\User;
 use Validator;
@@ -39,6 +40,14 @@ class AuthenticationApi extends Controller
 
         if(Auth::attempt($loginAttepmt)){
             $user = User::find(Auth::id());
+            $user = $request->user();
+            
+            $tokenResult = $user->createToken('Personal Access Token');
+            $token = $tokenResult->token;
+            if ($request->remember_me)
+                $token->expires_at = Carbon::now()->addWeeks(1);
+            $token->save();
+
             /* ======= if only verified email can login ========
             if($user->email_verified_at == null)
                 return[
@@ -46,11 +55,13 @@ class AuthenticationApi extends Controller
                     'message' => "Demi keamanan, kamu harus memverifikasi email kamu terlebih dahulu!"    
                 ];
             */
+            
             return[
                 'status' => true,
                 'message' => "Login berhasil!",
                 'data' => $user,
                 'user_id' => Auth::id(),
+                'token' => $tokenResult->accessToken
                 // 'warga_id' => $user->warga->id
             ];
         }else{
