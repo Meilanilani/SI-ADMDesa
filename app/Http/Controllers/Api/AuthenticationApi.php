@@ -16,20 +16,20 @@ class AuthenticationApi extends Controller
         $validation = Validator::make($request->all(), 
             // rules
             [
-                'email'=>'required|email:rfc,dns',
-                'password'=>'required'
+                'email'     =>'required|email:rfc,dns',
+                'password'  =>'required'
             ],
             //error's message : 
             [
-                'email' => "Email kamu tidak valid",
-                'required' => 'Kolom :attribute tidak boleh kosong!',
+                'email'     => "Email kamu tidak valid",
+                'required'  => 'Kolom :attribute tidak boleh kosong!',
             ]
         );
 
         if($validation->fails())
             return [
-                'status' => false,
-                'message' => $validation->errors()->first()
+                'status'    => false,
+                'message'   => $validation->errors()->first()
             ];
         
         //required array for login attempt
@@ -42,8 +42,8 @@ class AuthenticationApi extends Controller
             $user = User::find(Auth::id());
             $user = $request->user();
             
-            $tokenResult = $user->createToken('Personal Access Token');
-            $token = $tokenResult->token;
+            $tokenResult    = $user->createToken('Personal Access Token');
+            $token          = $tokenResult->token;
             if ($request->remember_me)
                 $token->expires_at = Carbon::now()->addWeeks(1);
             $token->save();
@@ -56,18 +56,16 @@ class AuthenticationApi extends Controller
                 ];
             */
             
+            $user->api_token = $tokenResult->accessToken;
             return[
-                'status' => true,
-                'message' => "Login berhasil!",
-                'data' => $user,
-                'user_id' => Auth::id(),
-                'token' => $tokenResult->accessToken
-                // 'warga_id' => $user->warga->id
+                'status'    => true,
+                'message'   => "Login berhasil!",
+                'data'      => $user,
             ];
         }else{
             return[
-                'status' => false,
-                'message' => "Email atau Password salah!"
+                'status'    => false,
+                'message'   => "Email atau Password salah!"
             ];
         }
     }
