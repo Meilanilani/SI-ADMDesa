@@ -69,7 +69,8 @@ class SKTMSekolahController extends Controller
             'tempat_lahir' =>  $sktmsekolah['tempat_lahir'],
             'tanggal_lahir' =>  $sktmsekolah['tanggal_lahir'],
             'agama' =>  $sktmsekolah['agama'],
-            'pekerjaan' =>  $sktmsekolah['pekerjaan'],);
+            'pekerjaan' =>  $sktmsekolah['pekerjaan'],
+            'alamat' =>  $sktmsekolah['alamat'],);
         return json_encode($data);}
     }
 
