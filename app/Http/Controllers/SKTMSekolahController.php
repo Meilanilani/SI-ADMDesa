@@ -24,7 +24,7 @@ class SKTMSekolahController extends Controller
     {
         $sktmsekolah = DB::table('warga')
         ->where('id_warga')->get();
-        
+
         $sktmsekolah = DB::table('persuratan')
         ->where('no_surat', 'LIKE', '%Suket-TMS%')
         ->get();
@@ -125,6 +125,7 @@ class SKTMSekolahController extends Controller
             $data['foto_ktp'] = $image_url;
         } 
 
+        
         $sktmsekolah = DB::table('persuratan')->insertGetId($data);
             
 

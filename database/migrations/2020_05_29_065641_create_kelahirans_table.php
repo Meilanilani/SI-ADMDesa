@@ -13,7 +13,7 @@ class CreateKelahiransTable extends Migration
      */
     public function up()
     {
-        Schema::create('ket_kelahiran', function (Blueprint $table) {
+        Schema::create('detail_kelahiran', function (Blueprint $table) {
             $table->increments('id_ket_kelahiran');
             $table->time('jam_lahir');
             $table->enum('hari_lahir', ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu']);

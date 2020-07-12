@@ -13,7 +13,7 @@ class CreateUsahasTable extends Migration
      */
     public function up()
     {
-        Schema::create('ket_usaha', function (Blueprint $table) {
+        Schema::create('detail_usaha', function (Blueprint $table) {
             $table->increments('id_ket_usaha');
             $table->string('nama_perusahaan',100);
             $table->string('jenis_usaha', 100);
