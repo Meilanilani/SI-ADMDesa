@@ -66,6 +66,10 @@
     <div class="card">
       <div class="card-body">
           <div class="row">
+            <div class="col-md-6">
+              <label for="inputName">ID Pemohon</label>
+              <input type="text" name="id_warga" id="id_pemohon" class="form-control input-lg" />
+            </div>
         <div class="col-md-6">
           <label for="inputName">NIK Ayah</label>
           <input type="text" name="no_nik" id="nik_ayah" class="form-control input-lg" />
@@ -164,6 +168,7 @@
              });
              return false;
         });
+        
         $('#nik_ayah').on('input',function(){
              
              var no_nik=$(this).val();
@@ -177,12 +182,14 @@
                    console.log(data);
                    var json = data;
 
-                   var nama_ayah = json.nama_lengkap;
+                    var id_pemohon = json.id_warga;
+                    var nama_ayah = json.nama_lengkap;
                     var ttl_ayah1 = json.tempat_lahir;
                     var ttl_ayah2 = json.tanggal_lahir;
                     var agama_ayah = json.agama;
                     var pekerjaan_ayah = json.pekerjaan;
                     
+                    console.log(id_pemohon);
                     console.log(nama_ayah);
                     console.log(ttl_ayah1);
                     console.log(ttl_ayah2);
@@ -190,6 +197,7 @@
                     console.log(pekerjaan_ayah);
 
 
+                    $('#id_pemohon').val(id_pemohon);
                     $('#nama_ayah').val(nama_ayah);
                     $('#ttl_ayah1').val(ttl_ayah1);
                     $('#ttl_ayah2').val(ttl_ayah2);

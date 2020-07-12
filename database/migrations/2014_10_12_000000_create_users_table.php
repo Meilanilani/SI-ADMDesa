@@ -20,7 +20,9 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
+            $table->integer('id_warga')->unsigned();
             $table->timestamps();
+            $table->foreign('id_warga')->references('id_warga')->on('warga')->onDelete('cascade');
         });
     }
 

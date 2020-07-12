@@ -22,6 +22,9 @@ class SKTMSekolahController extends Controller
      */
     public function index()
     {
+        $sktmsekolah = DB::table('warga')
+        ->where('id_warga')->get();
+        
         $sktmsekolah = DB::table('persuratan')
         ->where('no_surat', 'LIKE', '%Suket-TMS%')
         ->get();
@@ -65,6 +68,7 @@ class SKTMSekolahController extends Controller
         $sktmsekolah = Warga::where('no_nik','=',$no_nik)->first();
         if(isset($sktmsekolah)){
             $data = array(
+            'id_warga' => $sktmsekolah['id_warga'],
             'nama_lengkap' =>  $sktmsekolah['nama_lengkap'],
             'tempat_lahir' =>  $sktmsekolah['tempat_lahir'],
             'tanggal_lahir' =>  $sktmsekolah['tanggal_lahir'],
@@ -73,7 +77,7 @@ class SKTMSekolahController extends Controller
             'alamat' =>  $sktmsekolah['alamat'],);
         return json_encode($data);}
     }
-
+    
 
     /**
      * Store a newly created resource in storage.
@@ -87,6 +91,8 @@ class SKTMSekolahController extends Controller
         $data['ket_keperluan_surat'] = $request->ket_keperluan_surat;
         $data['tgl_pembuatan'] = $request->tgl_pembuatan;
         $data['status_surat'] = $request->status_surat;
+        $data['id_warga'] = $request->id_warga;
+        
 
         $image1 = $request->file('foto_pengantar');
         $image2 = $request->file('foto_kk');
@@ -118,14 +124,10 @@ class SKTMSekolahController extends Controller
             $succes = $image3->move($upload_path, $image_full_name);
             $data['foto_ktp'] = $image_url;
         } 
-        
-            $sktmsekolah = DB::table('persuratan')->insertGetId($data);
-            $data_detail['nik_anak'] = $request->nik_anak;
-            $data_detail['nik_orangtua'] = $request->nik_orangtua;
-            $data_detail['id_persuratan'] = $sktmsekolah;
 
-            DB::table('sktms')->insert($data_detail);
+        $sktmsekolah = DB::table('persuratan')->insertGetId($data);
             
+
             return redirect()->route('sktmsekolah.index')
                              ->with('success', 'Data Berhasil ditambahkan!');
     }
