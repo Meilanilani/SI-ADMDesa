@@ -34,7 +34,7 @@
             </div>
             <div class="col-md-6">
               <label for="inputName">NIK Anak</label>
-              <input type="text" name="no_nik" id="nik_anak" class="form-control input-lg" />
+              <input type="text" name="nik_anak" id="nik_anak" class="form-control input-lg" />
             </div>
             <div class="col-md-6">
               <label for="inputName">Nama Anak</label>
@@ -72,7 +72,7 @@
             </div>
         <div class="col-md-6">
           <label for="inputName">NIK Ayah</label>
-          <input type="text" name="no_nik" id="nik_ayah" class="form-control input-lg" />
+          <input type="text" name="nik_orangtua" id="nik_orangtua" class="form-control input-lg" />
         </div>
         <div class="col-md-6">
           <label for="inputName">Nama Ayah</label>
@@ -169,7 +169,7 @@
              return false;
         });
         
-        $('#nik_ayah').on('input',function(){
+        $('#nik_orangtua').on('input',function(){
              
              var no_nik=$(this).val();
              $.ajax({

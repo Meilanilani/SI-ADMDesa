@@ -13,4 +13,7 @@ class Warga extends Model
         'nama_ayah', 'nama_ibu', 'alamat'
     ];
     protected $primaryKey = 'id_warga';
+
+    
 }
+

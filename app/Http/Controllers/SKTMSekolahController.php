@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Persuratan;
+use App\SKTMRS;
 use App\SKTMSekolah;
 use App\Warga;
 use Illuminate\Http\Request;
@@ -22,12 +23,13 @@ class SKTMSekolahController extends Controller
      */
     public function index()
     {
-        $sktmsekolah = DB::table('warga')
-        ->where('id_warga')->get();
-
-        $sktmsekolah = DB::table('persuratan')
+       
+        $sktmsekolah = DB::table('persuratan') 
+        ->join('warga','persuratan.id_warga','=','warga.id_warga')
+        ->select('warga.no_nik', 'warga.nama_lengkap', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat' )
         ->where('no_surat', 'LIKE', '%Suket-TMS%')
         ->get();
+        
         return view('suket-tidakmampu-sekolah.sktm_sekolah', compact('sktmsekolah'));
     }
 
@@ -92,6 +94,8 @@ class SKTMSekolahController extends Controller
         $data['tgl_pembuatan'] = $request->tgl_pembuatan;
         $data['status_surat'] = $request->status_surat;
         $data['id_warga'] = $request->id_warga;
+        $data_detail['nik_anak'] = $request->nik_anak;
+        $data_detail['nik_orangtua'] = $request->nik_orangtua;
         
 
         $image1 = $request->file('foto_pengantar');
@@ -125,11 +129,12 @@ class SKTMSekolahController extends Controller
             $data['foto_ktp'] = $image_url;
         } 
 
-        
         $sktmsekolah = DB::table('persuratan')->insertGetId($data);
+        $data_detail['id_persuratan'] = $sktmsekolah;
+        $sktmsekolah = DB::table('detail_sktms')->insertGetId($data_detail);
             
 
-            return redirect()->route('sktmsekolah.index')
+        return redirect()->route('sktmsekolah.index')
                              ->with('success', 'Data Berhasil ditambahkan!');
     }
 
@@ -154,7 +159,14 @@ class SKTMSekolahController extends Controller
      */
     public function edit($id_persuratan)
     {
-        $sktmsekolah = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->first();
+        $no_nik = $request->no_nik;
+        
+        $sktmsekolah = DB::table('persuratan') 
+        ->join('warga', 'persuratan.id_warga','=','warga.id_warga')
+        ->join('detail_sktms', 'persuratan.id_persuratan','=','detail_sktms.id_persuratan')
+        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat', 'detail_sktms.nik_anak', 'detail_sktms.nik_orangtua' )
+        ->where('persuratan.id_persuratan','warga.id_warga','=', $no_nik, $id_persuratan)
+        ->first();
         return view('suket-tidakmampu-sekolah.edit', compact('sktmsekolah'));
     }
 
