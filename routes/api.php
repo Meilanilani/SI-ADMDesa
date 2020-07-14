@@ -25,7 +25,7 @@ Route::prefix('auth')->group(function(){
     Route::post('/nik-signin', 'Api\AuthenticationApi@nik_auth');
 });
 
-Route::prefix('surat')->group(function(){
+Route::prefix('surat')->middleware('auth:api')->group(function(){
     Route::get('/{id}', 'Api\SuratApi@index');
     Route::post('/request', 'Api\SuratApi@store');
 });

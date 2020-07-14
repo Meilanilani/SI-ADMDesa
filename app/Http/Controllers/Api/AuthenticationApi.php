@@ -104,7 +104,6 @@ class AuthenticationApi extends Controller
             
             $tokenResult    = $warga->createToken('Personal Access Token');
             $token          = $tokenResult->token;
-            dd($tokenResult->accessToken);
 
             if ($request->remember_me)
                 $token->expires_at = Carbon::now()->addWeeks(1);
@@ -118,11 +117,11 @@ class AuthenticationApi extends Controller
                 ];
             */
             
-            $user->api_token = $tokenResult->accessToken;
             return[
                 'status'    => true,
                 'message'   => "Login berhasil!",
-                'data'      => $user,
+                'data'      => $warga,
+                'api_token' => $tokenResult->accessToken
             ];
         }else{
             return[
