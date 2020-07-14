@@ -34,27 +34,27 @@
             </div>
             <div class="col-md-6">
               <label for="inputName">NIK Anak</label>
-              <input type="text" name="no_nik" id="nik_anak" class="form-control input-lg" />
+              <input type="text" name="nik_anak" id="nik_anak" class="form-control input-lg" />
             </div>
             <div class="col-md-6">
               <label for="inputName">Nama Anak</label>
-              <input type="text" name="nama_lengkap" id="nama_lengkap" class="form-control input-lg" readonly/>
+              <input type="text" name="nama_lengkap" id="nama_anak" class="form-control input-lg" readonly/>
             </div>
             <div class="col-md-6">
               <label for="inputName">Tempat Lahir</label>
-              <input type="text" name="tempat_lahir" id="tempat_lahir" class="form-control input-lg" readonly/>
+              <input type="text" name="tempat_lahir" id="ttl_anak1" class="form-control input-lg" readonly/>
             </div>
             <div class="col-md-6">
               <label for="inputName">Tanggal Lahir</label>
-              <input type="date" name="tempat_lahir" id="tanggal_lahir" class="form-control input-lg" readonly/>
+              <input type="date" name="tempat_lahir" id="ttl_anak2" class="form-control input-lg" readonly/>
             </div>
             <div class="col-md-6">
               <label for="inputName">Agama</label>
-              <input type="text" name="tempat_lahir" id="agama" class="form-control input-lg" readonly/>
+              <input type="text" name="tempat_lahir" id="agama_anak" class="form-control input-lg" readonly/>
             </div>
             <div class="col-md-6">
               <label for="inputName">Pekerjaan</label>
-              <input type="text" name="tempat_lahir" id="pekerjaan" class="form-control input-lg" readonly/>
+              <input type="text" name="tempat_lahir" id="pekerjaan_anak" class="form-control input-lg" readonly/>
             </div>
             <div class="col-md-7">
               <label for="inputName">Alamat</label>
@@ -66,29 +66,33 @@
     <div class="card">
       <div class="card-body">
           <div class="row">
+            <div class="col-md-6">
+              <label for="inputName">ID Pemohon</label>
+              <input type="text" name="id_warga" id="id_pemohon" class="form-control input-lg" />
+            </div>
         <div class="col-md-6">
           <label for="inputName">NIK Ayah</label>
-          <input type="text" name="no_nik" id="nik_ayah" class="form-control input-lg" />
+          <input type="text" name="nik_orangtua" id="nik_orangtua" class="form-control input-lg" />
         </div>
         <div class="col-md-6">
           <label for="inputName">Nama Ayah</label>
-          <input type="text" name="nama_lengkap" id="nama_lengkap_ayah" class="form-control input-lg" />
+          <input type="text" name="nama_lengkap" id="nama_ayah" class="form-control input-lg" />
         </div>
         <div class="col-md-6">
           <label for="inputName">Tempat Lahir</label>
-          <input type="text" name="tempat_lahir" id="tempat_lahir" class="form-control input-lg" readonly/>
+          <input type="text" name="tempat_lahir" id="ttl_ayah1" class="form-control input-lg" readonly/>
         </div>
         <div class="col-md-6">
           <label for="inputName">Tanggal Lahir</label>
-          <input type="date" name="tempat_lahir" id="tempat_lahir" class="form-control input-lg" readonly/>
+          <input type="date" name="tanggal_lahir" id="ttl_ayah2" class="form-control input-lg" readonly/>
         </div>
         <div class="col-md-6">
           <label for="inputName">Agama</label>
-          <input type="text" name="tempat_lahir" id="tempat_lahir" class="form-control input-lg" readonly/>
+          <input type="text" name="agama" id="agama_ayah" class="form-control input-lg" readonly/>
         </div>
         <div class="col-md-6">
           <label for="inputName">Pekerjaan</label>
-          <input type="text" name="tempat_lahir" id="tempat_lahir" class="form-control input-lg" readonly/>
+          <input type="text" name="pekerjaan" id="pekerjaan_ayah" class="form-control input-lg" readonly/>
         </div>
         {{ csrf_field() }}
         <div class="col-md-8">
@@ -126,41 +130,6 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script type="text/javascript">
       $(document).ready(function(){
-             $('#no_nik').on('input',function(){
-             
-              var no_nik=$(this).val();
-              $.ajax({
-                  type : "GET",
-                  url  : "{{ route('sktmsekolah.ajax_select') }}",
-                  dataType : "JSON",
-                  data : {no_nik: no_nik},
-                  cache:false,
-                  success: function(data){
-                    console.log(data);
-                    var json = data;
-
-                    var obj = json.nama_lengkap;
-                    var obj2 = json.tempat_lahir;
-                    var obj3 = json.tangal_lahir;
-                    var obj4 = json.agama;
-                    var obj5 = json.pekerjaan;
-                    
-                    console.log(obj);
-                    console.log(obj2);
-                    console.log(obj3);
-                    console.log(obj4);
-                    console.log(obj5);
-
-                    $('#nama_lengkap').val(obj);
-                    $('#tempat_lahir').val(obj2);
-                    $('#tangal_lahir').val(obj3);
-                    $('#agama').val(obj4);
-                    $('#pekerjaan').val(obj5);
-                       
-                  }
-              });
-              return false;
-         });
          $('#nik_anak').on('input',function(){
              
              var no_nik=$(this).val();
@@ -174,17 +143,33 @@
                    console.log(data);
                    var json = data;
 
-                   var obj = json.nama_lengkap;
-                   
-                   console.log(obj);
+                    var nama_anak = json.nama_lengkap;
+                    var ttl_anak1 = json.tempat_lahir;
+                    var ttl_anak2 = json.tanggal_lahir;
+                    var agama_anak = json.agama;
+                    var pekerjaan_anak = json.pekerjaan;
+                    var alamat = json.alamat;
+                    
+                    console.log(nama_anak);
+                    console.log(ttl_anak1);
+                    console.log(ttl_anak2);
+                    console.log(agama_anak);
+                    console.log(pekerjaan_anak);
+                    console.log(alamat);
 
-                   $('#nama_lengkap').val(obj);
-                      
+
+                    $('#nama_anak').val(nama_anak);
+                    $('#ttl_anak1').val(ttl_anak1);
+                    $('#ttl_anak2').val(ttl_anak2);
+                    $('#agama_anak').val(agama_anak);
+                    $('#pekerjaan_anak').val(pekerjaan_anak);
+                    $('#alamat').val(alamat);                      
                  }
              });
              return false;
         });
-        $('#nik_ayah').on('input',function(){
+        
+        $('#nik_orangtua').on('input',function(){
              
              var no_nik=$(this).val();
              $.ajax({
@@ -197,11 +182,27 @@
                    console.log(data);
                    var json = data;
 
-                   var nama_ayah = json.nama_lengkap;
-                   
-                   console.log(nama_ayah);
+                    var id_pemohon = json.id_warga;
+                    var nama_ayah = json.nama_lengkap;
+                    var ttl_ayah1 = json.tempat_lahir;
+                    var ttl_ayah2 = json.tanggal_lahir;
+                    var agama_ayah = json.agama;
+                    var pekerjaan_ayah = json.pekerjaan;
+                    
+                    console.log(id_pemohon);
+                    console.log(nama_ayah);
+                    console.log(ttl_ayah1);
+                    console.log(ttl_ayah2);
+                    console.log(agama_ayah);
+                    console.log(pekerjaan_ayah);
 
-                   $('#nama_lengkap_ayah').val(nama_ayah);
+
+                    $('#id_pemohon').val(id_pemohon);
+                    $('#nama_ayah').val(nama_ayah);
+                    $('#ttl_ayah1').val(ttl_ayah1);
+                    $('#ttl_ayah2').val(ttl_ayah2);
+                    $('#agama_ayah').val(agama_ayah);
+                    $('#pekerjaan_ayah').val(pekerjaan_ayah);
                       
                  }
              });

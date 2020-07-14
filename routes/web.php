@@ -39,6 +39,7 @@ Route::get('suket-tidakmampu-sekolah/create', 'SKTMSekolahController@create')->n
 Route::post('suket-tidakmampu-sekolah/store', 'SKTMSekolahController@store')->name('sktmsekolah.store');
 
 Route::get('suket-tidakmampu-sekolah/cari', 'SKTMSekolahController@ajax_select')->name('sktmsekolah.ajax_select');
+Route::get('suket-tidakmampu-sekolah/cari_id', 'SKTMSekolahController@ajax_select2')->name('sktmsekolah.ajax_select2');
 
 Route::get('suket-tidakmampu-sekolah/edit/{id}', 'SKTMSekolahController@edit');
 Route::get('suket-tidakmampu-sekolah/delete/{id}', 'SKTMSekolahController@destroy');

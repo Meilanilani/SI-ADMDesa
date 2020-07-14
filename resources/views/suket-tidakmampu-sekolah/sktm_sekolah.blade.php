@@ -55,7 +55,6 @@
                 <td>{{ $post->no_surat }}</td>
                 <td>{{ $post->no_nik }}</td>
                 <td>{{ $post->nama_lengkap }}</td>
-                
                 <td>{{ $post->tgl_pembuatan }}</td>
                 <td>{{ $post->status_surat }}</td>
                 <td>
