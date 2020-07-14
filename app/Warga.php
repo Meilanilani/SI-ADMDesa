@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Passport\HasApiTokens;
 
 class Warga extends Model
 {
+    use HasApiTokens;
+    
     protected $table = "warga";
     protected $fillable = [
         'no_kk', 'no_nik', 'nama_lengkap', 'jenis_kelamin', 'tempat_lahir', 

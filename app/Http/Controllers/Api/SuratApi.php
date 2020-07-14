@@ -13,7 +13,7 @@ class SuratApi extends Controller
     {
         $surat = Persuratan::get();
 
-        if($surat)
+        if(!$surat)
             return[
                 'status'    => false,
                 'message'   => "Anda belum membuat satupun surat.",
