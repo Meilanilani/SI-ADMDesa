@@ -159,13 +159,13 @@ class SKTMSekolahController extends Controller
      */
     public function edit($id_persuratan)
     {
-        $no_nik = $request->no_nik;
+        
         
         $sktmsekolah = DB::table('persuratan') 
         ->join('warga', 'persuratan.id_warga','=','warga.id_warga')
         ->join('detail_sktms', 'persuratan.id_persuratan','=','detail_sktms.id_persuratan')
         ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat', 'detail_sktms.nik_anak', 'detail_sktms.nik_orangtua' )
-        ->where('persuratan.id_persuratan','warga.id_warga','=', $no_nik, $id_persuratan)
+        ->where('persuratan.id_persuratan',$id_persuratan)
         ->first();
         return view('suket-tidakmampu-sekolah.edit', compact('sktmsekolah'));
     }

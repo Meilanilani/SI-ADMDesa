@@ -1,10 +1,4 @@
-//CRUD-SKTM-RS
-Route::get('suket-sktmrs', 'SKTMRSController@index')->name('sktmrs.index');
-Route::get('suket-sktmrs/create', 'SKTMRSController@create')->name('sktmrs.create');
-Route::post('suket-sktmrs/store', 'SKTMRSController@store')->name('sktmrs.store');
-Route::get('suket-sktmrs/edit/{id}', 'SKTMRSController@edit');
-Route::get('suket-sktmrs/delete/{id}', 'SKTMRSController@destroy');
-Route::post('suket-sktmrs/update/{id}', 'SKTMRSController@update');
+
 
 
 //CRUD-Suket-Pengantar SKCK

@@ -188,13 +188,13 @@
                   <i class="far fa-circle nav-icon"></i>
                   <p>SKTM Sekolah</p>
                 </a>
-              <!-- </li>
+             </li>
               <li class="nav-item">
                 <a href="/suket-sktmrs" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>SKTM Rumah Sakit</p>
                 </a>
-              </li> -->
+              </li> 
               <li class="nav-item">
                 <a href="/suket-kelahiran" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>

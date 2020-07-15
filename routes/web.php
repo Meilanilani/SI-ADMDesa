@@ -39,12 +39,18 @@ Route::get('suket-tidakmampu-sekolah/create', 'SKTMSekolahController@create')->n
 Route::post('suket-tidakmampu-sekolah/store', 'SKTMSekolahController@store')->name('sktmsekolah.store');
 
 Route::get('suket-tidakmampu-sekolah/cari', 'SKTMSekolahController@ajax_select')->name('sktmsekolah.ajax_select');
-Route::get('suket-tidakmampu-sekolah/cari_id', 'SKTMSekolahController@ajax_select2')->name('sktmsekolah.ajax_select2');
 
 Route::get('suket-tidakmampu-sekolah/edit/{id}', 'SKTMSekolahController@edit');
 Route::get('suket-tidakmampu-sekolah/delete/{id}', 'SKTMSekolahController@destroy');
 Route::post('suket-tidakmampu-sekolah/update/{id}', 'SKTMSekolahController@update');
 
+//CRUD-SKTM-RS
+Route::get('suket-sktmrs', 'SKTMRSController@index')->name('sktmrs.index');
+Route::get('suket-sktmrs/create', 'SKTMRSController@create')->name('sktmrs.create');
+Route::post('suket-sktmrs/store', 'SKTMRSController@store')->name('sktmrs.store');
+Route::get('suket-sktmrs/edit/{id}', 'SKTMRSController@edit');
+Route::get('suket-sktmrs/delete/{id}', 'SKTMRSController@destroy');
+Route::post('suket-sktmrs/update/{id}', 'SKTMRSController@update');
 
 //CRUD-Suket_kelahiran
 Route::get('suket-kelahiran', 'KelahiranController@index')->name('kelahiran.index');

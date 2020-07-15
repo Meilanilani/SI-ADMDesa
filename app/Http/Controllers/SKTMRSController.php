@@ -25,7 +25,7 @@ class SKTMRSController extends Controller
         $sktmrs = DB::table('persuratan')
         ->where('no_surat', 'LIKE', '%Suket-TMRS%')
         ->get();
-        return view('sktmrs.sktm_rs', compact('sktmrs'));
+        return view('suket-tidakmampu-rs.sktm_rs', compact('sktmrs'));
     }
 
     /**
@@ -37,7 +37,7 @@ class SKTMRSController extends Controller
     {
         $sktmrs = Persuratan::all();
         $sktmrs = Warga::all();
-        return view('sktmrs.create', compact('sktmrs'));
+        return view('suket-tidakmampu-rs.create', compact('sktmrs'));
     }
 
     /**
@@ -111,7 +111,7 @@ class SKTMRSController extends Controller
     public function edit($id_persuratan)
     {
         $sktmrs = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->first();
-        return view('sktmrs.edit', compact('sktmrs'));
+        return view('suket-tidakmampu-rs.edit', compact('sktmrs'));
     }
 
     /**
