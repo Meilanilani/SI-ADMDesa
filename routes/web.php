@@ -59,6 +59,8 @@ Route::post('suket-kelahiran/store', 'KelahiranController@store')->name('kelahir
 Route::get('suket-kelahiran/edit/{id}', 'KelahiranController@edit');
 Route::get('suket-kelahiran/delete/{id}', 'KelahiranController@destroy');
 Route::post('suket-kelahiran/update/{id}', 'KelahiranController@update');
+Route::get('suket-kelahiran/cari', 'KelahiranController@ajax_select')->name('kelahiran.ajax_select');
+
 
 //CRUD-Suket-KTP Sementara
 Route::get('suket-ktp-sementara', 'KTPSementaraController@index')->name('ktp.index');

@@ -17,9 +17,9 @@ class CreateWargasTable extends Migration
             $table->increments('id_warga');
             $table->string('no_kk', 16);
             $table->string('no_nik', 16)->unique();
-            $table->string('nama_lengkap', 50);
+            $table->string('nama_lengkap', 100);
             $table->enum('jenis_kelamin', ['Laki-Laki', 'Perempuan']);
-            $table->string('tempat_lahir', 20);
+            $table->string('tempat_lahir', 50);
             $table->date('tanggal_lahir');
             $table->enum('agama', ['Islam', 'Katolik', 'Protestan', 'Hindu', 'Buddha', 'Kong Hu Cu', 'Laim-lain']);
             $table->enum('pendidikan', ['Belum Sekolah', 'SD/ MI', 'SMP/MTs', 'SMA/MA/SMK', 'D3', 'D4/S1', 'S2', 'S3']);

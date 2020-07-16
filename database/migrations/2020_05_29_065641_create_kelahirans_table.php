@@ -15,10 +15,14 @@ class CreateKelahiransTable extends Migration
     {
         Schema::create('detail_kelahiran', function (Blueprint $table) {
             $table->increments('id_ket_kelahiran');
+            $table->string('nama_anak', 50);
+            $table->string('tempat_lahir_anak', 50);
+            $table->enum('jenis_kelamin', ['Laki-Laki', 'Perempuan']);
             $table->time('jam_lahir');
-            $table->enum('hari_lahir', ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu']);
             $table->integer('anak_ke');
             $table->integer('id_persuratan')->unsigned();
+            $table->string('nik_ayah',16);
+            $table->string('nik_ibu',16);
             $table->timestamps();
             
             $table->foreign('id_persuratan')->references('id_persuratan')->on('persuratan')->onDelete('cascade');

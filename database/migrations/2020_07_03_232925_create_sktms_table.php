@@ -15,8 +15,8 @@ class CreateSktmsTable extends Migration
     {
         Schema::create('detail_sktms', function (Blueprint $table) {
             $table->increments('id_sktms');
-            $table->string('nik_anak');
-            $table->string('nik_orangtua');
+            $table->string('nik_anak',16);
+            $table->string('nik_orangtua',16);
             $table->integer('id_persuratan')->unsigned();
             $table->timestamps();
             

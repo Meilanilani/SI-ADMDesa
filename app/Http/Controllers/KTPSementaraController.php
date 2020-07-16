@@ -25,6 +25,40 @@ class KTPSementaraController extends Controller
         return view('suket-ktp-sementara.ktp_sementara', compact('ktp'));
     }
 
+    
+    public function autonumber(){
+        $bln = array(1 => "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII");
+        $query = DB::table('persuratan')
+        ->select(DB::raw('MAX(LEFT(no_surat,3)) as no_max'))
+        ->where('no_surat', 'LIKE', '%Suket-TMS%')->get();
+        if ($query->count()>0) {
+            foreach ($query as $key ) {
+            $tmp = ((int)$key->no_max)+1;
+            $kd = sprintf("%03s", $tmp);
+            }
+           }else {
+            $kd = "001";
+           }
+           $kd_surat = $kd."/Suket-KTP/".$bln[date('n')].date('/yy');
+           return $kd_surat;
+          }
+
+          public function ajax_select(Request $request){
+            $no_nik = $request->no_nik;
+           
+            $sktmsekolah = Warga::where('no_nik','=',$no_nik)->first();
+            if(isset($sktmsekolah)){
+                $data = array(
+                'id_warga' => $sktmsekolah['id_warga'],
+                'nama_lengkap' =>  $sktmsekolah['nama_lengkap'],
+                'tempat_lahir' =>  $sktmsekolah['tempat_lahir'],
+                'tanggal_lahir' =>  $sktmsekolah['tanggal_lahir'],
+                'agama' =>  $sktmsekolah['agama'],
+                'pekerjaan' =>  $sktmsekolah['pekerjaan'],
+                'alamat' =>  $sktmsekolah['alamat'],);
+            return json_encode($data);}
+        }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -34,7 +68,8 @@ class KTPSementaraController extends Controller
     {
         $ktp = Persuratan::all();
         $ktp = Warga::all();
-        return view('suket-ktp-sementara.create', compact('ktp'));
+        $surat = $this->autonumber();
+        return view('suket-ktp-sementara.create', ['surat'=>$surat]);
     }
 
     /**

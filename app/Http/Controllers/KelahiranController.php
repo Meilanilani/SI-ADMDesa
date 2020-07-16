@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Persuratan;
 use App\Kelahiran;
 use App\Warga;
 use Illuminate\Http\Request;
@@ -24,10 +25,43 @@ class KelahiranController extends Controller
         
         $lahir = DB::table('persuratan') 
         ->join('detail_kelahiran','persuratan.id_persuratan','=','detail_kelahiran.id_persuratan')
-        ->select('detail_kelahiran.id_ket_kelahiran','persuratan.id_persuratan', 'persuratan.no_surat','persuratan.ket_keperluan_surat', 'persuratan.foto_pengantar', 'persuratan.foto_kk', 'persuratan.foto_ktp','persuratan.foto_suratnikah','persuratan.foto_suratkelahiran','persuratan.tgl_pembuatan','persuratan.status_surat','detail_kelahiran.jam_lahir', 'detail_kelahiran.hari_lahir', 'detail_kelahiran.anak_ke')
+        ->select('detail_kelahiran.id_ket_kelahiran','persuratan.id_persuratan', 'persuratan.no_surat','persuratan.ket_keperluan_surat', 'persuratan.foto_pengantar', 'persuratan.foto_kk', 'persuratan.foto_ktp','persuratan.foto_suratnikah','persuratan.foto_suratkelahiran','persuratan.tgl_pembuatan','persuratan.status_surat','detail_kelahiran.jam_lahir', 'detail_kelahiran.anak_ke')
         ->get();
         return view('suket-kelahiran.kelahiran', compact('lahir'));
     }
+
+    public function autonumber(){
+        $bln = array(1 => "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII");
+        $query = DB::table('persuratan')
+        ->select(DB::raw('MAX(LEFT(no_surat,3)) as no_max'))
+        ->where('no_surat', 'LIKE', '%Suket-TMS%')->get();
+        if ($query->count()>0) {
+            foreach ($query as $key ) {
+            $tmp = ((int)$key->no_max)+1;
+            $kd = sprintf("%03s", $tmp);
+            }
+           }else {
+            $kd = "001";
+           }
+           $kd_surat = $kd."/Suket-Lahir/".$bln[date('n')].date('/yy');
+           return $kd_surat;
+          }
+
+          public function ajax_select(Request $request){
+            $no_nik = $request->no_nik;
+           
+            $sktmsekolah = Warga::where('no_nik','=',$no_nik)->first();
+            if(isset($sktmsekolah)){
+                $data = array(
+                'id_warga' => $sktmsekolah['id_warga'],
+                'nama_lengkap' =>  $sktmsekolah['nama_lengkap'],
+                'tempat_lahir' =>  $sktmsekolah['tempat_lahir'],
+                'tanggal_lahir' =>  $sktmsekolah['tanggal_lahir'],
+                'agama' =>  $sktmsekolah['agama'],
+                'pekerjaan' =>  $sktmsekolah['pekerjaan'],
+                'alamat' =>  $sktmsekolah['alamat'],);
+            return json_encode($data);}
+        }
 
     /**
      * Show the form for creating a new resource.
@@ -36,9 +70,11 @@ class KelahiranController extends Controller
      */
     public function create()
     {
+        $surat = Persuratan::all();
         $lahir = Kelahiran::all();
-        $lahir = Warga::all();
-        return view('suket-kelahiran.create', compact('lahir'));
+        $surat = Warga::all();
+        $surat = $this->autonumber();
+        return view('suket-kelahiran.create',['surat'=>$surat]);
     }
 
     /**
@@ -50,7 +86,9 @@ class KelahiranController extends Controller
     public function store(Request $request)
     {
         $data['no_surat'] = $request->no_surat;
-        $data2['hari_lahir'] = $request->hari_lahir;
+        $data2['nama_anak'] = $request->nama_anak;
+        $data2['tempat_lahir_anak'] = $request->tempat_lahir_anak;
+        $data2['jenis_kelamin'] = $request->jenis_kelamin;
         $data2['jam_lahir'] = $request->jam_lahir;
         $data2['anak_ke'] = $request->anak_ke;
        
@@ -135,7 +173,7 @@ class KelahiranController extends Controller
     {   
         $lahir = DB::table('persuratan') 
         ->join('detail_kelahiran','persuratan.id_persuratan','=','detail_kelahiran.id_persuratan')
-        ->select('detail_kelahiran.id_ket_kelahiran','persuratan.id_persuratan', 'persuratan.no_surat','persuratan.ket_keperluan_surat', 'persuratan.foto_pengantar', 'persuratan.foto_kk', 'persuratan.foto_ktp','persuratan.foto_suratnikah','persuratan.foto_suratkelahiran','persuratan.tgl_pembuatan','persuratan.status_surat','ket_kelahiran.jam_lahir', 'ket_kelahiran.hari_lahir', 'ket_kelahiran.anak_ke')
+        ->select('detail_kelahiran.id_ket_kelahiran','persuratan.id_persuratan', 'persuratan.no_surat','persuratan.ket_keperluan_surat', 'persuratan.foto_pengantar', 'persuratan.foto_kk', 'persuratan.foto_ktp','persuratan.foto_suratnikah','persuratan.foto_suratkelahiran','persuratan.tgl_pembuatan','persuratan.status_surat','detail_kelahiran.jam_lahir', 'detail_kelahiran.anak_ke')
         ->where('id_ket_kelahiran',$id_ket_kelahiran)
         ->first();
         return view('suket-kelahiran.edit', compact('lahir'));
