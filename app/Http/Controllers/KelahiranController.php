@@ -23,8 +23,8 @@ class KelahiranController extends Controller
     {
         
         $lahir = DB::table('persuratan') 
-        ->join('ket_kelahiran','persuratan.id_persuratan','=','ket_kelahiran.id_persuratan')
-        ->select('ket_kelahiran.id_ket_kelahiran','persuratan.id_persuratan', 'persuratan.no_surat','persuratan.ket_keperluan_surat', 'persuratan.foto_pengantar', 'persuratan.foto_kk', 'persuratan.foto_ktp','persuratan.foto_suratnikah','persuratan.foto_suratkelahiran','persuratan.tgl_pembuatan','persuratan.status_surat','ket_kelahiran.jam_lahir', 'ket_kelahiran.hari_lahir', 'ket_kelahiran.anak_ke')
+        ->join('detail_kelahiran','persuratan.id_persuratan','=','detail_kelahiran.id_persuratan')
+        ->select('detail_kelahiran.id_ket_kelahiran','persuratan.id_persuratan', 'persuratan.no_surat','persuratan.ket_keperluan_surat', 'persuratan.foto_pengantar', 'persuratan.foto_kk', 'persuratan.foto_ktp','persuratan.foto_suratnikah','persuratan.foto_suratkelahiran','persuratan.tgl_pembuatan','persuratan.status_surat','detail_kelahiran.jam_lahir', 'detail_kelahiran.hari_lahir', 'detail_kelahiran.anak_ke')
         ->get();
         return view('suket-kelahiran.kelahiran', compact('lahir'));
     }
@@ -109,7 +109,7 @@ class KelahiranController extends Controller
         } 
             $lahir = DB::table('persuratan')->insertGetId($data);
             $data2['id_persuratan'] = $lahir;
-            $lahir = DB::table('ket_kelahiran')->insertGetId($data2);
+            $lahir = DB::table('detail_kelahiran')->insertGetId($data2);
 
             return redirect()->route('kelahiran.index')
                             ->with('success', 'Product Created Successfully!');
@@ -134,8 +134,8 @@ class KelahiranController extends Controller
     public function edit($id_ket_kelahiran)
     {   
         $lahir = DB::table('persuratan') 
-        ->join('ket_kelahiran','persuratan.id_persuratan','=','ket_kelahiran.id_persuratan')
-        ->select('ket_kelahiran.id_ket_kelahiran','persuratan.id_persuratan', 'persuratan.no_surat','persuratan.ket_keperluan_surat', 'persuratan.foto_pengantar', 'persuratan.foto_kk', 'persuratan.foto_ktp','persuratan.foto_suratnikah','persuratan.foto_suratkelahiran','persuratan.tgl_pembuatan','persuratan.status_surat','ket_kelahiran.jam_lahir', 'ket_kelahiran.hari_lahir', 'ket_kelahiran.anak_ke')
+        ->join('detail_kelahiran','persuratan.id_persuratan','=','detail_kelahiran.id_persuratan')
+        ->select('detail_kelahiran.id_ket_kelahiran','persuratan.id_persuratan', 'persuratan.no_surat','persuratan.ket_keperluan_surat', 'persuratan.foto_pengantar', 'persuratan.foto_kk', 'persuratan.foto_ktp','persuratan.foto_suratnikah','persuratan.foto_suratkelahiran','persuratan.tgl_pembuatan','persuratan.status_surat','ket_kelahiran.jam_lahir', 'ket_kelahiran.hari_lahir', 'ket_kelahiran.anak_ke')
         ->where('id_ket_kelahiran',$id_ket_kelahiran)
         ->first();
         return view('suket-kelahiran.edit', compact('lahir'));
@@ -208,7 +208,7 @@ class KelahiranController extends Controller
             $succes = $image5->move($upload_path, $image_full_name);
             $data['foto_suratkelahiran'] = $image_url;
         } 
-            $id_persuratan = DB::table('ket_kelahiran')->select('id_persuratan')->where('id_ket_kelahiran', $id_ket_kelahiran)->first();
+            $id_persuratan = DB::table('detail_kelahiran')->select('id_persuratan')->where('id_ket_kelahiran', $id_ket_kelahiran)->first();
             $lahir = DB::table('persuratan')->where('id_persuratan', $id_persuratan->id_persuratan)->update($data);
             
             $lahir = DB::table('ket_kelahiran')->where('id_ket_kelahiran', $id_ket_kelahiran)->update($data2);
