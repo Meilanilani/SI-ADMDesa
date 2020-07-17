@@ -39,7 +39,7 @@
                         </div>
                         <div class="col-md-6">
                           <label for="inputName">Nama Anak</label>
-                          <input type="text" name="nama_lengkap" id="nama_anak" class="form-control input-lg" value="{{ $sktmsekolah->nama_lengkap}}" readonly/>
+                          <input type="text" name="nama_lengkap" id="nama_anak" class="form-control input-lg" value="{{ $data_anak->nama_lengkap}}" readonly/>
                         </div>
                         <div class="col-md-6">
                           <label for="inputName">Tempat Lahir</label>

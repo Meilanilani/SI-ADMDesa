@@ -43,22 +43,22 @@
             
             <div class="col-md-6">
               <label for="inputName">Tanggal Lahir</label>
-              <input type="date" name="tempat_lahir_anak" class="form-control input-lg" />
+              <input type="date" name="tanggal_lahir" class="form-control input-lg" />
             </div>
             <div class="col-md-4">
                 <label for="inputName">Jenis Kelamin</label>
-                    <select name="jenis_kelamin" value="{{ old('jenis_kelamin') }}" id="warga-jenis_kelamin" class="form-control">
+                    <select name="jenis_kelamin"  class="form-control">
                         <option>Laki-Laki</option>
                         <option>Perempuan</option>
                     </select> 
             </div>
             <div class="col-md-3">
               <label for="inputName">Jam Lahir</label>
-              <input type="time" name="tempat_lahir" id="agama_anak" class="form-control input-lg" />
+              <input type="time" name="jam_lahir"  class="form-control input-lg" />
             </div>
             <div class="col-md-2">
               <label for="inputName">Anak ke</label>
-              <input type="text" name="tempat_lahir" id="pekerjaan_anak" class="form-control input-lg" />
+              <input type="text" name="anak_ke"  class="form-control input-lg" />
             </div>
             {{ csrf_field() }}
         <div class="col-md-6">

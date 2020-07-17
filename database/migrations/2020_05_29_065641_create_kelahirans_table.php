@@ -17,6 +17,7 @@ class CreateKelahiransTable extends Migration
             $table->increments('id_ket_kelahiran');
             $table->string('nama_anak', 50);
             $table->string('tempat_lahir_anak', 50);
+            $table->date('tanggal_lahir_anak');
             $table->enum('jenis_kelamin', ['Laki-Laki', 'Perempuan']);
             $table->time('jam_lahir');
             $table->integer('anak_ke');

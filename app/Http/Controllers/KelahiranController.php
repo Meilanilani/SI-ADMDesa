@@ -86,15 +86,16 @@ class KelahiranController extends Controller
     public function store(Request $request)
     {
         $data['no_surat'] = $request->no_surat;
+        $data['tgl_pembuatan'] = $request->tgl_pembuatan;
+        $data['status_surat'] = $request->status_surat;
+        $data['id_warga'] = $request->id_warga;
         $data2['nama_anak'] = $request->nama_anak;
         $data2['tempat_lahir_anak'] = $request->tempat_lahir_anak;
         $data2['jenis_kelamin'] = $request->jenis_kelamin;
         $data2['jam_lahir'] = $request->jam_lahir;
         $data2['anak_ke'] = $request->anak_ke;
-       
-        $data['tgl_pembuatan'] = $request->tgl_pembuatan;
-        $data['status_surat'] = $request->status_surat;
-
+        $data2['nik_ayah'] = $request->nik_ayah;
+        $data2['nik_ibu'] = $request->nik_ibu;
         $image1 = $request->file('foto_pengantar');
         $image2 = $request->file('foto_kk');
         $image3 = $request->file('foto_ktp');
