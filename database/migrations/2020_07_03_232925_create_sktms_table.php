@@ -14,7 +14,7 @@ class CreateSktmsTable extends Migration
     public function up()
     {
         Schema::create('detail_sktms', function (Blueprint $table) {
-            $table->increments('id_sktms');
+            $table->increments('id_detail_sktms');
             $table->string('nik_anak',16);
             $table->string('nik_orangtua',16);
             $table->integer('id_persuratan')->unsigned();

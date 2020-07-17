@@ -14,7 +14,7 @@ class CreateKelahiransTable extends Migration
     public function up()
     {
         Schema::create('detail_kelahiran', function (Blueprint $table) {
-            $table->increments('id_ket_kelahiran');
+            $table->increments('id_detail_kelahiran');
             $table->string('nama_anak', 50);
             $table->string('tempat_lahir_anak', 50);
             $table->date('tanggal_lahir_anak');

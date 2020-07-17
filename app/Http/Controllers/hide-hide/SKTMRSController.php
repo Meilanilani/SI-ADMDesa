@@ -23,6 +23,8 @@ class SKTMRSController extends Controller
     public function index()
     {
         $sktmrs = DB::table('persuratan')
+        ->join('warga','persuratan.id_warga','=','warga.id_warga')
+        ->select('warga.no_nik', 'warga.nama_lengkap', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat' )
         ->where('no_surat', 'LIKE', '%Suket-TMRS%')
         ->get();
         return view('suket-tidakmampu-rs.sktm_rs', compact('sktmrs'));
@@ -35,9 +37,43 @@ class SKTMRSController extends Controller
      */
     public function create()
     {
-        $sktmrs = Persuratan::all();
-        $sktmrs = Warga::all();
-        return view('suket-tidakmampu-rs.create', compact('sktmrs'));
+        $surat = Persuratan::all();
+        $surat = Warga::all();
+        $surat = $this->autonumber();
+        return view('suket-tidakmampu-rs.create', ['surat'=>$surat]);
+    }
+
+    public function autonumber(){
+        $bln = array(1 => "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII");
+        $query = DB::table('persuratan')
+        ->select(DB::raw('MAX(LEFT(no_surat,3)) as no_max'))
+        ->where('no_surat', 'LIKE', '%Suket-TMS%')->get();
+        if ($query->count()>0) {
+            foreach ($query as $key ) {
+            $tmp = ((int)$key->no_max)+1;
+            $kd = sprintf("%03s", $tmp);
+            }
+           }else {
+            $kd = "001";
+           }
+           $kd_surat = $kd."/Suket-TMRS/".$bln[date('n')].date('/yy');
+           return $kd_surat;
+          }
+
+    public function ajax_select(Request $request){
+        $no_nik = $request->no_nik;
+       
+        $sktmsekolah = Warga::where('no_nik','=',$no_nik)->first();
+        if(isset($sktmsekolah)){
+            $data = array(
+            'id_warga' => $sktmsekolah['id_warga'],
+            'nama_lengkap' =>  $sktmsekolah['nama_lengkap'],
+            'tempat_lahir' =>  $sktmsekolah['tempat_lahir'],
+            'tanggal_lahir' =>  $sktmsekolah['tanggal_lahir'],
+            'agama' =>  $sktmsekolah['agama'],
+            'pekerjaan' =>  $sktmsekolah['pekerjaan'],
+            'alamat' =>  $sktmsekolah['alamat'],);
+        return json_encode($data);}
     }
 
     /**
@@ -49,9 +85,11 @@ class SKTMRSController extends Controller
     public function store(Request $request)
     {
         $data['no_surat'] = $request->no_surat; 
-        $data['ket_keperluan_surat'] = $request->ket_keperluan_surat;
         $data['tgl_pembuatan'] = $request->tgl_pembuatan;
         $data['status_surat'] = $request->status_surat;
+        $data['id_warga'] = $request->id_warga;
+        $data_detail['nik_kepala_keluarga'] = $request->nik_kepala_keluarga;
+        $data_detail['nik_yg_bersangkutan'] = $request->nik_yg_bersangkutan;
 
         $image1 = $request->file('foto_pengantar');
         $image2 = $request->file('foto_kk');
@@ -84,8 +122,10 @@ class SKTMRSController extends Controller
             $data['foto_ktp'] = $image_url;
         } 
         
-            $lahir = DB::table('persuratan')
-            ->insertGetId($data);
+            $sktmrs = DB::table('persuratan')->insertGetId($data);
+            $data_detail['id_persuratan'] = $sktmrs;
+            $sktmrs = DB::table('detail_sktmrs')->insertGetId($data_detail);
+            
             
             return redirect()->route('sktmrs.index')
                              ->with('success', 'Data Berhasil ditambahkan!');
@@ -110,7 +150,17 @@ class SKTMRSController extends Controller
      */
     public function edit($id_persuratan)
     {
-        $sktmrs = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->first();
+        $sktmrs = DB::table('persuratan')
+        ->join('warga','persuratan.id_warga','=','warga.id_warga')
+        ->join('detail_sktmrs', 'persuratan.id_persuratan','=','detail_sktmrs.id_persuratan')
+        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat', 'detail_sktmrs.nik_kepala_keluarga', 'detail_sktmrs.nik_yg_bersangkutan')
+        ->where('no_surat', 'LIKE', '%Suket-TMRS%')
+        ->where('persuratan.id_persuratan',$id_persuratan)
+        ->first();
+        
+        $data_anak = DB::table('warga')
+        ->where('no_nik', $sktmrs->nik_yg_bersangkutan)
+        ->first();
         return view('suket-tidakmampu-rs.edit', compact('sktmrs'));
     }
 
