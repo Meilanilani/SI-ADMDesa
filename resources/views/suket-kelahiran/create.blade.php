@@ -38,12 +38,12 @@
             </div>
             <div class="col-md-6">
               <label for="inputName">Tempat Lahir</label>
-              <input type="text" name="tempat_lahir" class="form-control input-lg" />
+              <input type="text" name="tempat_lahir_anak" class="form-control input-lg" />
             </div>
             
             <div class="col-md-6">
               <label for="inputName">Tanggal Lahir</label>
-              <input type="date" name="tanggal_lahir" class="form-control input-lg" />
+              <input type="date" name="tanggal_lahir_anak" class="form-control input-lg" />
             </div>
             <div class="col-md-4">
                 <label for="inputName">Jenis Kelamin</label>
@@ -92,7 +92,6 @@
       <div class="card-body">
           <div class="row">
               <input type="hidden" name="id_warga" id="id_pemohon" class="form-control input-lg" />
-            
         <div class="col-md-6">
           <label for="inputName">NIK Ayah</label>
           <input type="text" name="nik_ayah" id="nik_ayah" class="form-control input-lg" />

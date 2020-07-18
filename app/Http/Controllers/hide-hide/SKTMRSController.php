@@ -161,7 +161,7 @@ class SKTMRSController extends Controller
         $data_anak = DB::table('warga')
         ->where('no_nik', $sktmrs->nik_yg_bersangkutan)
         ->first();
-        return view('suket-tidakmampu-rs.edit', compact('sktmrs'));
+        return view('suket-tidakmampu-rs.edit', compact('sktmrs', 'data_anak'));
     }
 
     /**

@@ -190,7 +190,7 @@
                 </a>
              </li>
               <li class="nav-item">
-                <a href="/suket-sktmrs" class="nav-link">
+                <a href="/suket-tidakmampu-rumahsakit" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>SKTM Rumah Sakit</p>
                 </a>

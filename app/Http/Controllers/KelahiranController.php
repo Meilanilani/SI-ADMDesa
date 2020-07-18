@@ -24,17 +24,33 @@ class KelahiranController extends Controller
     {
         
         $lahir = DB::table('persuratan') 
-        ->join('detail_kelahiran','persuratan.id_persuratan','=','detail_kelahiran.id_persuratan')
-        ->select('detail_kelahiran.id_ket_kelahiran','persuratan.id_persuratan', 'persuratan.no_surat','persuratan.ket_keperluan_surat', 'persuratan.foto_pengantar', 'persuratan.foto_kk', 'persuratan.foto_ktp','persuratan.foto_suratnikah','persuratan.foto_suratkelahiran','persuratan.tgl_pembuatan','persuratan.status_surat','detail_kelahiran.jam_lahir', 'detail_kelahiran.anak_ke')
+        ->join('warga','persuratan.id_warga','=','warga.id_warga')
+        ->select('warga.no_nik', 'warga.nama_lengkap', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat' )
+        ->where('no_surat', 'LIKE', '%Suket-Lahir%')
         ->get();
         return view('suket-kelahiran.kelahiran', compact('lahir'));
     }
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        $surat = Kelahiran::all();
+        $surat = Persuratan::all();
+        $surat = Warga::all();
+        $surat = $this->autonumber();
+        return view('suket-kelahiran.create',['surat'=>$surat]);
+    }
+
+    
 
     public function autonumber(){
         $bln = array(1 => "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII");
         $query = DB::table('persuratan')
         ->select(DB::raw('MAX(LEFT(no_surat,3)) as no_max'))
-        ->where('no_surat', 'LIKE', '%Suket-TMS%')->get();
+        ->where('no_surat', 'LIKE', '%Suket-Lahir%')->get();
         if ($query->count()>0) {
             foreach ($query as $key ) {
             $tmp = ((int)$key->no_max)+1;
@@ -63,19 +79,6 @@ class KelahiranController extends Controller
             return json_encode($data);}
         }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $surat = Persuratan::all();
-        $lahir = Kelahiran::all();
-        $surat = Warga::all();
-        $surat = $this->autonumber();
-        return view('suket-kelahiran.create',['surat'=>$surat]);
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -89,8 +92,10 @@ class KelahiranController extends Controller
         $data['tgl_pembuatan'] = $request->tgl_pembuatan;
         $data['status_surat'] = $request->status_surat;
         $data['id_warga'] = $request->id_warga;
+        $data['id_warga'] = $request->id_warga;
         $data2['nama_anak'] = $request->nama_anak;
         $data2['tempat_lahir_anak'] = $request->tempat_lahir_anak;
+        $data2['tanggal_lahir_anak'] = $request->tanggal_lahir_anak;
         $data2['jenis_kelamin'] = $request->jenis_kelamin;
         $data2['jam_lahir'] = $request->jam_lahir;
         $data2['anak_ke'] = $request->anak_ke;
@@ -170,14 +175,20 @@ class KelahiranController extends Controller
      * @param  \App\Kelahiran  $kelahiran
      * @return \Illuminate\Http\Response
      */
-    public function edit($id_ket_kelahiran)
+    public function edit($id_persuratan)
     {   
         $lahir = DB::table('persuratan') 
+        ->join('warga', 'persuratan.id_warga','=','warga.id_warga')
         ->join('detail_kelahiran','persuratan.id_persuratan','=','detail_kelahiran.id_persuratan')
-        ->select('detail_kelahiran.id_ket_kelahiran','persuratan.id_persuratan', 'persuratan.no_surat','persuratan.ket_keperluan_surat', 'persuratan.foto_pengantar', 'persuratan.foto_kk', 'persuratan.foto_ktp','persuratan.foto_suratnikah','persuratan.foto_suratkelahiran','persuratan.tgl_pembuatan','persuratan.status_surat','detail_kelahiran.jam_lahir', 'detail_kelahiran.anak_ke')
-        ->where('id_ket_kelahiran',$id_ket_kelahiran)
+        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat', 'detail_kelahiran.nama_anak', 'detail_kelahiran.tempat_lahir_anak',  'detail_kelahiran.tanggal_lahir_anak', 'detail_kelahiran.jenis_kelamin', 'detail_kelahiran.jam_lahir', 'detail_kelahiran.anak_ke','detail_kelahiran.nik_ayah', 'detail_kelahiran.nik_ibu' )
+        ->where('persuratan.id_persuratan',$id_persuratan)
         ->first();
-        return view('suket-kelahiran.edit', compact('lahir'));
+        
+        $data_anak = DB::table('warga')
+        ->where('no_nik', $lahir->nik_ibu)
+        ->first();
+        
+        return view('suket-kelahiran.edit', compact('lahir', 'data_anak'));
     }
 
     /**
@@ -187,7 +198,7 @@ class KelahiranController extends Controller
      * @param  \App\Kelahiran  $kelahiran
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id_ket_kelahiran)
+    public function update(Request $request, $id_persuratan)
     {
         $data['no_surat'] = $request->no_surat;
         $data2['hari_lahir'] = $request->hari_lahir;
@@ -247,11 +258,7 @@ class KelahiranController extends Controller
             $succes = $image5->move($upload_path, $image_full_name);
             $data['foto_suratkelahiran'] = $image_url;
         } 
-            $id_persuratan = DB::table('detail_kelahiran')->select('id_persuratan')->where('id_ket_kelahiran', $id_ket_kelahiran)->first();
-            $lahir = DB::table('persuratan')->where('id_persuratan', $id_persuratan->id_persuratan)->update($data);
-            
-            $lahir = DB::table('ket_kelahiran')->where('id_ket_kelahiran', $id_ket_kelahiran)->update($data2);
-
+        $sktmrs = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->update($data);
             return redirect()->route('kelahiran.index')
                             ->with('success', 'Data Berhasil diupdate!');
     }
@@ -262,13 +269,12 @@ class KelahiranController extends Controller
      * @param  \App\Kelahiran  $kelahiran
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id_ket_kelahiran)
+    public function destroy($id_persuratan)
     {
-        $lahir = DB::table('persuratan') 
-        ->join('ket_kelahiran','persuratan.id_persuratan','=','ket_kelahiran.id_persuratan')
-        ->select('ket_kelahiran.id_ket_kelahiran','persuratan.id_persuratan', 'persuratan.no_surat','persuratan.ket_keperluan_surat', 'persuratan.foto_pengantar', 'persuratan.foto_kk', 'persuratan.foto_ktp','persuratan.foto_suratnikah','persuratan.foto_suratkelahiran','persuratan.tgl_pembuatan','persuratan.status_surat','ket_kelahiran.jam_lahir', 'ket_kelahiran.hari_lahir', 'ket_kelahiran.anak_ke')
-        ->where('id_ket_kelahiran',$id_ket_kelahiran)
-        ->delete();
+        $data = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->first();
+       
+        $lahir = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->delete();
+        
         
         return redirect()->route('kelahiran.index')
         ->with('success', 'Data Delete Successfully!');
