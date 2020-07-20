@@ -23,11 +23,45 @@ class UsahaController extends Controller
     public function index()
     {
         $usaha = DB::table('persuratan') 
-        ->join('ket_usaha','persuratan.id_persuratan','=','ket_usaha.id_persuratan')
-        ->select('ket_usaha.id_ket_usaha','persuratan.id_persuratan', 'persuratan.no_surat','persuratan.ket_keperluan_surat', 'persuratan.foto_pengantar', 'persuratan.foto_kk', 'persuratan.foto_suratizin','persuratan.tgl_pembuatan','persuratan.status_surat', 'ket_usaha.nama_perusahaan', 'ket_usaha.jenis_usaha', 'ket_usaha.alamat_perusahaan')
+        ->join('warga','persuratan.id_warga','=','warga.id_warga')
+        ->select('warga.no_nik', 'warga.nama_lengkap', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat' )
+        ->where('no_surat', 'LIKE', '%Suket-USAHA%')
         ->get();
         return view('suket-usaha.suket_usaha', compact('usaha'));
     }
+
+    public function autonumber(){
+        $bln = array(1 => "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII");
+        $query = DB::table('persuratan')
+        ->select(DB::raw('MAX(LEFT(no_surat,3)) as no_max'))
+        ->where('no_surat', 'LIKE', '%Suket-USAHA%')->get();
+        if ($query->count()>0) {
+            foreach ($query as $key ) {
+            $tmp = ((int)$key->no_max)+1;
+            $kd = sprintf("%03s", $tmp);
+            }
+           }else {
+            $kd = "001";
+           }
+           $kd_surat = $kd."/Suket-USAHA/".$bln[date('n')].date('/yy');
+           return $kd_surat;
+          }
+
+          public function ajax_select(Request $request){
+            $no_nik = $request->no_nik;
+           
+            $sktmsekolah = Warga::where('no_nik','=',$no_nik)->first();
+            if(isset($sktmsekolah)){
+                $data = array(
+                'id_warga' => $sktmsekolah['id_warga'],
+                'nama_lengkap' =>  $sktmsekolah['nama_lengkap'],
+                'tempat_lahir' =>  $sktmsekolah['tempat_lahir'],
+                'tanggal_lahir' =>  $sktmsekolah['tanggal_lahir'],
+                'agama' =>  $sktmsekolah['agama'],
+                'pekerjaan' =>  $sktmsekolah['pekerjaan'],
+                'alamat' =>  $sktmsekolah['alamat'],);
+            return json_encode($data);}
+        }
 
     /**
      * Show the form for creating a new resource.
@@ -38,7 +72,8 @@ class UsahaController extends Controller
     {
         $usaha = Usaha::all();
         $usaha = Warga::all();
-        return view('suket-usaha.create', compact('usaha'));
+        $surat = $this->autonumber();
+        return view('suket-usaha.create', ['surat'=>$surat]);
     }
 
     /**

@@ -58,8 +58,8 @@
                 <td>{{ $post->tgl_pembuatan }}</td>
                 <td>{{ $post->status_surat }}</td>
                 <td>
-                  <a class="btn btn-danger btn-sm" href="{{URL::to('suket-tidakmampu-rumahsakit/edit/'.$post->id_persuratan)}}"><i class="nav-icon fas fa-edit"></i> Edit</a>
-                  <a class="btn btn-primary btn-sm" href="{{URL::to('suket-tidakmampu-rumahsakit/delete/'.$post->id_persuratan)}}"><i class="nav-icon fas fa-trash"></i> Hapus</a>
+                  <a class="btn btn-danger btn-sm" href="{{URL::to('suket-ktp-sementara/edit/'.$post->id_persuratan)}}"><i class="nav-icon fas fa-edit"></i> Edit</a>
+                  <a class="btn btn-primary btn-sm" href="{{URL::to('suket-ktp-sementara/delete/'.$post->id_persuratan)}}"><i class="nav-icon fas fa-trash"></i> Hapus</a>
                 </td>
               </tr>
             </form>

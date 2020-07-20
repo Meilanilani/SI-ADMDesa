@@ -35,7 +35,7 @@
               <input type="hidden" name="id_warga" id="id_pemohon" class="form-control input-lg" />
         <div class="col-md-6">
           <label for="inputName">NIK</label>
-          <input type="text" name="no_nik" id="no_nik" class="form-control input-lg" />
+          <input type="text" name="nik_yg_bersangkutan" id="no_nik" class="form-control input-lg" />
         </div>
         <div class="col-md-6">
           <label for="inputName">Nama Lengkap</label>

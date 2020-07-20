@@ -89,7 +89,7 @@ class KTPSementaraController extends Controller
         $data['tgl_masa_berlaku'] = $request->tgl_masa_berlaku;
         $data['status_surat'] = $request->status_surat;
         $data['id_warga'] = $request->id_warga;
-        $data_detail['no_nik'] = $request->no_nik;
+        $data_detail['nik_yg_bersangkutan'] = $request->nik_yg_bersangkutan;
 
         $image1 = $request->file('foto_pengantar');
         $image2 = $request->file('foto_kk');
@@ -139,8 +139,21 @@ class KTPSementaraController extends Controller
      */
     public function edit($id_persuratan)
     {
+        $ktp = DB::table('persuratan') 
+        ->join('warga', 'persuratan.id_warga','=','warga.id_warga')
+        ->join('detail_ktp', 'persuratan.id_persuratan','=','detail_ktp.id_persuratan')
+        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 
+        'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 
+        'persuratan.tgl_pembuatan','persuratan.tgl_masa_berlaku','persuratan.status_surat', 'detail_ktp.nik_yg_bersangkutan' )
+        ->where('persuratan.id_persuratan',$id_persuratan)
+        ->first();
+        
+        $data_warga = DB::table('warga')
+        ->where('no_nik', $ktp->nik_yg_bersangkutan)
+        ->first();
+       
         $ktp = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->first();
-        return view('suket-ktp-sementara.edit', compact('ktp'));
+        return view('suket-ktp-sementara.edit', compact('ktp', 'data_warga'));
     }
 
     /**
