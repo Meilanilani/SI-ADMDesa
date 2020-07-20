@@ -69,6 +69,8 @@ Route::get('suket-kelahiran/cari', 'KelahiranController@ajax_select')->name('kel
 Route::get('suket-ktp-sementara', 'KTPSementaraController@index')->name('ktp.index');
 Route::get('suket-ktp-sementara/create', 'KTPSementaraController@create')->name('ktp.create');
 Route::post('suket-ktp-sementara/store', 'KTPSementaraController@store')->name('ktp.store');
+
+Route::get('suket-ktp-sementara/cari', 'KTPSementaraController@ajax_select')->name('ktp.ajax_select');
 Route::get('suket-ktp-sementara/edit/{id}', 'KTPSementaraController@edit');
 Route::get('suket-ktp-sementara/delete/{id}', 'KTPSementaraController@destroy');
 Route::post('suket-ktp-sementara/update/{id}', 'KTPSementaraController@update');

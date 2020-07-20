@@ -21,7 +21,11 @@ class KTPSementaraController extends Controller
      */
     public function index()
     {
-        $ktp = Persuratan::all();
+        $ktp = DB::table('persuratan') 
+        ->join('warga','persuratan.id_warga','=','warga.id_warga')
+        ->select('warga.no_nik', 'warga.nama_lengkap', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat' )
+        ->where('no_surat', 'LIKE', '%Suket-KTP%')
+        ->get();
         return view('suket-ktp-sementara.ktp_sementara', compact('ktp'));
     }
 
@@ -30,7 +34,7 @@ class KTPSementaraController extends Controller
         $bln = array(1 => "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII");
         $query = DB::table('persuratan')
         ->select(DB::raw('MAX(LEFT(no_surat,3)) as no_max'))
-        ->where('no_surat', 'LIKE', '%Suket-TMS%')->get();
+        ->where('no_surat', 'LIKE', '%Suket-KTP%')->get();
         if ($query->count()>0) {
             foreach ($query as $key ) {
             $tmp = ((int)$key->no_max)+1;
@@ -84,6 +88,8 @@ class KTPSementaraController extends Controller
         $data['tgl_pembuatan'] = $request->tgl_pembuatan;
         $data['tgl_masa_berlaku'] = $request->tgl_masa_berlaku;
         $data['status_surat'] = $request->status_surat;
+        $data['id_warga'] = $request->id_warga;
+        $data_detail['no_nik'] = $request->no_nik;
 
         $image1 = $request->file('foto_pengantar');
         $image2 = $request->file('foto_kk');
@@ -106,7 +112,9 @@ class KTPSementaraController extends Controller
             $data['foto_kk'] = $image_url;
         } 
         
-            $lahir = DB::table('persuratan')->insertGetId($data);
+            $ktp = DB::table('persuratan')->insertGetId($data);
+            $data_detail['id_persuratan'] = $ktp;
+            $ktp = DB::table('detail_ktp')->insertGetId($data_detail);
             return redirect()->route('ktp.index')
                              ->with('success', 'Data Berhasil ditambahkan!');
     
