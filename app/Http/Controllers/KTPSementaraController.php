@@ -152,7 +152,7 @@ class KTPSementaraController extends Controller
         ->where('no_nik', $ktp->nik_yg_bersangkutan)
         ->first();
        
-        $ktp = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->first();
+        // $ktp = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->first(); <------- Errornya karena ini, kalo gakepake hapus aja yaa ;))
         return view('suket-ktp-sementara.edit', compact('ktp', 'data_warga'));
     }
 
