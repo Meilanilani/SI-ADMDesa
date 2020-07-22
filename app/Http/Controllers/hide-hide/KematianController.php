@@ -22,11 +22,45 @@ class KematianController extends Controller
     public function index()
     {
         $kematian = DB::table('persuratan') 
-        ->join('ket_kematian','persuratan.id_persuratan','=','ket_kematian.id_persuratan')
-        ->select('ket_kematian.id_kematian','persuratan.id_persuratan', 'persuratan.no_surat', 'persuratan.foto_pengantar', 'persuratan.foto_kk', 'persuratan.foto_ktp','persuratan.foto_suratkematianrs','persuratan.tgl_pembuatan','persuratan.status_surat','ket_kematian.hari_kematian', 'ket_kematian.tgl_kematian', 'ket_kematian.tempat_kematian', 'ket_kematian.penyebab_kematian')
+        ->join('warga','persuratan.id_warga','=','warga.id_warga')
+        ->select('warga.no_nik', 'warga.nama_lengkap', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat' )
+        ->where('no_surat', 'LIKE', '%Suket-KMT%')
         ->get();
         return view('suket-kematian.suket_kematian', compact('kematian'));
     }
+
+    public function autonumber(){
+        $bln = array(1 => "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII");
+        $query = DB::table('persuratan')
+        ->select(DB::raw('MAX(LEFT(no_surat,3)) as no_max'))
+        ->where('no_surat', 'LIKE', '%Suket-KMT%')->get();
+        if ($query->count()>0) {
+            foreach ($query as $key ) {
+            $tmp = ((int)$key->no_max)+1;
+            $kd = sprintf("%03s", $tmp);
+            }
+           }else {
+            $kd = "001";
+           }
+           $kd_surat = $kd."/Suket-KMT/".$bln[date('n')].date('/yy');
+           return $kd_surat;
+          }
+
+          public function ajax_select(Request $request){
+            $no_nik = $request->no_nik;
+           
+            $sktmsekolah = Warga::where('no_nik','=',$no_nik)->first();
+            if(isset($sktmsekolah)){
+                $data = array(
+                'id_warga' => $sktmsekolah['id_warga'],
+                'nama_lengkap' =>  $sktmsekolah['nama_lengkap'],
+                'tempat_lahir' =>  $sktmsekolah['tempat_lahir'],
+                'tanggal_lahir' =>  $sktmsekolah['tanggal_lahir'],
+                'agama' =>  $sktmsekolah['agama'],
+                'pekerjaan' =>  $sktmsekolah['pekerjaan'],
+                'alamat' =>  $sktmsekolah['alamat'],);
+            return json_encode($data);}
+        }
 
     /**
      * Show the form for creating a new resource.
@@ -37,7 +71,8 @@ class KematianController extends Controller
     {
         $kematian = Kematian::all();
         $kematian = Warga::all();
-        return view('suket-kematian.create', compact('kematian'));
+        $surat = $this->autonumber();
+        return view('suket-kematian.create', ['surat'=>$surat]);
     }
 
     /**
@@ -49,7 +84,8 @@ class KematianController extends Controller
     public function store(Request $request)
     {
         $data['no_surat'] = $request->no_surat;
-        $data2['hari_kematian'] = $request->hari_kematian;
+        $data['id_warga'] = $request->id_warga;
+        $data2['nik_yg_bersangkutan'] = $request->nik_yg_bersangkutan;
         $data2['tgl_kematian'] = $request->tgl_kematian;
         $data2['tempat_kematian'] = $request->tempat_kematian;
         $data2['penyebab_kematian'] = $request->penyebab_kematian;
@@ -98,7 +134,7 @@ class KematianController extends Controller
         } 
             $kematian = DB::table('persuratan')->insertGetId($data);
             $data2['id_persuratan'] = $kematian;
-            $kematian = DB::table('ket_kematian')->insertGetId($data2);
+            $kematian = DB::table('detail_kematian')->insertGetId($data2);
 
             return redirect()->route('kematian.index')
                             ->with('success', 'Data Berhasil ditambahkan!');
@@ -121,15 +157,23 @@ class KematianController extends Controller
      * @param  \App\Kematian  $kematian
      * @return \Illuminate\Http\Response
      */
-    public function edit($id_kematian)
+    public function edit($id_persuratan)
     {
-        
         $kematian = DB::table('persuratan') 
-        ->join('ket_kematian','persuratan.id_persuratan','=','ket_kematian.id_persuratan')
-        ->select('ket_kematian.id_kematian','persuratan.id_persuratan', 'persuratan.no_surat', 'persuratan.foto_pengantar', 'persuratan.foto_kk', 'persuratan.foto_ktp','persuratan.foto_suratkematianrs','persuratan.tgl_pembuatan','persuratan.status_surat','ket_kematian.hari_kematian', 'ket_kematian.tgl_kematian', 'ket_kematian.tempat_kematian', 'ket_kematian.penyebab_kematian')
-        ->where('id_kematian',$id_kematian)
+        ->join('warga', 'persuratan.id_warga','=','warga.id_warga')
+        ->join('detail_kematian', 'persuratan.id_persuratan','=','detail_kematian.id_persuratan')
+        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.status_perkawinan','warga.agama', 
+        'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 
+        'persuratan.ket_keperluan_surat','persuratan.tgl_pembuatan','persuratan.status_surat', 'detail_kematian.nik_yg_bersangkutan', 'detail_kematian.tgl_kematian', 'detail_kematian.tempat_kematian', 'detail_kematian.penyebab_kematian' )
+        ->where('persuratan.id_persuratan',$id_persuratan)
         ->first();
-        return view('suket-kematian.edit', compact('kematian'));
+    
+        $data_warga = DB::table('warga')
+        ->where('no_nik', $kematian->nik_yg_bersangkutan)
+        ->first();
+       
+        $ktp = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->first();
+        return view('suket-kematian.edit', compact('kematian', 'data_warga'));
     }
 
     /**
@@ -143,7 +187,6 @@ class KematianController extends Controller
     {
         
         $data['no_surat'] = $request->no_surat;
-        $data2['hari_kematian'] = $request->hari_kematian;
         $data2['tgl_kematian'] = $request->tgl_kematian;
         $data2['tempat_kematian'] = $request->tempat_kematian;
         $data2['penyebab_kematian'] = $request->penyebab_kematian;
@@ -205,15 +248,13 @@ class KematianController extends Controller
      * @param  \App\Kematian  $kematian
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id_kematian)
+    public function destroy($id_persuratan)
     {
-        $kematian = DB::table('persuratan') 
-        ->join('ket_kematian','persuratan.id_persuratan','=','ket_kematian.id_persuratan')
-        ->select('ket_kematian.id_kematian','persuratan.id_persuratan', 'persuratan.no_surat', 'persuratan.foto_pengantar', 'persuratan.foto_kk', 'persuratan.foto_ktp','persuratan.foto_suratkematianrs','persuratan.tgl_pembuatan','persuratan.status_surat','ket_kematian.hari_kematian', 'ket_kematian.tgl_kematian', 'ket_kematian.tempat_kematian', 'ket_kematian.penyebab_kematian')
-        ->where('id_kematian',$id_kematian)
-        ->delete();
+        $data = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->first();
+       
+        $skck = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->delete();
         
         return redirect()->route('kematian.index')
-        ->with('success', 'Data Berhasil dihapus!');
+        ->with('success', 'Data Berhasil Dihapus!');
     }
 }

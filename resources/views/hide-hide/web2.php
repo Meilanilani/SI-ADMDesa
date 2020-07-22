@@ -3,13 +3,6 @@
 
 
 
-//CRUD-Suket-Kematian
-Route::get('suket-kematian', 'KematianController@index')->name('kematian.index');
-Route::get('suket-kematian/create', 'KematianController@create')->name('kematian.create');
-Route::post('suket-kematian/store', 'KematianController@store')->name('kematian.store');
-Route::get('suket-kematian/edit/{id}', 'KematianController@edit');
-Route::get('suket-kematian/delete/{id}', 'KematianController@destroy');
-Route::post('suket-kematian/update/{id}', 'KematianController@update');
 
 
 //CRUD-Suket-Pengantar Nikah

@@ -13,9 +13,9 @@ class CreateKematiansTable extends Migration
      */
     public function up()
     {
-        Schema::create('ket_kematian', function (Blueprint $table) {
-            $table->increments('id_kematian');
-            $table->enum('hari_kematian', ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu']);
+        Schema::create('detail_kematian', function (Blueprint $table) {
+            $table->increments('id_detail_kematian');
+            $table->string('nik_yg_bersangkutan',16);
             $table->date('tgl_kematian');
             $table->string('tempat_kematian', 50);
             $table->string('penyebab_kematian', 50);

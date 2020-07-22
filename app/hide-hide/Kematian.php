@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Kematian extends Model
 {
-    protected $table = "ket_kematian";
+    protected $table = "detail_kematian";
     protected $fillable = [
-        'hari_kematian', 'tgl_kematian', 'tempat_kematian', 'penyebab_kematian'
+        'nik_yg_bersangkutan','hari_kematian', 'tgl_kematian', 'tempat_kematian', 'penyebab_kematian'
     ];
-    protected $primaryKey = 'id_kematian';
+    protected $primaryKey = 'id_detail_kematian';
 }

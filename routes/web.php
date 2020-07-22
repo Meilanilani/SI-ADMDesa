@@ -89,9 +89,21 @@ Route::post('suket-usaha/update/{id}', 'UsahaController@update');
 Route::get('suket-pengantar-skck', 'PengantarSKCKController@index')->name('skck.index');
 Route::get('suket-pengantar-skck/create', 'PengantarSKCKController@create')->name('skck.create');
 Route::post('suket-pengantar-skck/store', 'PengantarSKCKController@store')->name('skck.store');
+
+Route::get('suket-pengantar-skck/cari', 'PengantarSKCKController@ajax_select')->name('skck.ajax_select');
 Route::get('suket-pengantar-skck/edit/{id}', 'PengantarSKCKController@edit');
 Route::get('suket-pengantar-skck/delete/{id}', 'PengantarSKCKController@destroy');
 Route::post('suket-pengantar-skck/update/{id}', 'PengantarSKCKController@update');
+
+//CRUD-Suket-Kematian
+Route::get('suket-kematian', 'KematianController@index')->name('kematian.index');
+Route::get('suket-kematian/create', 'KematianController@create')->name('kematian.create');
+Route::post('suket-kematian/store', 'KematianController@store')->name('kematian.store');
+
+Route::get('suket-kematian/cari', 'KematianController@ajax_select')->name('kematian.ajax_select');
+Route::get('suket-kematian/edit/{id}', 'KematianController@edit');
+Route::get('suket-kematian/delete/{id}', 'KematianController@destroy');
+Route::post('suket-kematian/update/{id}', 'KematianController@update');
 
 
 Route::get('/home', 'HomeController@index')->name('home');

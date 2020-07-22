@@ -24,7 +24,7 @@
         </div>
         @endif
       <div class="card-body">
-        <form action="{{ route('usaha.store')}}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('kematian.store')}}" method="POST" enctype="multipart/form-data">
           @csrf
           <div class="form-group">
             <div class="row">
@@ -35,7 +35,7 @@
               <input type="hidden" name="id_warga" id="id_pemohon" class="form-control input-lg" />
         <div class="col-md-6">
           <label for="inputName">NIK</label>
-          <input type="text" name="nik_pemilik_usaha" id="no_nik" class="form-control input-lg" />
+          <input type="text" name="nik_yg_bersangkutan" id="no_nik" class="form-control input-lg" />
         </div>
         <div class="col-md-6">
           <label for="inputName">Nama Lengkap</label>
@@ -55,7 +55,7 @@
         </div>
         <div class="col-md-6">
           <label for="inputName">Status</label>
-          <input type="text" name="status_perkawinan" id="status_perkawinan" class="form-control input-lg" readonly/>
+          <input type="text" name="status_perkawinan" id="agama" class="form-control input-lg" readonly/>
         </div>
         <div class="col-md-6">
           <label for="inputName">Pekerjaan</label>
@@ -65,7 +65,6 @@
               <label for="inputName">Alamat</label>
               <textarea name="alamat" id="alamat" class="form-control" rows="4" readonly></textarea>
             </span></div>
-            
             </div></div>
       </div> 
     </div>
@@ -74,21 +73,17 @@
           <div class="row">
         {{ csrf_field() }}
         <div class="col-md-6">
-          <label for="inputName">Nama Usaha</label>
-          <input type="text" name="nama_usaha"  class="form-control input-lg" />
+          <label for="inputName">Tanggal Kematian</label>
+          <input type="date" name="tgl_kematian" class="form-control input-lg" />
         </div>
         <div class="col-md-6">
-          <label for="inputName">Jenis Usaha</label>
-          <input type="text" name="jenis_usaha"  class="form-control input-lg" />
+          <label for="inputName">Tempat Kematian</label>
+          <input type="text" name="tempat_kematian" class="form-control input-lg" />
         </div>
         <div class="col-md-6">
-          <label for="inputName">Penghasilan Bulanan</label>
-          <input type="text" name="penghasilan_bulanan"  class="form-control input-lg" />
+          <label for="inputName">Penyebab Kematian</label>
+          <input type="text" name="penyebab_kematian" class="form-control input-lg" />
         </div>
-        <div class="col-md-7">
-          <label for="inputName">Alamat Usaha</label>
-          <textarea name="alamat_usaha" class="form-control" rows="4" readonly></textarea>
-        </span></div>
         <div class="col-md-8">
           <label for="inputName">Foto Pengantar RT/ RW</label>
           <input type="file"  name="foto_pengantar">
@@ -98,8 +93,12 @@
           <input type="file"  name="foto_kk">
         </div>
         <div class="col-md-8">
-          <label for="inputName">Foto Surat Izin Suami/ Istri/ Ortu</label>
-          <input type="file"  name="foto_suratizin">
+          <label for="inputName">Foto KTP yang bersangkutan</label>
+          <input type="file"  name="foto_ktp">
+        </div>
+        <div class="col-md-8">
+          <label for="inputName">Foto Surat Kematian RS</label>
+          <input type="file"  name="foto_suratkematianrs	">
         </div>
         <div class="col-md-5">
         <label for="inputName">Tanggal Pembuatan Surat</label>
@@ -116,7 +115,7 @@
       </div></div>
       <div class="card-footer">
         <button type="submit" class="btn btn-success">Simpan</button>
-                  <a class="btn btn-success" href="{{route('usaha.index')}}">Kembali</a>
+                  <a class="btn btn-success" href="{{route('sktmrs.index')}}">Kembali</a>
       </div>
     </div>
   </div>
@@ -129,7 +128,7 @@
              var no_nik=$(this).val();
              $.ajax({
                  type : "GET",
-                 url  : "{{ route('skck.ajax_select') }}",
+                 url  : "{{ route('kematian.ajax_select') }}",
                  dataType : "JSON",
                  data : {no_nik: no_nik},
                  cache:false,
@@ -141,15 +140,13 @@
                     var nama_lengkap = json.nama_lengkap;
                     var tempat_lahir = json.tempat_lahir;
                     var tanggal_lahir = json.tanggal_lahir;
-                    var pekerjaan = json.pekerjaan;
                     var agama = json.agama;
-                    var status_perkawinan = json.status_perkawinan;
+                    var pekerjaan = json.pekerjaan;
                     var alamat = json.alamat;
 
                     console.log(id_pemohon);
                     console.log(tempat_lahir);
                     console.log(tanggal_lahir);
-                    console.log(status_perkawinan);
                     console.log(agama);
                     console.log(pekerjaan);
                     console.log(alamat);
@@ -158,7 +155,6 @@
                     $('#nama_lengkap').val(nama_lengkap);
                     $('#tempat_lahir').val(tempat_lahir);
                     $('#tanggal_lahir').val(tanggal_lahir);
-                    $('#status_perkawinan').val(status_perkawinan);
                     $('#agama').val(agama);
                     $('#pekerjaan').val(pekerjaan);
                     $('#alamat').val(alamat);                      
