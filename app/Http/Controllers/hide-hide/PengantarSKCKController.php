@@ -154,7 +154,7 @@ class PengantarSKCKController extends Controller
         ->join('detail_skck', 'persuratan.id_persuratan','=','detail_skck.id_persuratan')
         ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 
         'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 
-        'persuratan.tgl_pembuatan','persuratan.tgl_masa_berlaku','persuratan.status_surat', 'detail_skck.nik_yg_bersangkutan' )
+        'persuratan.ket_keperluan_surat','persuratan.tgl_pembuatan','persuratan.tgl_masa_berlaku','persuratan.status_surat', 'detail_skck.nik_yg_bersangkutan' )
         ->where('persuratan.id_persuratan',$id_persuratan)
         ->first();
 

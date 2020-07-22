@@ -72,6 +72,7 @@
       <div class="card-body">
           <div class="row">
         {{ csrf_field() }}
+        
         <div class="col-md-8">
           <label for="inputName">Foto Pengantar RT/ RW</label>
           <input type="file"  name="foto_pengantar">
