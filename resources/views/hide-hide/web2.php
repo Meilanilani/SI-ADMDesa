@@ -1,13 +1,6 @@
 
 
 
-//CRUD-Suket-Pengantar SKCK
-Route::get('suket-pengantar-skck', 'PengantarSKCKController@index')->name('skck.index');
-Route::get('suket-pengantar-skck/create', 'PengantarSKCKController@create')->name('skck.create');
-Route::post('suket-pengantar-skck/store', 'PengantarSKCKController@store')->name('skck.store');
-Route::get('suket-pengantar-skck/edit/{id}', 'PengantarSKCKController@edit');
-Route::get('suket-pengantar-skck/delete/{id}', 'PengantarSKCKController@destroy');
-Route::post('suket-pengantar-skck/update/{id}', 'PengantarSKCKController@update');
 
 
 //CRUD-Suket-Kematian

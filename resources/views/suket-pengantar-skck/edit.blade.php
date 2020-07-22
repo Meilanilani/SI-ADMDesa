@@ -24,42 +24,42 @@
         </div>
         @endif
       <div class="card-body">
-        <form action="{{ url('suket-ktp-sementara/update/'.$ktp->id_persuratan)}}" method="POST" enctype="multipart/form-data">
+        <form action="{{ url('suket-pengantar-skck/update/'.$skck->id_persuratan)}}" method="POST" enctype="multipart/form-data">
           @csrf
           <div class="form-group">
             <div class="row">
               <div class="col-md-7">
                 <label for="inputName">No Surat</label>
-                <input type="text" name="no_surat" class="form-control" value="{{ $ktp->no_surat}}" readonly>
+                <input type="text" name="no_surat" class="form-control" value="{{ $skck->no_surat}}" readonly>
                 </div>
-              <input type="hidden" name="id_warga" id="id_pemohon" value="{{ $ktp->id_warga}}" class="form-control input-lg" />
+              <input type="hidden" name="id_warga" id="id_pemohon" value="{{ $skck->id_warga}}" class="form-control input-lg" />
         <div class="col-md-6">
           <label for="inputName">NIK</label>
-          <input type="text" name="nik_yg_bersangkutan" id="no_nik" class="form-control input-lg" value="{{ $ktp->nik_yg_bersangkutan}}" readonly/>
+          <input type="text" name="nik_yg_bersangkutan" id="no_nik" class="form-control input-lg" value="{{ $skck->nik_yg_bersangkutan}}" readonly/>
         </div>
         <div class="col-md-6">
           <label for="inputName">Nama Lengkap</label>
-          <input type="text" name="nama_lengkap" id="nama_lengkap" class="form-control input-lg" value="{{ $ktp->nama_lengkap}}" readonly/>
+          <input type="text" name="nama_lengkap" id="nama_lengkap" class="form-control input-lg" value="{{ $skck->nama_lengkap}}" readonly/>
         </div>
         <div class="col-md-6">
           <label for="inputName">Tempat Lahir</label>
-          <input type="text" name="tempat_lahir" id="tempat_lahir" class="form-control input-lg" value="{{ $ktp->tempat_lahir}}" readonly/>
+          <input type="text" name="tempat_lahir" id="tempat_lahir" class="form-control input-lg" value="{{ $skck->tempat_lahir}}" readonly/>
         </div>
         <div class="col-md-6">
           <label for="inputName">Tanggal Lahir</label>
-          <input type="date" name="tanggal_lahir" id="tanggal_lahir" class="form-control input-lg" value="{{ $ktp->tanggal_lahir}}" readonly/>
+          <input type="date" name="tanggal_lahir" id="tanggal_lahir" class="form-control input-lg" value="{{ $skck->tanggal_lahir}}" readonly/>
         </div>
         <div class="col-md-6">
           <label for="inputName">Agama</label>
-          <input type="text" name="agama" id="agama" class="form-control input-lg"  value="{{ $ktp->agama}}" readonly/>
+          <input type="text" name="agama" id="agama" class="form-control input-lg"  value="{{ $skck->agama}}" readonly/>
         </div>
         <div class="col-md-6">
           <label for="inputName">Pekerjaan</label>
-          <input type="text" name="pekerjaan" id="pekerjaan" class="form-control input-lg" value="{{ $ktp->pekerjaan}}" readonly/>
+          <input type="text" name="pekerjaan" id="pekerjaan" class="form-control input-lg" value="{{ $skck->pekerjaan}}" readonly/>
         </div>
             <div class="col-md-7">
               <label for="inputName">Alamat</label>
-              <textarea name="alamat" id="alamat" class="form-control" rows="4" readonly>{{ $ktp->alamat}}</textarea>
+              <textarea name="alamat" id="alamat" class="form-control" rows="4" readonly>{{ $skck->alamat}}</textarea>
             </span></div>
             </div></div>
       </div> 
@@ -83,18 +83,18 @@
         </div>
         <div class="col-md-5">
         <label for="inputName">Tanggal Pembuatan</label>
-        <input type="date"  name="tgl_pembuatan" class="form-control" value="{{$ktp->tgl_pembuatan}}">
+        <input type="date"  name="tgl_pembuatan" class="form-control" value="{{$skck->tgl_pembuatan}}">
       </div>
       <div class="col-md-5">
         <label for="inputName">Tanggal Masa Berlaku</label>
-        <input type="date"  name="tgl_masa_berlaku" class="form-control" value="{{$ktp->tgl_pembuatan}}">
+        <input type="date"  name="tgl_masa_berlaku" class="form-control" value="{{$skck->tgl_pembuatan}}">
       </div>
       <div class="col-md-5">
         <label for="inputName">Status Surat</label>
         <select class="form-control custom-select"  name="status_surat" >
           <option selected disabled>Pilih Status</option>
-          @if (isset($ktp->status_surat))
-          <option selected>{{$ktp->status_surat}}</option>
+          @if (isset($skck->status_surat))
+          <option selected>{{$skck->status_surat}}</option>
           @endif
           <option>Proses</option>
           <option>Selesai</option>
@@ -103,7 +103,7 @@
       </div></div>
       <div class="card-footer">
         <button type="submit" class="btn btn-success">Simpan</button>
-                  <a class="btn btn-success" href="{{route('ktp.index')}}">Kembali</a>
+                  <a class="btn btn-success" href="{{route('skck.index')}}">Kembali</a>
       </div>
     </div>
   </div>
