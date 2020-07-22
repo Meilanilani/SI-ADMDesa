@@ -147,15 +147,12 @@ class KTPSementaraController extends Controller
         'persuratan.tgl_pembuatan','persuratan.tgl_masa_berlaku','persuratan.status_surat', 'detail_ktp.nik_yg_bersangkutan' )
         ->where('persuratan.id_persuratan',$id_persuratan)
         ->first();
-
-        
         
         $data_warga = DB::table('warga')
         ->where('no_nik', $ktp->nik_yg_bersangkutan)
         ->first();
        
-       
-        $ktp = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->first();
+        // $ktp = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->first(); <------- Errornya karena ini, kalo gakepake hapus aja yaa ;))
         return view('suket-ktp-sementara.edit', compact('ktp', 'data_warga'));
     }
 
