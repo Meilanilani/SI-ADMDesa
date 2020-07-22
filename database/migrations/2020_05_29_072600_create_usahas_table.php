@@ -15,9 +15,11 @@ class CreateUsahasTable extends Migration
     {
         Schema::create('detail_usaha', function (Blueprint $table) {
             $table->increments('id_detail_usaha');
-            $table->string('nama_perusahaan',100);
+            $table->string('nik_pemilik_usaha',16);
+            $table->string('nama_usaha',100);
             $table->string('jenis_usaha', 100);
-            $table->string('alamat_perusahaan');
+            $table->string('penghasilan_bulanan', 8);
+            $table->string('alamat_usaha');
             $table->integer('id_persuratan')->unsigned();
             $table->timestamps();
             $table->foreign('id_persuratan')->references('id_persuratan')->on('persuratan')->onDelete('cascade');

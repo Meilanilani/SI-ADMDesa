@@ -79,6 +79,8 @@ Route::post('suket-ktp-sementara/update/{id}', 'KTPSementaraController@update');
 Route::get('suket-usaha', 'UsahaController@index')->name('usaha.index');
 Route::get('suket-usaha/create', 'UsahaController@create')->name('usaha.create');
 Route::post('suket-usaha/store', 'UsahaController@store')->name('usaha.store');
+
+Route::get('suket-usaha/cari', 'UsahaController@ajax_select')->name('usaha.ajax_select');
 Route::get('suket-usaha/edit/{id}', 'UsahaController@edit');
 Route::get('suket-usaha/delete/{id}', 'UsahaController@destroy');
 Route::post('suket-usaha/update/{id}', 'UsahaController@update');

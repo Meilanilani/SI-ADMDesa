@@ -50,17 +50,20 @@ class UsahaController extends Controller
           public function ajax_select(Request $request){
             $no_nik = $request->no_nik;
            
-            $sktmsekolah = Warga::where('no_nik','=',$no_nik)->first();
-            if(isset($sktmsekolah)){
+            $usaha = Warga::where('no_nik','=',$no_nik)->first();
+            if(isset($usaha)){
                 $data = array(
-                'id_warga' => $sktmsekolah['id_warga'],
-                'nama_lengkap' =>  $sktmsekolah['nama_lengkap'],
-                'tempat_lahir' =>  $sktmsekolah['tempat_lahir'],
-                'tanggal_lahir' =>  $sktmsekolah['tanggal_lahir'],
-                'agama' =>  $sktmsekolah['agama'],
-                'pekerjaan' =>  $sktmsekolah['pekerjaan'],
-                'alamat' =>  $sktmsekolah['alamat'],);
-            return json_encode($data);}
+                'id_warga' => $usaha['id_warga'],
+                'nama_lengkap' =>  $usaha['nama_lengkap'],
+                'tempat_lahir' =>  $usaha['tempat_lahir'],
+                'tanggal_lahir' =>  $usaha['tanggal_lahir'],
+                'status_perkawinan' => $usaha['status_perkawinan'],
+                'agama' =>  $usaha['agama'],
+                'pekerjaan' =>  $usaha['pekerjaan'],
+                'alamat' =>  $usaha['alamat'],);
+            return json_encode($data);
+        
+        }
         }
 
     /**
@@ -85,9 +88,12 @@ class UsahaController extends Controller
     public function store(Request $request)
     {
         $data['no_surat'] = $request->no_surat;
-        $data2['nama_perusahaan'] = $request->nama_perusahaan;
+        $data['id_warga'] = $request->id_warga;
+        $data2['nik_pemilik_usaha'] = $request->nik_pemilik_usaha;
+        $data2['nama_usaha'] = $request->nama_usaha;
         $data2['jenis_usaha'] = $request->jenis_usaha;
-        $data2['alamat_perusahaan'] = $request->alamat_perusahaan;
+        $data2['penghasilan_bulanan'] = $request->penghasilan_bulanan;
+        $data2['alamat_usaha'] = $request->alamat_usaha;
        
         $data['tgl_pembuatan'] = $request->tgl_pembuatan;
         $data['status_surat'] = $request->status_surat;
@@ -125,7 +131,7 @@ class UsahaController extends Controller
        
             $usaha = DB::table('persuratan')->insertGetId($data);
             $data2['id_persuratan'] = $usaha;
-            $usaha = DB::table('ket_usaha')->insertGetId($data2);
+            $usaha = DB::table('detail_usaha')->insertGetId($data2);
 
             return redirect()->route('usaha.index')
                             ->with('success', 'Product Created Successfully!');
@@ -148,14 +154,25 @@ class UsahaController extends Controller
      * @param  \App\Usaha  $usaha
      * @return \Illuminate\Http\Response
      */
-    public function edit($id_ket_usaha)
+    public function edit($id_persuratan)
     {
         $usaha = DB::table('persuratan') 
-        ->join('ket_usaha','persuratan.id_persuratan','=','ket_usaha.id_persuratan')
-        ->select('ket_usaha.id_ket_usaha','persuratan.id_persuratan', 'persuratan.no_surat','persuratan.ket_keperluan_surat', 'persuratan.foto_pengantar', 'persuratan.foto_kk', 'persuratan.foto_suratizin','persuratan.tgl_pembuatan','persuratan.status_surat', 'ket_usaha.nama_perusahaan', 'ket_usaha.jenis_usaha', 'ket_usaha.alamat_perusahaan')
-        ->where('id_ket_usaha',$id_ket_usaha)
+        ->join('warga', 'persuratan.id_warga','=','warga.id_warga')
+        ->join('detail_usaha', 'persuratan.id_persuratan','=','detail_usaha.id_persuratan')
+        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 'warga.status_perkawinan',
+        'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 
+        'persuratan.tgl_pembuatan','persuratan.tgl_masa_berlaku','persuratan.status_surat', 'detail_usaha.nik_pemilik_usaha',  'detail_usaha.nama_usaha', 'detail_usaha.jenis_usaha', 'detail_usaha.penghasilan_bulanan','detail_usaha.alamat_usaha')
+        ->where('persuratan.id_persuratan',$id_persuratan)
         ->first();
-        return view('suket-usaha.edit', compact('usaha'));
+
+        
+        
+        $data_warga = DB::table('warga')
+        ->where('no_nik', $usaha->nik_pemilik_usaha)
+        ->first();
+       
+        $ktp = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->first();
+        return view('suket-usaha.edit', compact('usaha', 'data_warga'));
     }
 
     /**
@@ -220,15 +237,13 @@ class UsahaController extends Controller
      * @param  \App\Usaha  $usaha
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id_ket_usaha)
+    public function  destroy($id_persuratan)
     {
-        $usaha = DB::table('persuratan') 
-        ->join('ket_usaha','persuratan.id_persuratan','=','ket_usaha.id_persuratan')
-        ->select('ket_usaha.id_ket_usaha','persuratan.id_persuratan', 'persuratan.no_surat','persuratan.ket_keperluan_surat', 'persuratan.foto_pengantar', 'persuratan.foto_kk', 'persuratan.foto_suratizin','persuratan.tgl_pembuatan','persuratan.status_surat', 'ket_usaha.nama_perusahaan', 'ket_usaha.jenis_usaha', 'ket_usaha.alamat_perusahaan')
-        ->where('id_ket_usaha',$id_ket_usaha)
-        ->delete();
+        $data = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->first();
+       
+        $skck = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->delete();
         
         return redirect()->route('usaha.index')
-        ->with('success', 'Data Berhasil dihapus!');
+        ->with('success', 'Data Berhasil Dihapus!');
     }
 }
