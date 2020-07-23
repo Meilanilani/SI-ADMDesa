@@ -5,13 +5,6 @@
 
 
 
-//CRUD-Suket-Pengantar Nikah
-Route::get('suket-pengantar-nikah', 'PengantarNikahController@index')->name('pnikah.index');
-Route::get('suket-pengantar-nikah/create', 'PengantarNikahController@create')->name('pnikah.create');
-Route::post('suket-pengantar-nikah/store', 'PengantarNikahController@store')->name('pnikah.store');
-Route::get('suket-pengantar-nikah/edit/{id}', 'PengantarNikahController@edit');
-Route::get('suket-pengantar-nikah/delete/{id}', 'PengantarNikahController@destroy');
-Route::post('suket-pengantar-nikah/update/{id}', 'PengantarNikahController@update');
 
 
 //CRUD-Suket-Pindah

@@ -207,13 +207,13 @@
                   <i class="far fa-circle nav-icon"></i>
                   <p>Surat Kematian</p>
                 </a>
-              </li> <!--
+              </li>
               <li class="nav-item">
                 <a href="/suket-pengantar-nikah" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Surat Pengantar Nikah</p>
                 </a>
-              </li>-->
+              </li>
               <li class="nav-item">
                 <a href="/suket-pengantar-skck" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>

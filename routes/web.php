@@ -105,6 +105,16 @@ Route::get('suket-kematian/edit/{id}', 'KematianController@edit');
 Route::get('suket-kematian/delete/{id}', 'KematianController@destroy');
 Route::post('suket-kematian/update/{id}', 'KematianController@update');
 
+//CRUD-Suket-Pengantar Nikah
+Route::get('suket-pengantar-nikah', 'PengantarNikahController@index')->name('pnikah.index');
+Route::get('suket-pengantar-nikah/create', 'PengantarNikahController@create')->name('pnikah.create');
+Route::post('suket-pengantar-nikah/store', 'PengantarNikahController@store')->name('pnikah.store');
+
+Route::get('suket-pengantar-nikah/cari', 'PengantarNikahController@ajax_select')->name('pnikah.ajax_select');
+Route::get('suket-pengantar-nikah/edit/{id}', 'PengantarNikahController@edit');
+Route::get('suket-pengantar-nikah/delete/{id}', 'PengantarNikahController@destroy');
+Route::post('suket-pengantar-nikah/update/{id}', 'PengantarNikahController@update');
+
 
 Route::get('/home', 'HomeController@index')->name('home');
 
