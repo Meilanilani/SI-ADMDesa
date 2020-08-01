@@ -35,7 +35,44 @@ class PengantarNikahController extends Controller
     {
         $pnikah = Persuratan::all();
         $pnikah = Warga::all();
-        return view('suket-pengantar-nikah.create', compact('pnikah'));
+        $surat = $this->autonumber();
+        return view('suket-pengantar-nikah.create', ['surat'=>$surat]);
+    }
+
+
+    public function autonumber(){
+        $bln = array(1 => "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII");
+        $query = DB::table('persuratan')
+        ->select(DB::raw('MAX(LEFT(no_surat,3)) as no_max'))
+        ->where('no_surat', 'LIKE', '%Suket-NA%')->get();
+        if ($query->count()>0) {
+            foreach ($query as $key ) {
+            $tmp = ((int)$key->no_max)+1;
+            $kd = sprintf("%03s", $tmp);
+            }
+           }else {
+            $kd = "001";
+           }
+           $kd_surat = $kd."/Suket-NA/".$bln[date('n')].date('/yy');
+           return $kd_surat;
+          }
+
+    public function ajax_select(Request $request){
+        $no_nik = $request->no_nik;
+       
+        $pnikah = Warga::where('no_nik','=',$no_nik)->first();
+        if(isset($pnikah)){
+            $data = array(
+            'id_warga' => $pnikah['id_warga'],
+            'nama_lengkap' =>  $pnikah['nama_lengkap'],
+            'tempat_lahir' =>  $pnikah['tempat_lahir'],
+            'tanggal_lahir' =>  $pnikah['tanggal_lahir'],
+            'agama' =>  $pnikah['agama'],
+            'pekerjaan' =>  $pnikah['pekerjaan'],
+            'alamat' =>  $pnikah['alamat'],
+            'status_perkawinan' => $pnikah['status_perkawinan'],
+        );
+        return json_encode($data);}
     }
 
     /**
@@ -47,6 +84,7 @@ class PengantarNikahController extends Controller
     public function store(Request $request)
     {
         $data['no_surat'] = $request->no_surat;
+       
         $data['tgl_pembuatan'] = $request->tgl_pembuatan;
         $data['status_surat'] = $request->status_surat;
 

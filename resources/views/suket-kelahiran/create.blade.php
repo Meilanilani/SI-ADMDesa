@@ -122,7 +122,7 @@
           </div>
           <div class="col-md-6">
             <label for="inputName">Nama Ibu</label>
-            <input type="text" name="nama_lengkap" id="nama_ibu" class="form-control input-lg" />
+            <input type="text" name="nama_lengkap" id="nama_ibu" class="form-control input-lg" readonly/>
           </div>
           <div class="col-md-6">
             <label for="inputName">Tempat Lahir</label>
