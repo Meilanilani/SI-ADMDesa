@@ -5,6 +5,7 @@ use App\Persuratan;
 use App\SKTMRS;
 use App\SKTMSekolah;
 use App\Warga;
+use PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -242,6 +243,26 @@ class SKTMSekolahController extends Controller
         return redirect()->route('sktmsekolah.index')
         ->with('success', 'Data Berhasil Dihapus!');
     
+    }
+
+    public function cetak_pdf($id_persuratan)
+    {
+        $sktmsekolah = DB::table('persuratan') 
+        ->join('warga', 'persuratan.id_warga','=','warga.id_warga')
+        ->join('detail_sktms', 'persuratan.id_persuratan','=','detail_sktms.id_persuratan')
+        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat', 'detail_sktms.nik_anak', 'detail_sktms.nik_orangtua' )
+        ->where('persuratan.id_persuratan',$id_persuratan)
+        ->first();
+
+        $data_anak = DB::table('warga')
+        ->where('no_nik', $sktmsekolah->nik_anak)
+        ->get();
+        
+
+        $pdf = PDF::loadview('suket-tidakmampu-sekolah.print',compact('sktmsekolah', 'data_anak'));
+        
+        return $pdf->download('suket-tidak mampu sekolah.pdf');
+        
     }
 }
 

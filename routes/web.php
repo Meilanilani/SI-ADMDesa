@@ -44,6 +44,9 @@ Route::get('suket-tidakmampu-sekolah/edit/{id}', 'SKTMSekolahController@edit');
 Route::get('suket-tidakmampu-sekolah/delete/{id}', 'SKTMSekolahController@destroy');
 Route::post('suket-tidakmampu-sekolah/update/{id}', 'SKTMSekolahController@update');
 
+Route::get('suket-tidakmampu-sekolah/cetak_pdf/{id}','SKTMSekolahController@cetak_pdf')->name('cetak_pdf');
+
+
 //CRUD-SKTM-RS
 Route::get('suket-tidakmampu-rumahsakit', 'SKTMRSController@index')->name('sktmrs.index');
 Route::get('suket-tidakmampu-rumahsakit/create', 'SKTMRSController@create')->name('sktmrs.create');
