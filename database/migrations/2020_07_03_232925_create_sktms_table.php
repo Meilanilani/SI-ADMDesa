@@ -19,7 +19,6 @@ class CreateSktmsTable extends Migration
             $table->string('nik_orangtua',16);
             $table->integer('id_persuratan')->unsigned();
             $table->timestamps();
-            
             $table->foreign('id_persuratan')->references('id_persuratan')->on('persuratan')->onDelete('cascade');
         });
     }

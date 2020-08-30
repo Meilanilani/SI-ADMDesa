@@ -21,9 +21,13 @@ class PengantarNikahController extends Controller
      */
     public function index()
     {
-        
-        $pnikah = Persuratan::all();
+        $pnikah = DB::table('persuratan')
+        ->join('warga','persuratan.id_warga','=','warga.id_warga')
+        ->select('warga.no_nik', 'warga.nama_lengkap', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat' )
+        ->where('no_surat', 'LIKE', '%Suket-NA%')
+        ->get();
         return view('suket-pengantar-nikah.pengantar_nikah', compact('pnikah'));
+       
     }
 
     /**
@@ -33,8 +37,8 @@ class PengantarNikahController extends Controller
      */
     public function create()
     {
-        $pnikah = Persuratan::all();
-        $pnikah = Warga::all();
+        $surat = Persuratan::all();
+        $surat = Warga::all();
         $surat = $this->autonumber();
         return view('suket-pengantar-nikah.create', ['surat'=>$surat]);
     }
@@ -84,9 +88,12 @@ class PengantarNikahController extends Controller
     public function store(Request $request)
     {
         $data['no_surat'] = $request->no_surat;
-       
+        $data['id_warga'] = $request->id_warga;
         $data['tgl_pembuatan'] = $request->tgl_pembuatan;
         $data['status_surat'] = $request->status_surat;
+        $data_detail['nik_anak'] = $request->nik_anak;
+        $data_detail['nik_ayah'] = $request->nik_ayah;
+        $data_detail['nik_ibu'] = $request->nik_ibu;
 
         $image1 = $request->file('foto_pengantar');
         $image2 = $request->file('foto_kk');
@@ -129,9 +136,11 @@ class PengantarNikahController extends Controller
             $data['foto_ijazah'] = $image_url;
         } 
         
-            $lahir = DB::table('persuratan')->insertGetId($data);
+            $pnikah = DB::table('persuratan')->insertGetId($data);
+            $data_detail['id_persuratan'] = $pnikah;
+            $pnikah = DB::table('detail_na')->insertGetId($data_detail);
             return redirect()->route('pnikah.index')
-                             ->with('success', 'Data Berhasil ditambahkan!');
+                             ->with('success', 'Data Berhasil di tambahkan!');
     
     }
 
@@ -154,8 +163,23 @@ class PengantarNikahController extends Controller
      */
     public function edit($id_persuratan)
     {
-        $pnikah = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->first();
-        return view('suket-pengantar-nikah.edit', compact('pnikah'));
+        $pnikah = DB::table('persuratan') 
+        ->join('warga', 'persuratan.id_warga','=','warga.id_warga')
+        ->join('detail_na', 'persuratan.id_persuratan','=','detail_na.id_persuratan')
+        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat', 'detail_na.nik_anak', 'detail_na.nik_ayah', 'detail_na.nik_ibu' )
+        ->where('persuratan.id_persuratan',$id_persuratan)
+        ->first();
+        
+        $data_anak = DB::table('warga')
+        ->where('no_nik', $pnikah->nik_anak)
+        ->first();
+
+        $data_ibu = DB::table('warga')
+        ->where('no_nik', $pnikah->nik_ibu)
+        ->first();
+        
+
+        return view('suket-pengantar-nikah.edit', compact('pnikah','data_anak', 'data_ibu'));
     }
 
     /**
@@ -230,5 +254,26 @@ class PengantarNikahController extends Controller
         
         return redirect()->route('pnikah.index')
         ->with('success', 'Data Berhasil Dihapus!');
+    }
+
+    public function cetak_pdf($id_persuratan)
+    {
+        $sktmrs = DB::table('persuratan') 
+        ->join('warga', 'persuratan.id_warga','=','warga.id_warga')
+        ->join('detail', 'persuratan.id_persuratan','=','detail_sktmrs.id_persuratan')
+        ->select('warga.id_warga','warga.no_nik', 'warga.no_kk', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat','persuratan.ket_keperluan_surat', 'detail_sktmrs.nik_kepala_keluarga', 'detail_sktmrs.nik_yg_bersangkutan' )
+        ->where('persuratan.id_persuratan',$id_persuratan)
+        ->first();
+
+        $data = DB::table('warga')
+        ->where('no_nik', $sktmrs[1]->nik_yg_bersangkutan)
+        ->get();
+        
+        
+        
+        $pdf = PDF::loadview('suket-tidakmampu-rs.print',compact('sktmrs', 'data'));
+        $pdf->setPaper('Legal','potrait');
+        return $pdf->download('suket-tidak mampu rumahsakit.pdf');
+        
     }
 }

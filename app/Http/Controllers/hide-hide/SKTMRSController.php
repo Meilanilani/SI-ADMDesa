@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\SKTMRS;
 use App\Persuratan;
 use App\Warga;
+use PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -229,5 +230,26 @@ class SKTMRSController extends Controller
         return redirect()->route('sktmrs.index')
         ->with('success', 'Data Berhasil Dihapus!');
     
+    }
+
+    public function cetak_pdf($id_persuratan)
+    {
+        $sktmrs = DB::table('persuratan') 
+        ->join('warga', 'persuratan.id_warga','=','warga.id_warga')
+        ->join('detail_sktmrs', 'persuratan.id_persuratan','=','detail_sktmrs.id_persuratan')
+        ->select('warga.id_warga','warga.no_nik', 'warga.no_kk', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat','persuratan.ket_keperluan_surat', 'detail_sktmrs.nik_kepala_keluarga', 'detail_sktmrs.nik_yg_bersangkutan' )
+        ->where('persuratan.id_persuratan',$id_persuratan)
+        ->first();
+
+        $data = DB::table('warga')
+        ->where('no_nik', $sktmrs[1]->nik_yg_bersangkutan)
+        ->get();
+        
+        
+        
+        $pdf = PDF::loadview('suket-tidakmampu-rs.print',compact('sktmrs', 'data'));
+        $pdf->setPaper('Legal','potrait');
+        return $pdf->download('suket-tidak mampu rumahsakit.pdf');
+        
     }
 }

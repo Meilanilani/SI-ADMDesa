@@ -28,6 +28,7 @@ class KelahiranController extends Controller
         ->select('warga.no_nik', 'warga.nama_lengkap', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat' )
         ->where('no_surat', 'LIKE', '%Suket-Lahir%')
         ->get();
+        
         return view('suket-kelahiran.kelahiran', compact('lahir'));
     }
     /**
@@ -91,7 +92,6 @@ class KelahiranController extends Controller
         $data['no_surat'] = $request->no_surat;
         $data['tgl_pembuatan'] = $request->tgl_pembuatan;
         $data['status_surat'] = $request->status_surat;
-        $data['id_warga'] = $request->id_warga;
         $data['id_warga'] = $request->id_warga;
         $data2['nama_anak'] = $request->nama_anak;
         $data2['tempat_lahir_anak'] = $request->tempat_lahir_anak;

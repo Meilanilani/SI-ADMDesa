@@ -58,6 +58,9 @@ Route::get('suket-tidakmampu-rumahsakit/edit/{id}', 'SKTMRSController@edit');
 Route::get('suket-tidakmampu-rumahsakit/delete/{id}', 'SKTMRSController@destroy');
 Route::post('suket-tidakmampu-rumahsakit/update/{id}', 'SKTMRSController@update');
 
+Route::get('suket-tidakmampu-rumahsakit/cetak_pdf/{id}','SKTMRSController@cetak_pdf')->name('cetak_pdf');
+
+
 //CRUD-Suket_kelahiran
 Route::get('suket-kelahiran', 'KelahiranController@index')->name('kelahiran.index');
 Route::get('suket-kelahiran/create', 'KelahiranController@create')->name('kelahiran.create');
@@ -108,6 +111,9 @@ Route::get('suket-kematian/edit/{id}', 'KematianController@edit');
 Route::get('suket-kematian/delete/{id}', 'KematianController@destroy');
 Route::post('suket-kematian/update/{id}', 'KematianController@update');
 
+Route::get('suket-kematian/cetak_pdf/{id}','KematianController@cetak_pdf')->name('cetak_pdf');
+
+
 //CRUD-Suket-Pengantar Nikah
 Route::get('suket-pengantar-nikah', 'PengantarNikahController@index')->name('pnikah.index');
 Route::get('suket-pengantar-nikah/create', 'PengantarNikahController@create')->name('pnikah.create');
@@ -118,6 +124,7 @@ Route::get('suket-pengantar-nikah/edit/{id}', 'PengantarNikahController@edit');
 Route::get('suket-pengantar-nikah/delete/{id}', 'PengantarNikahController@destroy');
 Route::post('suket-pengantar-nikah/update/{id}', 'PengantarNikahController@update');
 
+Route::get('pdf', 'AdminController@index');
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'DashboardController@index')->name('sktm_sekolah.index');
 

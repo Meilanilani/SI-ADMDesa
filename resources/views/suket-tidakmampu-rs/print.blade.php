@@ -56,7 +56,7 @@ hr.style2{
             <td align="center">SURAT KETERANGAN TIDAK MAMPU</td>
         </tr>
         <tr>
-            <td align="center">Nomor : {{ $sktmsekolah->no_surat }}</td>
+            <td align="center">Nomor : {{ $sktmrs->no_surat }}</td>
         </tr>
     </table><br>
     <table align="center">
@@ -71,102 +71,57 @@ hr.style2{
     <table align="center">
         <tr>
             <td><font size="2">Nama</font></td>
-            <td width="350px"><font size="2"> : {{ $sktmsekolah->nama_lengkap }}</font></td>
+            <td width="350px"><font size="2"> : {{ $sktmrs->nama_lengkap }}</font></td>
         </tr>
         <tr>
             <td><font size="2">Tempat/ Tanggal Lahir </font> </td>
-            <td width="350px"><font size="2"> : {{ $sktmsekolah->tempat_lahir }} , {{ $sktmsekolah->tanggal_lahir }} </font></td>
+            <td width="350px"><font size="2"> : {{ $sktmrs->tempat_lahir }} , {{ $sktmrs->tanggal_lahir }} </font></td>
         </tr>
-        <tr>
-            <td><font size="2">Agama</font></td>
-            <td width="350px"><font size="2"> : {{ $sktmsekolah->agama }}</font></td>
-        </tr>
+        
         <tr>
             <td><font size="2">Pekerjaan</font></td>
-            <td width="350px"> : {{ $sktmsekolah->pekerjaan }}</font></td>
+            <td width="350px"> : {{ $sktmrs->pekerjaan }}</font></td>
         </tr>
         <tr>
-            <td><font size="2">Kewarganegaraan</font></td>
-            <td width="350px"><font size="2"> : Indonesia</font></td>
+            <td><font size="2">No NIK</font></td>
+            <td width="350px"><font size="2"> : {{ $sktmrs->nik_kepala_keluarga }}</font></td>
+        </tr>
+        <tr>
+            <td><font size="2">No Kartu Keluarga</font></td>
+            <td width="350px"><font size="2"> : {{ $sktmrs->no_kk }}</font></td>
         </tr>
         <tr>
             <td><font size="2">Alamat</font></td>
-            <td width="350px"> : {{ $sktmsekolah->alamat }}</font></td>
+            <td width="350px"> : {{ $sktmrs->alamat }}</font></td>
         </tr>
 
     </table>
     <br>
-    <table align="center">
-        <tr>
-            <td align="left">
-                <font size="2">Adalah orang tua / anak / suami/ istri dari :</font>
-            </td>
-            <td width="325px"> </td>
-        </tr>
-    </table>
-    <br>
-    <table align="center">
-        @foreach ($data_anak as $data)
-        <tr>
-            <td><font size="2">Nama</font></td>
-            <td width="350px"><font size="2"> : {{ $data->nama_lengkap }}</font></td>
-        </tr>
-        <tr>
-            <td><font size="2">Tempat/ Tanggal Lahir </font></td>
-            <td width="350px"><font size="2"> : {{ $data->tempat_lahir }} , {{ $data->tanggal_lahir }}</font></td>
-        </tr>
-        <tr>
-            <td><font size="2">Agama</font></td>
-            <td width="350px"><font size="2"> : {{ $data->agama }} </font></td>
-        </tr>
-        <tr>
-            <td><font size="2">Pekerjaan</td>
-            <td width="350px"><font size="2"> : {{ $data->pekerjaan }} </font></td>
-        </tr>
-        <tr>
-            <td><font size="2">Kewarganegaraan</font></td>
-            <td width="350px"><font size="2"> : Indonesia</font></td>
-        </tr>
-        <tr>
-            <td><font size="2">Alamat</font></td>
-            <td width="350px"><font size="2"> : {{ $data->alamat }}</font> </td>
-        </tr>
-        @endforeach
-   
-    </table>
+    
     <br>
     <table align="center">
         <tr>
-            <td align="left">
-                <font size="2">Berdasarkan penelitian kami orang tersebut diatas termasuk golongan keluarga yang tidak mampu.  </font>
+            <td align="left" width="566px">
+                <font size="2">Orang tersebut diatas tersebut adalah betul warga kami berdasarkan data yang ada pada kami  
+                    bahwa betul orang tersebut diatas termasuk Golongan Pra-KS/KS-1 atau <strong> Keluarga Tidak Mampu </strong> dan surat keterangan ini dipergunakan untuk <strong> {{ $sktmrs->ket_keperluan_surat }} @foreach ($data as $data) Atas nama {{ $data->nama_lengkap }} ({{ $data->tempat_lahir }}, {{ $data->tanggal_lahir }}) @endforeach</strong></font>
             </td>
         </tr>
     </table>
     <br>
-    <table align="center">
-        <tr>
-            <td align="left">
-                <font size="2">Demikianlah Surat Keterangan ini Kami buat dengan sesungguhnya untuk di pergunakan sebagai
-                    <br>Permohonan Pembebasan Semua Biaya.
-                     </font>
-            </td>
-            <td width="10px"></td>
-        </tr>
-    </table>
     <table align="center">
         <tr>
             <td width="400px"> </td>
-            <td><font size="2">Cihampelas, 27 Maret 2019</font></td>
+            <td><font size="2">Cihampelas, 27 Maret 2019</td>
         </tr>
         <tr>
-            <td align="center" colspan="2"><font size="2">Mengetahui</font></td>
+            <td align="center" colspan="2"><font size="2">Mengetahui</td>
         </tr>
     </table>
         <table align="center">
         <tr>
-            <td><font size="2">Ketua RW</font></td>
+            <td><font size="2">Ketua RW</td>
             <td width="330px"> </td>
-            <td><font size="2">Ketua RT</font></td>
+            <td><font size="2">Ketua RT</td>
                 
         </tr>
     </table>
@@ -181,13 +136,57 @@ hr.style2{
     </table>
     <table align="center">
         <tr>
-            <td align="center" colspan="2"><font size="2">KEPALA DESA CIHAMPELAS</font></td>
+            <td><font size="2">Reg.No..............................</td>
+            <td width="200px"> </td>
+            <td><font size="2">Reg.No..............................</td>
+                
+        </tr>
+        <tr>
+            <td><font size="2">Ka.UPT BPPPAKB Kec. Cihampelas</td>
+            <td width="200px"> </td>
+            <td><font size="2">KEPALA DESA CIHAMPELAS </td>
+                
+        </tr>
+    </table>
+    <br><br> <br><br> 
+    <table align="center">
+        <tr>
+            <td align="center"><hr class="style2"></td>
+            <td width="250px"> </td>
+            <td align="center"><hr class="style2"></td>
+                
+        </tr>
+        <tr>
+            <td><font size="2">NIP.</td>
+            <td width="250px"> </td>
+            <td><font size="2">NIP.</td>
+                
+        </tr>
+    </table>
+    <table align="center">
+        <tr>
+            <td align="center" colspan="2"><font size="2">Mengetahui</td>
+        </tr>
+    </table>
+   
+    <table align="center">
+        <tr>
+        <td><font size="2">Reg.No........................................</td>
+        </tr>
+            <tr>
+            <td align="center" colspan="2"><font size="2">CAMAT CIHAMPELAS</td>
         </tr>
     </table><br><br><br>
         <table align="center">
-        <tr>
-            <td align="center" colspan="2"><font size="2"><strong> ASEP MULYADI</strong></font></td>
-        </tr>
+            <tr>
+                <td align="center"><hr class="style2"></td>
+               
+            </tr>
+            <tr>
+                <td><font size="2">NIP.</td>
+                    
+            </tr>
     </table>
+    
 </body>
 </html>

@@ -25,6 +25,7 @@ class CreateWargasTable extends Migration
             $table->enum('pendidikan', ['Belum Sekolah', 'SD/ MI', 'SMP/MTs', 'SMA/MA/SMK', 'D3', 'D4/S1', 'S2', 'S3']);
             $table->string('pekerjaan', 50);
             $table->enum('status_perkawinan', ['Belum Menikah', 'Menikah', 'Cerai Mati', 'Cerai Hidup']);
+            $table->enum('status_hub_keluarga', ['Kepala Keluarga', 'Istri', 'Anak', 'Famili Lain']);
             $table->string('nama_ayah', 50);
             $table->string('nama_ibu', 50);
             $table->string('alamat');   

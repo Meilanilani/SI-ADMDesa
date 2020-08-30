@@ -56,13 +56,13 @@ hr.style2{
             <td align="center">SURAT KETERANGAN TIDAK MAMPU</td>
         </tr>
         <tr>
-            <td align="center">Nomor : {{ $sktmsekolah->no_surat }}</td>
+            <td align="center">Nomor :</td>
         </tr>
     </table><br>
     <table align="center">
         <tr>
             <td align="left">
-                <font size="2">Yang bertanda tangan dibawah ini, ketua Rt /Rw Desa Cihampelas Kecamatan 
+                <font size="2">Yang bertanda tangan dibawah ini, ketua Rt 002 /Rw 004 Desa Cihampelas Kecamatan 
                 Cihampelas  <br> Kabupaten Bandung Barat dengan ini menerangkan  :</font>
             </td>
         </tr>
@@ -70,28 +70,28 @@ hr.style2{
     <br>
     <table align="center">
         <tr>
-            <td><font size="2">Nama</font></td>
-            <td width="350px"><font size="2"> : {{ $sktmsekolah->nama_lengkap }}</font></td>
+            <td><font size="2">Nama</td>
+            <td width="350px"> :</td>
         </tr>
         <tr>
-            <td><font size="2">Tempat/ Tanggal Lahir </font> </td>
-            <td width="350px"><font size="2"> : {{ $sktmsekolah->tempat_lahir }} , {{ $sktmsekolah->tanggal_lahir }} </font></td>
+            <td><font size="2">Tempat/ Tanggal Lahir </td>
+            <td width="350px"> :</td>
         </tr>
         <tr>
-            <td><font size="2">Agama</font></td>
-            <td width="350px"><font size="2"> : {{ $sktmsekolah->agama }}</font></td>
+            <td><font size="2">Agama</td>
+            <td width="350px"> :</td>
         </tr>
         <tr>
-            <td><font size="2">Pekerjaan</font></td>
-            <td width="350px"> : {{ $sktmsekolah->pekerjaan }}</font></td>
+            <td><font size="2">Pekerjaan</td>
+            <td width="350px"> :</td>
         </tr>
         <tr>
-            <td><font size="2">Kewarganegaraan</font></td>
-            <td width="350px"><font size="2"> : Indonesia</font></td>
+            <td><font size="2">Kewarganegaraan</td>
+            <td width="350px"><font size="2"> : Indonesia</td>
         </tr>
         <tr>
-            <td><font size="2">Alamat</font></td>
-            <td width="350px"> : {{ $sktmsekolah->alamat }}</font></td>
+            <td><font size="2">Alamat</td>
+            <td width="350px"> :</td>
         </tr>
 
     </table>
@@ -106,32 +106,30 @@ hr.style2{
     </table>
     <br>
     <table align="center">
-        @foreach ($data_anak as $data)
         <tr>
-            <td><font size="2">Nama</font></td>
-            <td width="350px"><font size="2"> : {{ $data->nama_lengkap }}</font></td>
+            <td><font size="2">Nama</td>
+            <td width="350px"> :</td>
         </tr>
         <tr>
-            <td><font size="2">Tempat/ Tanggal Lahir </font></td>
-            <td width="350px"><font size="2"> : {{ $data->tempat_lahir }} , {{ $data->tanggal_lahir }}</font></td>
+            <td><font size="2">Tempat/ Tanggal Lahir </td>
+            <td width="350px"> :</td>
         </tr>
         <tr>
-            <td><font size="2">Agama</font></td>
-            <td width="350px"><font size="2"> : {{ $data->agama }} </font></td>
+            <td><font size="2">Agama</td>
+            <td width="350px"> :</td>
         </tr>
         <tr>
             <td><font size="2">Pekerjaan</td>
-            <td width="350px"><font size="2"> : {{ $data->pekerjaan }} </font></td>
+            <td width="350px"> :</td>
         </tr>
         <tr>
-            <td><font size="2">Kewarganegaraan</font></td>
-            <td width="350px"><font size="2"> : Indonesia</font></td>
+            <td><font size="2">Kewarganegaraan</td>
+            <td width="350px"><font size="2"> : Indonesia</td>
         </tr>
         <tr>
-            <td><font size="2">Alamat</font></td>
-            <td width="350px"><font size="2"> : {{ $data->alamat }}</font> </td>
+            <td><font size="2">Alamat</td>
+            <td width="350px"> :</td>
         </tr>
-        @endforeach
    
     </table>
     <br>
@@ -156,17 +154,17 @@ hr.style2{
     <table align="center">
         <tr>
             <td width="400px"> </td>
-            <td><font size="2">Cihampelas, 27 Maret 2019</font></td>
+            <td><font size="2">Cihampelas, 27 Maret 2019</td>
         </tr>
         <tr>
-            <td align="center" colspan="2"><font size="2">Mengetahui</font></td>
+            <td align="center" colspan="2"><font size="2">Mengetahui</td>
         </tr>
     </table>
         <table align="center">
         <tr>
-            <td><font size="2">Ketua RW</font></td>
+            <td><font size="2">Ketua RW</td>
             <td width="330px"> </td>
-            <td><font size="2">Ketua RT</font></td>
+            <td><font size="2">Ketua RT</td>
                 
         </tr>
     </table>
@@ -181,13 +179,16 @@ hr.style2{
     </table>
     <table align="center">
         <tr>
-            <td align="center" colspan="2"><font size="2">KEPALA DESA CIHAMPELAS</font></td>
+            <td align="center" colspan="2"><font size="2">KEPALA DESA CIHAMPELAS</td>
         </tr>
     </table><br><br><br>
         <table align="center">
         <tr>
-            <td align="center" colspan="2"><font size="2"><strong> ASEP MULYADI</strong></font></td>
+            <td align="center" colspan="2"><font size="2"><strong> ASEP MULYADI</strong></td>
         </tr>
     </table>
+    
+
+
 </body>
 </html>

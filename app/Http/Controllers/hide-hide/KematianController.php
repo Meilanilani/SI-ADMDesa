@@ -6,6 +6,7 @@ use App\Kematian;
 use App\Warga;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use PDF;
 
 class KematianController extends Controller
 {
@@ -256,5 +257,22 @@ class KematianController extends Controller
         
         return redirect()->route('kematian.index')
         ->with('success', 'Data Berhasil Dihapus!');
+    }
+
+    public function cetak_pdf($id_persuratan)
+    {
+        $kematian = DB::table('persuratan') 
+        ->join('warga', 'persuratan.id_warga','=','warga.id_warga')
+        ->join('detail_kematian', 'persuratan.id_persuratan','=','detail_kematian.id_persuratan')
+        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.jenis_kelamin', 'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat', 'detail_kematian.nik_yg_bersangkutan', 'detail_kematian.tgl_kematian', 'detail_kematian.tempat_kematian', 'detail_kematian.penyebab_kematian' )
+        ->where('persuratan.id_persuratan',$id_persuratan)
+        ->first();
+        
+        
+        
+        $pdf = PDF::loadview('suket-kematian.print',compact('kematian'));
+        $pdf->setPaper('Legal','potrait');
+        return $pdf->download('suket-tidak kematian    .pdf');
+        
     }
 }

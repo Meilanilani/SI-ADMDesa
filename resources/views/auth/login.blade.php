@@ -15,10 +15,10 @@
                         @csrf
                         <h3 class="text-center text-black">SI Pelayanan Masyarakat <br> Kantor Desa Cihampelas, KBB</h3>
                         <div class="form-group">
-                            <label for="email" class="text-black">Email :</label><br>
-                            <input type="text" name="email" id="email" class="form-control" placeholder="Masukkan Email" @error('email') is-invalid @enderror name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                            <label for="name" class="text-black">Username :</label><br>
+                            <input type="text" name="name" id="name" class="form-control" placeholder="Masukkan Username" @error('name') is-invalid @enderror name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
                         </div>
-                        @error('email')
+                        @error('name')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>

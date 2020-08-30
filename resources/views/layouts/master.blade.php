@@ -233,13 +233,6 @@
                   <p>Surat Ket-Usaha</p>
                 </a>
               </li>
-              <!--
-              <li class="nav-item">
-                <a href="/suket-taksiran-tanah" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Surat Taksiran Tanah</p>
-                </a>
-              </li>
               <li class="nav-item">
                 <a href="/suket-pindah" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -252,6 +245,14 @@
                   <p>Surat Domisili</p>
                 </a>
               </li>
+              <!--
+              <li class="nav-item">
+                <a href="/suket-taksiran-tanah" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Surat Taksiran Tanah</p>
+                </a>
+              </li>
+              
               <li class="nav-item"> 
                 <a href="/suket-domisili-lembaga" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>

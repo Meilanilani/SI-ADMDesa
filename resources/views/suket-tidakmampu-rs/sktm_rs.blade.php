@@ -60,12 +60,11 @@
                 <td>
                   <a class="btn btn-danger btn-sm" href="{{URL::to('suket-tidakmampu-rumahsakit/edit/'.$post->id_persuratan)}}"><i class="nav-icon fas fa-edit"></i> Edit</a>
                   <a class="btn btn-primary btn-sm" href="{{URL::to('suket-tidakmampu-rumahsakit/delete/'.$post->id_persuratan)}}"><i class="nav-icon fas fa-trash"></i> Hapus</a>
+                  <a class="btn btn-warning btn-sm" href="{{URL::to('suket-tidakmampu-rumahsakit/cetak_pdf/'.$post->id_persuratan)}}"><i class="nav-icon fas fa-print"></i> Cetak</a>
                 </td>
               </tr>
             </form>
-            
               @endforeach
-                  
                     </tbody>
               </table>
             </div>

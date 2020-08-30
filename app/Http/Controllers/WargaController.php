@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Warga;
 use Illuminate\Http\Request;
 
@@ -43,8 +44,8 @@ class WargaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'no_kk' => 'required|max:16',
-            'no_nik' => 'required|max:16',
+            'no_kk' => 'required|min:16|max:16',
+            'no_nik' => 'required|max:16|min:16|max:16',
             'nama_lengkap' => 'required|max:255',
             'jenis_kelamin' => 'required|max:255',
             'tempat_lahir' => 'required|max:255',
@@ -52,9 +53,11 @@ class WargaController extends Controller
             'pendidikan' => 'required|max:255',
             'pekerjaan' => 'required|max:255',
             'status_perkawinan' => 'required|max:255',
+            'status_hub_keluarga' => 'required|max:255',
             'nama_ayah' => 'required|max:255',
             'nama_ibu' => 'required|max:255',
             'alamat' => 'required|max:255'
+            
 
         ]);
 
@@ -68,12 +71,23 @@ class WargaController extends Controller
             'pendidikan' => $request->get('pendidikan'),
             'pekerjaan' => $request->get('pekerjaan'),
             'status_perkawinan' => $request->get('status_perkawinan'),
+            'status_hub_keluarga' => $request->get('status_hub_keluarga'),
             'nama_ayah' => $request->get('nama_ayah'),
             'nama_ibu' => $request->get('nama_ibu'),
             'alamat' => $request->get('alamat'),
         ]);
 
         $warga->save();
+
+        if($request->get('status_hub_keluarga')=='Kepala Keluarga'){
+            $user = new User();
+            $user->name = $request->get('no_nik');
+            $user->password = bcrypt($request->get('no_nik'));
+            $user->email = 'example@gmail.com';
+            $user->save();
+
+        }
+        
         return redirect ('/datawarga')->with('success', 'Data Berhasil disimpan !');
     }
 

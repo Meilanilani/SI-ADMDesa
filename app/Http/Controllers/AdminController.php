@@ -10,8 +10,8 @@ class AdminController extends Controller
     {
         $this->middleware('auth');
     }
-    public function dashboard(){
-        return view('admin.dashboard');
+    public function index(){
+        return view('layouts.kop');
     } 
     public function datapengguna(){
         return view('admin.data_pengguna');

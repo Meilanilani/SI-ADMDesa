@@ -59,6 +59,8 @@
               <td>
                 <a class="btn btn-danger btn-sm" href="{{URL::to('suket-kelahiran/edit/'.$post->id_persuratan)}}"><i class="nav-icon fas fa-edit"></i> Edit</a>
                 <a class="btn btn-primary btn-sm" href="{{URL::to('suket-kelahiran/delete/'.$post->id_persuratan)}}"><i class="nav-icon fas fa-trash"></i> Hapus</a>
+                <a class="btn btn-warning btn-sm" href="{{URL::to('suket-kelahiran/cetak_pdf/'.$post->id_persuratan)}}"><i class="nav-icon fas fa-trash"></i> Cetak</a>
+                </td>
               </td>
             </tr>
           </form>

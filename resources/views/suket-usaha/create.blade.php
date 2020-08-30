@@ -87,7 +87,7 @@
         </div>
         <div class="col-md-7">
           <label for="inputName">Alamat Usaha</label>
-          <textarea name="alamat_usaha" class="form-control" rows="4" readonly></textarea>
+          <textarea name="alamat_usaha" class="form-control" rows="4"></textarea>
         </span></div>
         <div class="col-md-8">
           <label for="inputName">Foto Pengantar RT/ RW</label>

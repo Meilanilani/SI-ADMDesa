@@ -105,6 +105,15 @@
                         </select>
                       </div>
                       <div class="col-md-6">
+                        <label for="inputName">Status Hub Keluarga</label>
+                        <select name="status_hub_keluarga" value="{{ old('status_hub_keluarga') }}" id="warga-status_hub_keluarga" class="form-control" class="form-control">
+                          <option>Kepala Keluarga</option>
+                          <option>Istri</option>
+                          <option>Anak</option>
+                          <option>Famili Lain</option>
+                        </select>
+                      </div>
+                      <div class="col-md-6">
                         <label for="inputName">Nama Ayah</label>
                         <input type="text" name="nama_ayah" value="{{ old('nama_ayah') }}" id="warga-nama_ayah" class="form-control">
                       </div>
