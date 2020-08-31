@@ -234,7 +234,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/user-suket-domisili" class="nav-link">
+                <a href="/user-suket-domisili/create" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Surat Domisili</p>
                 </a>

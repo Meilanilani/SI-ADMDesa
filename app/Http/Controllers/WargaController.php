@@ -83,7 +83,6 @@ class WargaController extends Controller
             $user = new User();
             $user->name = $request->get('no_nik');
             $user->password = bcrypt($request->get('no_nik'));
-            $user->email = 'example@gmail.com';
             $user->save();
 
         }

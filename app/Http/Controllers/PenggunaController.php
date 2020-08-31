@@ -50,12 +50,10 @@ class PenggunaController extends Controller
     {
         $validatedData = $request->validate([
             'name' => ['required', 'string', 'max:255', 'unique:users,name'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
         ]);
         
         $data['name'] = $request->name;
-        $data['email'] = $request->email;
         $data['password'] = Hash::make($request->password); 
         $pengguna = DB::table('users')->insertGetId($data);
             return redirect()->route('pengguna.index')
@@ -104,9 +102,7 @@ class PenggunaController extends Controller
      */
     public function destroy($id)
     {
-        $data = DB::table('users')->where('id', $id)->first();
-       
-        $domisili = DB::table('users')->where('id', $id)->delete();
+        $data = DB::table('users')->where('id', $id)->delete();
         
         return redirect()->route('pengguna.index')
         ->with('success', 'Data Berhasil Dihapus!');
