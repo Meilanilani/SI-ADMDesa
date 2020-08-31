@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('user.layouts.master')
 @section('content')
 
  <!-- Content Header (Page header) -->
@@ -30,7 +30,7 @@
             <div class="row">
               <div class="col-md-7">
                 <label for="inputName">No Surat</label>
-                <input type="text" name="no_surat" class="form-control" value="{{ $surat}}" readonly>
+                <input type="text" name="no_surat" class="form-control" value="" readonly>
                 </div>
               <input type="hidden" name="id_warga" id="id_pemohon" class="form-control input-lg" />
         <div class="col-md-6">

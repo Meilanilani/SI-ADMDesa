@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('user.layouts.master')
 @section('content')
 
  <!-- Content Header (Page header) -->
@@ -24,18 +24,18 @@
         </div>
         @endif
       <div class="card-body">
-        <form action="{{ route('domisili.store')}}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('ktp.store')}}" method="POST" enctype="multipart/form-data">
           @csrf
           <div class="form-group">
             <div class="row">
               <div class="col-md-7">
                 <label for="inputName">No Surat</label>
-                <input type="text" name="no_surat" class="form-control" value="{{ $surat}}" readonly>
+                <input type="text" name="no_surat" class="form-control" value="" readonly>
                 </div>
               <input type="hidden" name="id_warga" id="id_pemohon" class="form-control input-lg" />
         <div class="col-md-6">
           <label for="inputName">NIK</label>
-          <input type="text" name="nik_yg_bersangkutan" id="nik_yg_bersangkutan" class="form-control input-lg" />
+          <input type="text" name="nik_yg_bersangkutan" id="no_nik" class="form-control input-lg" />
         </div>
         <div class="col-md-6">
           <label for="inputName">Nama Lengkap</label>
@@ -90,6 +90,10 @@
         <input type="date"  name="tgl_pembuatan" class="form-control">
       </div>
       <div class="col-md-5">
+        <label for="inputName">Tanggal Masa Berlaku Surat</label>
+        <input type="date"  name="tgl_masa_berlaku" class="form-control">
+      </div>
+      <div class="col-md-5">
         <label for="inputName">Status Surat</label>
         <select class="form-control custom-select"  name="status_surat">
           <option selected disabled>Pilih Status</option>
@@ -100,7 +104,7 @@
       </div></div>
       <div class="card-footer">
         <button type="submit" class="btn btn-success">Simpan</button>
-                  <a class="btn btn-success" href="{{route('domisili.index')}}">Kembali</a>
+                  <a class="btn btn-success" href="{{route('sktmrs.index')}}">Kembali</a>
       </div>
     </div>
   </div>
@@ -108,7 +112,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script type="text/javascript">
       $(document).ready(function(){
-         $('#nik_yg_bersangkutan').on('input',function(){
+         $('#no_nik').on('input',function(){
              
              var no_nik=$(this).val();
              $.ajax({

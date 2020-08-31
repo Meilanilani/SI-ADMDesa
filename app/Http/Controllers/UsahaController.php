@@ -165,8 +165,6 @@ class UsahaController extends Controller
         ->where('persuratan.id_persuratan',$id_persuratan)
         ->first();
 
-        
-        
         $data_warga = DB::table('warga')
         ->where('no_nik', $usaha->nik_pemilik_usaha)
         ->first();
@@ -182,12 +180,15 @@ class UsahaController extends Controller
      * @param  \App\Usaha  $usaha
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id_ket_usaha)
+    public function update(Request $request, $id_persuratan)
     {
         $data['no_surat'] = $request->no_surat;
-        $data2['nama_perusahaan'] = $request->nama_perusahaan;
+        $data['id_warga'] = $request->id_warga;
+        $data2['nik_pemilik_usaha'] = $request->nik_pemilik_usaha;
+        $data2['nama_usaha'] = $request->nama_usaha;
         $data2['jenis_usaha'] = $request->jenis_usaha;
-        $data2['alamat_perusahaan'] = $request->alamat_perusahaan;
+        $data2['penghasilan_bulanan'] = $request->penghasilan_bulanan;
+        $data2['alamat_usaha'] = $request->alamat_usaha;
        
         $data['tgl_pembuatan'] = $request->tgl_pembuatan;
         $data['status_surat'] = $request->status_surat;
@@ -222,11 +223,7 @@ class UsahaController extends Controller
             $succes = $image3->move($upload_path, $image_full_name);
             $data['foto_suratizin'] = $image_url;
         } 
-        $id_persuratan = DB::table('ket_usaha')->select('id_persuratan')->where('id_ket_usaha', $id_ket_usaha)->first();
-        $lahir = DB::table('persuratan')->where('id_persuratan', $id_persuratan->id_persuratan)->update($data);
-        
-        $lahir = DB::table('ket_usaha')->where('id_ket_usaha', $id_ket_usaha)->update($data2);
-
+        $usaha = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->update($data);
         return redirect()->route('usaha.index')
                         ->with('success', 'Data Berhasil diupdate!');
     }

@@ -24,7 +24,7 @@
         </div>
         @endif
       <div class="card-body">
-        <form action="{{ route('usaha.store')}}" method="POST" enctype="multipart/form-data">
+        <form action="{{ url('suket-usaha/update/'.$usaha->id_persuratan)}}" method="POST" enctype="multipart/form-data">
           @csrf
           <div class="form-group">
             <div class="row">
@@ -75,19 +75,19 @@
         {{ csrf_field() }}
         <div class="col-md-6">
           <label for="inputName">Nama Usaha</label>
-          <input type="text" name="nama_usaha"  class="form-control input-lg" value="{{$usaha->nama_usaha}}" readonly/>
+          <input type="text" name="nama_usaha"  class="form-control input-lg" value="{{$usaha->nama_usaha}}" />
         </div>
         <div class="col-md-6">
           <label for="inputName">Jenis Usaha</label>
-          <input type="text" name="jenis_usaha"  class="form-control input-lg" value="{{$usaha->jenis_usaha}}" readonly/>
+          <input type="text" name="jenis_usaha"  class="form-control input-lg" value="{{$usaha->jenis_usaha}}" />
         </div>
         <div class="col-md-6">
           <label for="inputName">Penghasilan Bulanan</label>
-          <input type="text" name="penghasilan_bulanan"  class="form-control input-lg" value="{{$usaha->penghasilan_bulanan}}" readonly />
+          <input type="text" name="penghasilan_bulanan"  class="form-control input-lg" value="{{$usaha->penghasilan_bulanan}}"  />
         </div>
         <div class="col-md-7">
           <label for="inputName">Alamat Usaha</label>
-          <textarea name="alamat_usaha" class="form-control" rows="4" readonly>{{$usaha->alamat_usaha}}</textarea>
+          <textarea name="alamat_usaha" class="form-control" rows="4" >{{$usaha->alamat_usaha}}</textarea>
         </span></div>
         <div class="col-md-8">
           <label for="inputName">Foto Pengantar RT/ RW</label>

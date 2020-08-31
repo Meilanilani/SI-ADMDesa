@@ -19,9 +19,14 @@ class DomisiliController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
-        $domisili = Persuratan::all();
+        $domisili = DB::table('persuratan') 
+        ->join('warga','persuratan.id_warga','=','warga.id_warga')
+        ->select('warga.no_nik', 'warga.nama_lengkap', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat' )
+        ->where('no_surat', 'LIKE', '%Suket-D%')
+        ->get();
         return view('suket-domisili.suket-domisili', compact('domisili'));
     }
 
@@ -34,8 +39,42 @@ class DomisiliController extends Controller
     {
         $domisili = Persuratan::all();
         $domisili = Warga::all();
-        return view('suket-domisili.create', compact('domisili'));
+        $surat = $this->autonumber();
+        return view('suket-domisili.create', ['surat'=>$surat]);
     }
+
+    public function autonumber(){
+        $bln = array(1 => "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII");
+        $query = DB::table('persuratan')
+        ->select(DB::raw('MAX(LEFT(no_surat,3)) as no_max'))
+        ->where('no_surat', 'LIKE', '%Suket-DL%')->get();
+        if ($query->count()>0) {
+            foreach ($query as $key ) {
+            $tmp = ((int)$key->no_max)+1;
+            $kd = sprintf("%03s", $tmp);
+            }
+           }else {
+            $kd = "001";
+           }
+           $kd_surat = $kd."/Suket-DL/".$bln[date('n')].date('/yy');
+           return $kd_surat;
+          }
+
+          public function ajax_select(Request $request){
+            $no_nik = $request->no_nik;
+           
+            $domisili = Warga::where('no_nik','=',$no_nik)->first();
+            if(isset($domisili)){
+                $data = array(
+                'id_warga' => $domisili['id_warga'],
+                'nama_lengkap' =>  $domisili['nama_lengkap'],
+                'tempat_lahir' =>  $domisili['tempat_lahir'],
+                'tanggal_lahir' =>  $domisili['tanggal_lahir'],
+                'agama' =>  $domisili['agama'],
+                'pekerjaan' =>  $domisili['pekerjaan'],
+                'alamat' =>  $domisili['alamat'],);
+            return json_encode($data);}
+        }
 
     /**
      * Store a newly created resource in storage.
@@ -48,6 +87,9 @@ class DomisiliController extends Controller
         $data['no_surat'] = $request->no_surat;
         $data['tgl_pembuatan'] = $request->tgl_pembuatan;
         $data['status_surat'] = $request->status_surat;
+        $data['id_warga'] = $request->id_warga;
+        $data_detail['nik_yg_bersangkutan'] = $request->nik_yg_bersangkutan;
+
 
         $image1 = $request->file('foto_pengantar');
         $image2 = $request->file('foto_kk');
@@ -80,7 +122,9 @@ class DomisiliController extends Controller
             $data['foto_ktp'] = $image_url;
         } 
         
-            $lahir = DB::table('persuratan')->insertGetId($data);
+            $domisili = DB::table('persuratan')->insertGetId($data);
+            $data_detail['id_persuratan'] = $domisili;
+            $domisili = DB::table('detail_domisili')->insertGetId($data_detail);
             return redirect()->route('domisili.index')
                              ->with('success', 'Data Berhasil ditambahkan!');
     }
@@ -104,8 +148,23 @@ class DomisiliController extends Controller
      */
     public function edit($id_persuratan)
     {
+        $domisili = DB::table('persuratan') 
+        ->join('warga', 'persuratan.id_warga','=','warga.id_warga')
+        ->join('detail_domisili', 'persuratan.id_persuratan','=','detail_domisili.id_persuratan')
+        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 
+        'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 
+        'persuratan.tgl_pembuatan','persuratan.status_surat', 'detail_domisili.nik_yg_bersangkutan' )
+        ->where('persuratan.id_persuratan',$id_persuratan)
+        ->first();
+
+        
+        
+        $data_warga = DB::table('warga')
+        ->where('no_nik', $domisili->nik_yg_bersangkutan)
+        ->first();
+       
         $domisili = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->first();
-        return view('suket-domisili.edit', compact('domisili'));
+        return view('suket-domisili.edit', compact('domisili', 'data_warga'));
     }
 
     /**

@@ -15,9 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('/', function () {
-    return view('admin.dashboard');
-}) ->middleware('auth');
+Route::get('/', 'DashboardController@index');
 
 Route::get('/inner-join','KelahiranController@innerJoinClause');
 //CRUD-Data-Warga
@@ -128,3 +126,33 @@ Route::get('pdf', 'AdminController@index');
 
 Route::get('/home', 'DashboardController@index')->name('sktm_sekolah.index');
 
+//CRUD-Suket-Domisili
+Route::get('suket-domisili', 'DomisiliController@index')->name('domisili.index');
+Route::get('suket-domisili/create', 'DomisiliController@create')->name('domisili.create');
+Route::post('suket-domisili/store', 'DomisiliController@store')->name('domisili.store');
+Route::get('suket-domisili/cari', 'DomisiliController@ajax_select')->name('domisili.ajax_select');
+Route::get('suket-domisili/edit/{id}', 'DomisiliController@edit');
+Route::get('suket-domisili/delete/{id}', 'DomisiliController@destroy');
+Route::post('suket-domisili/update/{id}', 'DomisiliController@update');
+
+//CRUD-Suket-Pindah
+Route::get('suket-pindah', 'PindahController@index')->name('pindah.index');
+Route::get('suket-pindah/create', 'PindahController@create')->name('pindah.create');
+Route::post('suket-pindah/store', 'PindahController@store')->name('pindah.store');
+
+Route::get('suket-pindah/cari', 'PindahController@ajax_select')->name('pindah.ajax_select');
+Route::get('suket-pindah/edit/{id}', 'PindahController@edit');
+Route::get('suket-pindah/delete/{id}', 'PindahController@destroy');
+Route::post('suket-pindah/update/{id}', 'PindahController@update');
+
+//Hak Akses User
+Route::get('/user', 'UserController@index')->name('pengajuan.index');
+Route::get('user-suket-tidakmampu-sekolah/create', 'UserController@create_sktmsekolah')->name('pengajuan.create_sktmsekolah');
+Route::get('user-suket-tidakmampu-rumahsakit/create', 'UserController@create_sktmrs')->name('pengajuan.create_sktmrs');
+Route::get('user-suket-kelahiran/create', 'UserController@create_kelahiran')->name('pengajuan.create_kelahiran');
+Route::get('user-suket-kematian/create', 'UserController@create_kematian')->name('pengajuan.create_kematian');
+Route::get('user-suket-pengantar-nikah/create', 'UserController@create_pengantarnikah')->name('pengajuan.create_pengantarnikah');
+Route::get('user-suket-skck/create', 'UserController@create_skck')->name('pengajuan.create_skck');
+Route::get('user-suket-ktp-sementara/create', 'UserController@create_ktp')->name('pengajuan.create_ktp');
+Route::get('user-suket-usaha/create', 'UserController@create_usaha')->name('pengajuan.create_usaha');
+Route::get('user-suket-domisili/create', 'UserController@create_domisili')->name('pengajuan.create_domisili');

@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('user.layouts.master')
 @section('content')
 
  <!-- Content Header (Page header) -->
@@ -24,18 +24,18 @@
         </div>
         @endif
       <div class="card-body">
-        <form action="{{ route('domisili.store')}}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('sktmrs.store')}}" method="POST" enctype="multipart/form-data">
           @csrf
           <div class="form-group">
             <div class="row">
               <div class="col-md-7">
                 <label for="inputName">No Surat</label>
-                <input type="text" name="no_surat" class="form-control" value="{{ $surat}}" readonly>
+                <input type="text" name="no_surat" class="form-control" value="" readonly>
                 </div>
               <input type="hidden" name="id_warga" id="id_pemohon" class="form-control input-lg" />
         <div class="col-md-6">
           <label for="inputName">NIK</label>
-          <input type="text" name="nik_yg_bersangkutan" id="nik_yg_bersangkutan" class="form-control input-lg" />
+          <input type="text" name="nik_kepala_keluarga" id="no_nik" class="form-control input-lg" />
         </div>
         <div class="col-md-6">
           <label for="inputName">Nama Lengkap</label>
@@ -54,10 +54,6 @@
           <input type="text" name="agama" id="agama" class="form-control input-lg" readonly/>
         </div>
         <div class="col-md-6">
-          <label for="inputName">Status</label>
-          <input type="text" name="status_perkawinan" id="agama" class="form-control input-lg" readonly/>
-        </div>
-        <div class="col-md-6">
           <label for="inputName">Pekerjaan</label>
           <input type="text" name="pekerjaan" id="pekerjaan" class="form-control input-lg" readonly/>
         </div>
@@ -71,8 +67,23 @@
     <div class="card">
       <div class="card-body">
           <div class="row">
+            <div class="col-md-6">
+              <label for="inputName">NIK Yang Bersangkutan</label>
+              <input type="text" name="nik_yg_bersangkutan" id="nik_yg_bersangkutan" class="form-control input-lg" />
+            </div>
+            <div class="col-md-6">
+              <label for="inputName">Nama Lengkap</label>
+              <input type="text" name="nama_lengkap" id="nama_yg_bersangkutan" class="form-control input-lg" readonly/>
+            </div>
+            <div class="col-md-6">
+              <label for="inputName">Tempat Lahir</label>
+              <input type="text" name="tempat_lahir" id="tempat_lahir_yg_bersangkutan" class="form-control input-lg" readonly/>
+            </div>
+            <div class="col-md-6">
+              <label for="inputName">Tanggal Lahir</label>
+              <input type="date" name="tanggal_lahir" id="tgl_lahir_yg_bersangkutan" class="form-control input-lg" readonly/>
+            </div>
         {{ csrf_field() }}
-        
         <div class="col-md-8">
           <label for="inputName">Foto Pengantar RT/ RW</label>
           <input type="file"  name="foto_pengantar">
@@ -86,7 +97,7 @@
           <input type="file"  name="foto_ktp">
         </div>
         <div class="col-md-5">
-        <label for="inputName">Tanggal Pembuatan Surat</label>
+        <label for="inputName">Tanggal Pembuatan</label>
         <input type="date"  name="tgl_pembuatan" class="form-control">
       </div>
       <div class="col-md-5">
@@ -100,7 +111,7 @@
       </div></div>
       <div class="card-footer">
         <button type="submit" class="btn btn-success">Simpan</button>
-                  <a class="btn btn-success" href="{{route('domisili.index')}}">Kembali</a>
+                  <a class="btn btn-success" href="{{route('sktmrs.index')}}">Kembali</a>
       </div>
     </div>
   </div>
@@ -108,12 +119,12 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script type="text/javascript">
       $(document).ready(function(){
-         $('#nik_yg_bersangkutan').on('input',function(){
+         $('#no_nik').on('input',function(){
              
              var no_nik=$(this).val();
              $.ajax({
                  type : "GET",
-                 url  : "{{ route('ktp.ajax_select') }}",
+                 url  : "{{ route('sktmrs.ajax_select') }}",
                  dataType : "JSON",
                  data : {no_nik: no_nik},
                  cache:false,
@@ -143,6 +154,39 @@
                     $('#agama').val(agama);
                     $('#pekerjaan').val(pekerjaan);
                     $('#alamat').val(alamat);                      
+                 }
+             });
+             return false;
+        });
+        
+        $('#nik_yg_bersangkutan').on('input',function(){
+             
+             var no_nik=$(this).val();
+             $.ajax({
+                 type : "GET",
+                 url  : "{{ route('sktmrs.ajax_select') }}",
+                 dataType : "JSON",
+                 data : {no_nik: no_nik},
+                 cache:false,
+                 success: function(data){
+                   console.log(data);
+                   var json = data;
+
+                    
+                    var nama_yg_bersangkutan = json.nama_lengkap;
+                    var tempat_lahir_yg_bersangkutan = json.tempat_lahir;
+                    var tgl_lahir_yg_bersangkutan = json.tanggal_lahir;
+                    
+                    
+                    console.log(nama_yg_bersangkutan);
+                    console.log(tempat_lahir_yg_bersangkutan);
+                    console.log(tgl_lahir_yg_bersangkutan);
+                  
+                   
+                    $('#nama_yg_bersangkutan').val(nama_yg_bersangkutan);
+                    $('#tempat_lahir_yg_bersangkutan').val(tempat_lahir_yg_bersangkutan);
+                    $('#tgl_lahir_yg_bersangkutan').val(tgl_lahir_yg_bersangkutan);
+                   
                  }
              });
              return false;

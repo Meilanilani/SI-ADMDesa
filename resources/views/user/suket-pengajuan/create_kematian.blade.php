@@ -24,18 +24,18 @@
         </div>
         @endif
       <div class="card-body">
-        <form action="{{ route('domisili.store')}}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('kematian.store')}}" method="POST" enctype="multipart/form-data">
           @csrf
           <div class="form-group">
             <div class="row">
               <div class="col-md-7">
                 <label for="inputName">No Surat</label>
-                <input type="text" name="no_surat" class="form-control" value="{{ $surat}}" readonly>
+                <input type="text" name="no_surat" class="form-control" value="" readonly>
                 </div>
               <input type="hidden" name="id_warga" id="id_pemohon" class="form-control input-lg" />
         <div class="col-md-6">
           <label for="inputName">NIK</label>
-          <input type="text" name="nik_yg_bersangkutan" id="nik_yg_bersangkutan" class="form-control input-lg" />
+          <input type="text" name="nik_yg_bersangkutan" id="no_nik" class="form-control input-lg" />
         </div>
         <div class="col-md-6">
           <label for="inputName">Nama Lengkap</label>
@@ -72,7 +72,18 @@
       <div class="card-body">
           <div class="row">
         {{ csrf_field() }}
-        
+        <div class="col-md-6">
+          <label for="inputName">Tanggal Kematian</label>
+          <input type="date" name="tgl_kematian" class="form-control input-lg" />
+        </div>
+        <div class="col-md-6">
+          <label for="inputName">Tempat Kematian</label>
+          <input type="text" name="tempat_kematian" class="form-control input-lg" />
+        </div>
+        <div class="col-md-6">
+          <label for="inputName">Penyebab Kematian</label>
+          <input type="text" name="penyebab_kematian" class="form-control input-lg" />
+        </div>
         <div class="col-md-8">
           <label for="inputName">Foto Pengantar RT/ RW</label>
           <input type="file"  name="foto_pengantar">
@@ -84,6 +95,10 @@
         <div class="col-md-8">
           <label for="inputName">Foto KTP yang bersangkutan</label>
           <input type="file"  name="foto_ktp">
+        </div>
+        <div class="col-md-8">
+          <label for="inputName">Foto Surat Kematian RS</label>
+          <input type="file"  name="foto_suratkematianrs	">
         </div>
         <div class="col-md-5">
         <label for="inputName">Tanggal Pembuatan Surat</label>
@@ -100,7 +115,7 @@
       </div></div>
       <div class="card-footer">
         <button type="submit" class="btn btn-success">Simpan</button>
-                  <a class="btn btn-success" href="{{route('domisili.index')}}">Kembali</a>
+                  <a class="btn btn-success" href="{{route('sktmrs.index')}}">Kembali</a>
       </div>
     </div>
   </div>
@@ -108,12 +123,12 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script type="text/javascript">
       $(document).ready(function(){
-         $('#nik_yg_bersangkutan').on('input',function(){
+         $('#no_nik').on('input',function(){
              
              var no_nik=$(this).val();
              $.ajax({
                  type : "GET",
-                 url  : "{{ route('ktp.ajax_select') }}",
+                 url  : "{{ route('kematian.ajax_select') }}",
                  dataType : "JSON",
                  data : {no_nik: no_nik},
                  cache:false,

@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function index(){
         $sktmsekolah = DB::table('persuratan') 
         ->join('warga','persuratan.id_warga','=','warga.id_warga')

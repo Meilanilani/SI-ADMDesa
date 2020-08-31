@@ -145,7 +145,7 @@
           <img src="/assets/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Welcome Meilani !</a>
+          <a href="#" class="d-block">Welcome User !</a>
         </div>
       </div>
 
@@ -155,92 +155,86 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                <li class="nav-item has-treeview">
-                <a href=/ class="nav-link">
+                <a href=/user class="nav-link">
                   <i class="nav-icon fas fa-home"></i>
-                  <p> Dashboard </p>
+                  <p> Halaman Utama </p>
                 </a>
               </li>
-               <li class="nav-item has-treeview">
-            <a href=/data-pengguna class="nav-link">
-              <i class="nav-icon fas fa-users"></i>
-              <p> Data Pengguna </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="/datawarga" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Data Warga
-              </p>
-            </a>
-          </li>
+              <li class="nav-item">
+                <a href="/user" class="nav-link">
+                  <i class="nav-icon fas fa-th"></i>
+                  <p>
+                    Riwayat Pengajuan Surat
+                  </p>
+                </a>
+              </li>
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-copy"></i>
               <p>
-                Data Persuratan
+                  Jenis Persuratan
                 <i class="fas fa-angle-left right"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/suket-tidakmampu-sekolah" class="nav-link">
+                <a href="/user-suket-tidakmampu-sekolah/create" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>SKTM Sekolah</p>
                 </a>
              </li>
               <li class="nav-item">
-                <a href="/suket-tidakmampu-rumahsakit" class="nav-link">
+                <a href="/user-suket-tidakmampu-rumahsakit/create" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>SKTM Rumah Sakit</p>
                 </a>
               </li> 
               <li class="nav-item">
-                <a href="/suket-kelahiran" class="nav-link">
+                <a href="/user-suket-kelahiran/create" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Surat Kelahiran</p>
                 </a>
               </li>
               
               <li class="nav-item">
-                <a href="/suket-kematian" class="nav-link">
+                <a href="/user-suket-kematian/create" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Surat Kematian</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/suket-pengantar-nikah" class="nav-link">
+                <a href="/user-suket-pengantar-nikah/create" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Surat Pengantar Nikah</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/suket-pengantar-skck" class="nav-link">
+                <a href="/user-suket-skck/create" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Surat Pengantar SKCK</p>
                 </a>
               </li> 
               
               <li class="nav-item">
-                <a href="/suket-ktp-sementara" class="nav-link">
+                <a href="/user-suket-ktp-sementara/create" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Surat KTP Sementara</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/suket-usaha" class="nav-link">
+                <a href="/user-suket-usaha/create" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Surat Ket-Usaha</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/suket-pindah" class="nav-link">
+                <a href="/user-suket-pindah" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Surat Ket-Pindah</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/suket-domisili" class="nav-link">
+                <a href="/user-suket-domisili" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Surat Domisili</p>
                 </a>

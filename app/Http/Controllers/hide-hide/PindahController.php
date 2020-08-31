@@ -22,8 +22,9 @@ class PindahController extends Controller
     public function index()
     {
         $pindah = DB::table('persuratan') 
-        ->join('ket_pindah','persuratan.id_persuratan','=','ket_pindah.id_persuratan')
-        ->select('ket_pindah.id_ket_pindah','persuratan.id_persuratan', 'persuratan.no_surat', 'persuratan.foto_pengantar', 'persuratan.foto_kk', 'persuratan.foto_ktp','persuratan.foto_akta_cerai','persuratan.foto_surat_pindah_sebelumnya','persuratan.tgl_pembuatan','persuratan.status_surat','ket_pindah.alamat_tujuan', 'ket_pindah.alasan_pindah', 'ket_pindah.jumlah_pengikut')
+        ->join('warga','persuratan.id_warga','=','warga.id_warga')
+        ->select('warga.no_nik', 'warga.nama_lengkap', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat' )
+        ->where('no_surat', 'LIKE', '%Suket-PH%')
         ->get();
         return view('suket-pindah.suket_pindah', compact('pindah'));
     }
@@ -33,11 +34,42 @@ class PindahController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function autonumber(){
+        $bln = array(1 => "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII");
+        $query = DB::table('persuratan')
+        ->select(DB::raw('MAX(LEFT(no_surat,3)) as no_max'))
+        ->where('no_surat', 'LIKE', '%Suket-PH%')->get();
+        if ($query->count()>0) {
+            foreach ($query as $key ) {
+            $tmp = ((int)$key->no_max)+1;
+            $kd = sprintf("%03s", $tmp);
+            }
+           }else {
+            $kd = "001";
+           }
+           $kd_surat = $kd."/Suket-PH/".$bln[date('n')].date('/yy');
+           return $kd_surat;
+          }
+
+          public function ajax_select(Request $request){
+            $no_kk = $request->no_kk;
+           
+            $pindah = Warga::where('no_kk','=',$no_kk)->first();
+            if(isset($pindah)){
+                $data = array(
+                'no_nik' => $pindah['no_nik'],);
+                
+            return json_encode($data);}
+        }
+
     public function create()
     {
+    
         $pindah = Pindah::all();
         $pindah = Warga::all();
-        return view('suket-pindah.create', compact('pindah'));
+        $surat = $this->autonumber();
+        return view('suket-pindah.create',['surat'=>$surat]);
     }
 
     /**
@@ -107,7 +139,7 @@ class PindahController extends Controller
         } 
             $pindah = DB::table('persuratan')->insertGetId($data);
             $data2['id_persuratan'] = $pindah;
-            $pindah = DB::table('ket_pindah')->insertGetId($data2);
+            $pindah = DB::table('detail_pindah')->insertGetId($data2);
 
             return redirect()->route('pindah.index')
                             ->with('success', 'Data Berhasil ditambahkan!');

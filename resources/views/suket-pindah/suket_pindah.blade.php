@@ -4,7 +4,8 @@
  <!-- Content Header (Page header) -->
  <div class="content-header">
     <div class="container-fluid">
-
+      <div class="row mb-2">
+      </div><!-- /.row -->
     </div><!-- /.container-fluid -->
   </div>
   <!-- /.content-header -->
@@ -14,36 +15,32 @@
 
     <!-- Default box -->
     <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">Data Surat Keterangan Pindah</h3>
-        <div class="card-tools">
-        </div>
-      </div>
-      <div class="card-body">
-        <div class="row">
-          <div class="col-12">
-          <a href="{{route('pindah.create')}}" class="btn btn-success float-right">Tambah Data</a>
+      <div class="card card-info">
+        <div class="card-header">
+          <h3 class="card-title">Data Surat Keterangan Pindah</h3>
+          <div class="card-tools">
+            <a href="{{route('pindah.create')}}" class="btn btn-block btn-secondary btn-sm">Tambah Data</a>
           </div>
         </div>
-        @if($message = Session::get('success'))
+      </div>
+      @if($message = Session::get('success'))
       <div class="alert alert-success">
       <p>{{$message}}</p>
       </div>
       @endif
+      <div class="card-body">
         <br>
         <div class="table-responsive">
         <table class="table table-bordered table-hovervvctvkfadilypn">
             <thead>
                 <tr>
                     <th> No </th>
-                    <th> No Surat </th>
-                    <th> Alamat tujuan </th>
-                    <th> Alasan Pindah </th>
-                    <th> Jumlah Pengikut </th>
-                    <th> Foto Berkas</th>
+                    <th> No Surat</th>
+                    <th> NIK Pemohon</th>
+                    <th> Nama Pemohon </th>
                     <th> Tanggal Pembuatan </th>
                     <th> Status Surat </th>
-                    <th> Opsi </th>
+                    <th> Pilihan </th>
                 </tr>
             </thead>
             <tbody> 
@@ -56,20 +53,15 @@
                 </th>
                 @php $no++ @endphp
                 <td>{{ $post->no_surat }}</td>
-                <td>{{ $post->alamat_tujuan }}</td>
-                <td>{{ $post->alasan_pindah }}</td>
-                <td>{{ $post->jumlah_pengikut }}</td>
-                <td><a href="{{URL::to($post->foto_pengantar)}}" target="_blank">Foto Pengantar RT/RW |</a>
-                    <a href="{{URL::to($post->foto_kk)}}" target="_blank">Foto KK |</a>
-                    <a href="{{URL::to($post->foto_ktp)}}" target="_blank">Foto KTP |</a>
-                    <a href="{{URL::to($post->foto_akta_cerai)}}" target="_blank">Foto Akta Cerai |</a>
-                    <a href="{{URL::to($post->foto_surat_pindah_sebelumnya)}}" target="_blank">Foto Surat Pindah Sebelumnya</a>
-                </td>
+                <td>{{ $post->no_nik }}</td>
+                <td>{{ $post->nama_lengkap }}</td>
                 <td>{{ $post->tgl_pembuatan }}</td>
                 <td>{{ $post->status_surat }}</td>
                 <td>
-                  <a class="btn btn-danger btn-sm" href="{{URL::to('suket-pindah/edit/'.$post->id_ket_pindah)}}"><i class="nav-icon fas fa-edit"></i> Edit</a>
-                  <a class="btn btn-primary btn-sm" href="{{URL::to('suket-pindah/delete/'.$post->id_ket_pindah)}}"><i class="nav-icon fas fa-trash"></i> Hapus</a>
+                  <a class="btn btn-danger btn-sm" href="{{URL::to('suket-pindah/edit/'.$post->id_persuratan)}}"><i class="nav-icon fas fa-edit"></i> Edit</a>
+                  <a class="btn btn-primary btn-sm" href="{{URL::to('suket-pindah/delete/'.$post->id_persuratan)}}"><i class="nav-icon fas fa-trash"></i> Hapus</a>
+                  <a class="btn btn-warning btn-sm" href="{{URL::to('suket-pindah/cetak_pdf/'.$post->id_persuratan)}}"><i class="nav-icon fas fa-trash"></i> Cetak</a>
+                </td>
                 </td>
               </tr>
             </form>

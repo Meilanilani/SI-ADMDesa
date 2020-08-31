@@ -13,11 +13,11 @@ class CreatePindahsTable extends Migration
      */
     public function up()
     {
-        Schema::create('ket_pindah', function (Blueprint $table) {
+        Schema::create('detail_pindah', function (Blueprint $table) {
             $table->increments('id_ket_pindah');
             $table->string('alamat_tujuan');
             $table->string('alasan_pindah')->nullable();
-            $table->integer('jumlah_pengikut');
+            $table->integer('no_kk');
             $table->integer('id_persuratan')->unsigned();
             $table->timestamps();
             $table->foreign('id_persuratan')->references('id_persuratan')->on('persuratan')->onDelete('cascade');
