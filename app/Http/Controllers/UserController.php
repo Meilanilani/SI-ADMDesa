@@ -1,6 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Persuratan;
+use App\SKTMSekolah;
+use App\Warga;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 
@@ -18,8 +22,105 @@ class UserController extends Controller
 
     public function create_sktmsekolah()
     {
-        return view('user.suket-pengajuan.create_sktmsekolah');
+        
+        $surat = Persuratan::all();
+        $surat = Warga::all();
+        $status_surat = 'Proses';
+        $surat = $this->autonumber_sktmsekolah();
+        return view('user.suket-pengajuan.create_sktmsekolah',['surat'=>$surat],['status_surat'=>$status_surat]);
     }
+
+    public function autonumber_sktmsekolah(){
+        $bln = array(1 => "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII");
+        $query = DB::table('persuratan')
+        ->select(DB::raw('MAX(LEFT(no_surat,3)) as no_max'))
+        ->where('no_surat', 'LIKE', '%Suket-TMS%')->get();
+        if ($query->count()>0) {
+            foreach ($query as $key ) {
+            $tmp = ((int)$key->no_max)+1;
+            $kd = sprintf("%03s", $tmp);
+            }
+           }else {
+            $kd = "001";
+           }
+           $kd_surat = $kd."/Suket-TMS/".$bln[date('n')].date('/yy');
+           return $kd_surat;
+          }
+
+    public function ajax_select(Request $request){
+        $no_nik = $request->no_nik;
+       
+        $sktmsekolah = Warga::where('no_nik','=',$no_nik)->first();
+        if(isset($sktmsekolah)){
+            $data = array(
+            'id_warga' => $sktmsekolah['id_warga'],
+            'nama_lengkap' =>  $sktmsekolah['nama_lengkap'],
+            'tempat_lahir' =>  $sktmsekolah['tempat_lahir'],
+            'tanggal_lahir' =>  $sktmsekolah['tanggal_lahir'],
+            'agama' =>  $sktmsekolah['agama'],
+            'pekerjaan' =>  $sktmsekolah['pekerjaan'],
+            'alamat' =>  $sktmsekolah['alamat'],);
+        return json_encode($data);}
+    }
+    
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store_sktmsekolah(Request $request)
+    {
+        $data['no_surat'] = $request->no_surat;
+        $data['ket_keperluan_surat'] = $request->ket_keperluan_surat;
+        $data['tgl_pembuatan'] = $request->tgl_pembuatan;
+        $data['status_surat'] = $request->status_surat; 
+        $data['id_warga'] = $request->id_warga;
+        $data_detail['nik_anak'] = $request->nik_anak;
+        $data_detail['nik_orangtua'] = $request->nik_orangtua;
+        
+
+        $image1 = $request->file('foto_pengantar');
+        $image2 = $request->file('foto_kk');
+        $image3 = $request->file('foto_ktp');
+        if($image1 != null){
+            $image_name = $image1->getClientOriginalName();
+            $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
+            
+            $upload_path = 'public/media/';
+            $image_url = $upload_path.$image_full_name;
+            $succes = $image1->move($upload_path, $image_full_name);
+            $data['foto_pengantar'] = $image_url;
+        } 
+        if($image2 != null){
+            $image_name = $image2->getClientOriginalName();
+            $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
+            
+            $upload_path = 'public/media/';
+            $image_url = $upload_path.$image_full_name;
+            $succes = $image2->move($upload_path, $image_full_name);
+            $data['foto_kk'] = $image_url;
+        } 
+        if($image3 != null){
+            $image_name = $image3->getClientOriginalName();
+            $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
+            
+            $upload_path = 'public/media/';
+            $image_url = $upload_path.$image_full_name;
+            $succes = $image3->move($upload_path, $image_full_name);
+            $data['foto_ktp'] = $image_url;
+        } 
+
+        $sktmsekolah = DB::table('persuratan')->insertGetId($data);
+        $data_detail['id_persuratan'] = $sktmsekolah;
+        $sktmsekolah = DB::table('detail_sktms')->insertGetId($data_detail);
+            
+
+        return redirect()->route('pengajuan.index')
+                             ->with('success', 'Data Berhasil ditambahkan!');
+    }
+
 
     public function create_sktmrs()
     {

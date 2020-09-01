@@ -148,6 +148,8 @@ Route::post('suket-pindah/update/{id}', 'PindahController@update');
 //Hak Akses User
 Route::get('/user', 'UserController@index')->name('pengajuan.index');
 Route::get('user-suket-tidakmampu-sekolah/create', 'UserController@create_sktmsekolah')->name('pengajuan.create_sktmsekolah');
+Route::post('user-suket-tidakmampu-sekolah/store', 'UserController@store_sktmsekolah')->name('pengajuan.store_sktmsekolah');
+Route::get('user-suket-tidakmampu-sekolah/cari', 'UserController@ajax_select_sktmsekolah')->name('pengajuan.ajax_select_sktmsekolah');
 Route::get('user-suket-tidakmampu-rumahsakit/create', 'UserController@create_sktmrs')->name('pengajuan.create_sktmrs');
 Route::get('user-suket-kelahiran/create', 'UserController@create_kelahiran')->name('pengajuan.create_kelahiran');
 Route::get('user-suket-kematian/create', 'UserController@create_kematian')->name('pengajuan.create_kematian');

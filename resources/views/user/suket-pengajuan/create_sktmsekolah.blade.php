@@ -24,13 +24,13 @@
         </div>
         @endif
       <div class="card-body">
-        <form action="{{ route('sktmsekolah.store')}}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('pengajuan.store_sktmsekolah')}}" method="POST" enctype="multipart/form-data">
           @csrf
           <div class="form-group">
             <div class="row">
             <div class="col-md-7">
             <label for="inputName">No Surat</label>
-            <input type="text" name="no_surat" class="form-control" value="" readonly>
+            <input type="text" name="no_surat" class="form-control" value="{{$surat}}" readonly>
             </div>
             <div class="col-md-6">
               <label for="inputName">NIK Anak</label>
@@ -113,16 +113,12 @@
       </div>
       <div class="col-md-5">
         <label for="inputName">Status Surat</label>
-        <select class="form-control custom-select"  name="status_surat">
-          <option selected disabled>Pilih Status</option>
-          <option>Proses</option>
-          <option>Selesai</option>
-        </select>
-    </div>
-      </div></div>
+      <input type="text" name="status_surat" id="status_surat" value="{{$status_surat}}" class="form-control input-lg" readonly/>
+        </div>
+          </div>
+      </div>
       <div class="card-footer">
         <button type="submit" class="btn btn-success">Simpan</button>
-                  <a class="btn btn-success" href="{{route('sktmsekolah.index')}}">Kembali</a>
       </div>
     </div>
   </div>
