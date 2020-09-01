@@ -48,7 +48,7 @@ class SKTMRSController extends Controller
         $bln = array(1 => "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII");
         $query = DB::table('persuratan')
         ->select(DB::raw('MAX(LEFT(no_surat,3)) as no_max'))
-        ->where('no_surat', 'LIKE', '%Suket-TMS%')->get();
+        ->where('no_surat', 'LIKE', '%Suket-TMRS%')->get();
         if ($query->count()>0) {
             foreach ($query as $key ) {
             $tmp = ((int)$key->no_max)+1;

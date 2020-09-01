@@ -302,7 +302,7 @@
   <!-- /.content-wrapper -->
 
   <footer class="main-footer">
-    <strong> Desa Cihampelas-Copyright&copy;2020</strong> 
+    <strong> Desa Cihampelas, Kab. Bandung Barat&copy;2020</strong> 
   </footer>
 
   <!-- Control Sidebar -->
