@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Notifications\DataProses;
 use App\Persuratan;
 use App\SKTMSekolah;
 use App\Warga;
@@ -29,7 +31,7 @@ class SKTMSekolahController extends Controller
         ->select('warga.no_nik', 'warga.nama_lengkap', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat', 'persuratan.created_at' )
         ->where('no_surat', 'LIKE', '%Suket-TMS%')
         ->get();
-        return view('suket-tidakmampu-sekolah.sktm_sekolah', compact('sktmsekolah'));
+        return view('admin.suket-tidakmampu-sekolah.sktm_sekolah', compact('sktmsekolah'));
     }
 
     /**
@@ -43,7 +45,11 @@ class SKTMSekolahController extends Controller
         $surat = Persuratan::all();
         $surat = Warga::all();
         $surat = $this->autonumber();
-        return view('suket-tidakmampu-sekolah.create',['surat'=>$surat]);
+        $status_surat = 'Proses';
+
+
+        return view('admin.suket-tidakmampu-sekolah.create',['surat'=>$surat],['status_surat'=>$status_surat]);
+
     }
 
     public function autonumber(){
@@ -89,7 +95,6 @@ class SKTMSekolahController extends Controller
     public function store(Request $request)
     {
         $data['no_surat'] = $request->no_surat;
-        $data['ket_keperluan_surat'] = $request->ket_keperluan_surat;
         $data['tgl_pembuatan'] = $request->tgl_pembuatan;
         $data['status_surat'] = $request->status_surat;
         $data['id_warga'] = $request->id_warga;
@@ -132,6 +137,8 @@ class SKTMSekolahController extends Controller
         $data_detail['id_persuratan'] = $sktmsekolah;
         $sktmsekolah = DB::table('detail_sktms')->insertGetId($data_detail);
             
+       
+
 
         return redirect()->route('sktmsekolah.index')
                              ->with('success', 'Data Berhasil ditambahkan!');
@@ -170,7 +177,7 @@ class SKTMSekolahController extends Controller
         $data_anak = DB::table('warga')
         ->where('no_nik', $sktmsekolah->nik_anak)
         ->first();
-        return view('suket-tidakmampu-sekolah.edit', compact('sktmsekolah','data_anak'));
+        return view('admin.suket-tidakmampu-sekolah.edit', compact('sktmsekolah','data_anak'));
     }
 
     
@@ -184,47 +191,13 @@ class SKTMSekolahController extends Controller
      */
     public function update(Request $request, $id_persuratan)
     {
-        $data['no_surat'] = $request->no_surat;
-        $data['ket_keperluan_surat'] = $request->ket_keperluan_surat;
-        $data['tgl_pembuatan'] = $request->tgl_pembuatan;
+        
         $data['status_surat'] = $request->status_surat;
-
-        $image1 = $request->file('foto_pengantar');
-        $image2 = $request->file('foto_kk');
-        $image3 = $request->file('foto_ktp');
-        if($image1 != null){
-            $image_name = $image1->getClientOriginalName();
-            $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
-            
-            $upload_path = 'public/media/';
-            $image_url = $upload_path.$image_full_name;
-            $succes = $image1->move($upload_path, $image_full_name);
-            $data['foto_pengantar'] = $image_url;
-        } 
-        if($image2 != null){
-            $image_name = $image2->getClientOriginalName();
-            $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
-            
-            $upload_path = 'public/media/';
-            $image_url = $upload_path.$image_full_name;
-            $succes = $image2->move($upload_path, $image_full_name);
-            $data['foto_kk'] = $image_url;
-        } 
-        if($image3 != null){
-            $image_name = $image3->getClientOriginalName();
-            $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
-            
-            $upload_path = 'public/media/';
-            $image_url = $upload_path.$image_full_name;
-            $succes = $image3->move($upload_path, $image_full_name);
-            $data['foto_ktp'] = $image_url;
-        } 
         
         $sktmsekolah = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->update($data);
         return redirect()->route('sktmsekolah.index')
                             ->with('success', 'Data berhasil diupdate!');
-    
-}
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -248,7 +221,7 @@ class SKTMSekolahController extends Controller
         $sktmsekolah = DB::table('persuratan') 
         ->join('warga', 'persuratan.id_warga','=','warga.id_warga')
         ->join('detail_sktms', 'persuratan.id_persuratan','=','detail_sktms.id_persuratan')
-        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat', 'detail_sktms.nik_anak', 'detail_sktms.nik_orangtua' )
+        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan', 'detail_sktms.nik_anak', 'detail_sktms.nik_orangtua' )
         ->where('persuratan.id_persuratan',$id_persuratan)
         ->first();
 
@@ -258,7 +231,7 @@ class SKTMSekolahController extends Controller
         
         
         
-        $pdf = PDF::loadview('suket-tidakmampu-sekolah.print',compact('sktmsekolah', 'data_anak'));
+        $pdf = PDF::loadview('admin.suket-tidakmampu-sekolah.print',compact('sktmsekolah', 'data_anak'));
         $pdf->setPaper('Legal','potrait');
         return $pdf->download('suket-tidak mampu sekolah.pdf');
         

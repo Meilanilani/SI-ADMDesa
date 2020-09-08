@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Persuratan;
 use App\SKTMSekolah;
 use App\Warga;
+use App\User;
+use App\Notifications\DataProses;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
@@ -116,6 +118,12 @@ class UserController extends Controller
         $data_detail['id_persuratan'] = $sktmsekolah;
         $sktmsekolah = DB::table('detail_sktms')->insertGetId($data_detail);
             
+         //Notifikasi
+         $data_admin = User::where('name','admin')
+         ->first();
+ 
+         $data_admin->notify(new DataProses());
+         
 
         return redirect()->route('pengajuan.index')
                              ->with('success', 'Data Berhasil ditambahkan!');

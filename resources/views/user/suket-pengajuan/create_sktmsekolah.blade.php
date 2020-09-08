@@ -72,7 +72,7 @@
             </div>
         <div class="col-md-6">
           <label for="inputName">NIK Ayah</label>
-          <input type="text" name="nik_orangtua" id="nik_orangtua" class="form-control input-lg" />
+          <input type="text" name="nik_orangtua" id="nik_orangtua" class="form-control input-lg" value="{{Auth::user()->name}}"/>
         </div>
         <div class="col-md-6">
           <label for="inputName">Nama Ayah</label>

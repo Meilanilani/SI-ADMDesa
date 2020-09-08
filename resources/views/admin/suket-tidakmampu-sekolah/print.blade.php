@@ -156,7 +156,7 @@ hr.style2{
     <table align="center">
         <tr>
             <td width="400px"> </td>
-            <td><font size="2">Cihampelas, 27 Maret 2019</font></td>
+            <td><font size="2">Cihampelas, {{ $sktmsekolah->tgl_pembuatan }}</font></td>
         </tr>
         <tr>
             <td align="center" colspan="2"><font size="2">Mengetahui</font></td>

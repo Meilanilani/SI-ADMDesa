@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Warga;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class WargaController extends Controller
 {
@@ -21,7 +22,7 @@ class WargaController extends Controller
     public function index()
     {
         $warga = Warga::all();
-        return view('data-warga.data_warga', compact('warga'));
+        return view('admin.data-warga.data_warga', compact('warga'));
     }
 
     /**
@@ -32,7 +33,7 @@ class WargaController extends Controller
     public function create()
     {
         $warga = Warga::all();
-        return view('data-warga.create');
+        return view('admin.data-warga.create');
     }
 
     /**
@@ -87,7 +88,7 @@ class WargaController extends Controller
 
         }
         
-        return redirect ('/datawarga')->with('success', 'Data Berhasil disimpan !');
+        return redirect ('/data-warga')->with('success', 'Data Berhasil disimpan !');
     }
 
     /**
@@ -110,7 +111,7 @@ class WargaController extends Controller
     public function edit($id_warga)
     {
         $warga = Warga::find($id_warga);
-        return view('data-warga.edit', compact('warga'));
+        return view('admin.data-warga.edit', compact('warga'));
     }
 
     /**
@@ -153,7 +154,7 @@ class WargaController extends Controller
         $warga->alamat = $request->get('alamat'); 
         $warga->save();
 
-        return redirect ('/datawarga')->with('success', 'Data Berhasil diupdate !');
+        return redirect ('/data-warga')->with('success', 'Data Berhasil diupdate !');
     }
 
     /**
@@ -164,9 +165,9 @@ class WargaController extends Controller
      */
     public function destroy($id_warga)
     {
-        $warga = Warga::find($id_warga);
-        $warga->delete();
-
-        return redirect('/datawarga')->with('success', 'Berhasil di hapus !');
+        $data = DB::table('warga')->where('id_warga', $id_warga)->delete();
+        
+        return redirect()->route('warga.index')
+        ->with('success', 'Data Berhasil Dihapus!');
     }
 }

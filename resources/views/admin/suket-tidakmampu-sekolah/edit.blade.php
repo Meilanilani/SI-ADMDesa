@@ -95,19 +95,6 @@
                       <label for="inputName">Pekerjaan</label>
                       <input type="text" name="pekerjaan" id="pekerjaan_ayah" class="form-control input-lg" value="{{ $sktmsekolah->pekerjaan}}" readonly/>
                     </div>
-                    {{ csrf_field() }}
-                    <div class="col-md-8">
-                      <label for="inputName">Foto Pengantar RT/ RW</label>
-                      <input type="file"  name="foto_pengantar">
-                    </div>
-                    <div class="col-md-8">
-                      <label for="inputName">Foto Kartu Keluarga</label>
-                      <input type="file"  name="foto_kk">
-                    </div>
-                    <div class="col-md-8">
-                      <label for="inputName">Foto KTP yang bersangkutan</label>
-                      <input type="file"  name="foto_ktp">
-                    </div>
                     <div class="col-md-5">
                     <label for="inputName">Tanggal Pembuatan</label>
                     <input type="date"  name="tgl_pembuatan" class="form-control" value="{{ $sktmsekolah->tgl_pembuatan}}" >

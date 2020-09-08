@@ -14,7 +14,7 @@
 <section class="content">
     <div class="card card-primary">
         <div class="card-header">
-          <h3 class="card-title">Tambah Data Pengguna</h3>
+          <h3 class="card-title">Data Pengguna</h3>
           <div class="card-tools">
                 </div>
               </div>
@@ -30,23 +30,19 @@
                         </ul>
                     </div>
                     @endif
-                    <form action="{{ route('pengguna.store')}}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ url('data-pengguna/update/'.$pengguna->id)}}" method="POST" enctype="multipart/form-data">
                       @csrf
                       <div class="form-group">
                       <div class="row">
                         <div class="col-md-6">
-                        <label for="inputName">Nama Pengguna</label>
-                        <input type="text" name="name" class="form-control" placeholder="Masukkan Nama Pengguna">
+                        <label for="inputName">Username</label>
+                        <input type="text" name="name" class="form-control" value="{{ $pengguna->name}}" readonly>
                         </div>
-                            <div class="col-md-6">
-                            <label for="inputName">Email</label>
-                            <input type="text"  name="email" class="form-control" placeholder="Masukkan Email Pengguna">
+                        <div class="col-md-6">
+                          <label for="inputName">Password</label>
+                          <input type="text" name="password" class="form-control">
                           </div>
-                          <div class="col-md-6">
-                            <label for="inputName">Email</label>
-                            <input type="password"  name="password" class="form-control" placeholder="Masukkan Password">
-                          </div>
-                      </div>
+                    </div>
                   </div>
                   <button type="submit" class="btn btn-success">Simpan</button>
                   <a class="btn btn-success" href="{{route('pengguna.index')}}">Kembali</a>

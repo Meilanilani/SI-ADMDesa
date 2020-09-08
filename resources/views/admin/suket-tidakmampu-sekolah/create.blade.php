@@ -66,10 +66,7 @@
     <div class="card">
       <div class="card-body">
           <div class="row">
-            <div class="col-md-6">
-              <label for="inputName">ID Pemohon</label>
-              <input type="text" name="id_warga" id="id_pemohon" class="form-control input-lg" />
-            </div>
+              <input type="hidden" name="id_warga" id="id_pemohon" class="form-control input-lg" value="" />
         <div class="col-md-6">
           <label for="inputName">NIK Ayah</label>
           <input type="text" name="nik_orangtua" id="nik_orangtua" class="form-control input-lg" />
@@ -111,14 +108,10 @@
         <label for="inputName">Tanggal Pembuatan</label>
         <input type="date"  name="tgl_pembuatan" class="form-control">
       </div>
-      <div class="col-md-5">
+      <div class="col-md-4">
         <label for="inputName">Status Surat</label>
-        <select class="form-control custom-select"  name="status_surat">
-          <option selected disabled>Pilih Status</option>
-          <option>Proses</option>
-          <option>Selesai</option>
-        </select>
-    </div>
+        <input type="hide" name="status_surat" value="{{ $status_surat }}" class="form-control" readonly>
+      </div>
       </div></div>
       <div class="card-footer">
         <button type="submit" class="btn btn-success">Simpan</button>

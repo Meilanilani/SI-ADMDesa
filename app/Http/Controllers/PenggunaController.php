@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use Datatables;
 use App\Pengguna;
 use App\User;
 use Illuminate\Http\Request;
@@ -26,8 +26,9 @@ class PenggunaController extends Controller
     public function index()
     {
         $pengguna = User::all();
-        return view('data-pengguna.data_pengguna', compact('pengguna'));
+        return view('admin.data-pengguna.data_pengguna', compact('pengguna'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -36,8 +37,7 @@ class PenggunaController extends Controller
      */
     public function create()
     {
-        $pengguna = User::all();
-        return view('data-pengguna.create', compact('pengguna'));
+       
     }
 
     /**
@@ -79,7 +79,11 @@ class PenggunaController extends Controller
      */
     public function edit($id)
     {
-        //
+        $pengguna = DB::table('users') 
+        ->where('users.id',$id)
+        ->first();
+
+        return view('admin.data-pengguna.edit', compact('pengguna'));
     }
 
     /**
@@ -91,7 +95,12 @@ class PenggunaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data['name'] = $request->name;
+        $data['password'] = Hash::make($request->password); 
+
+        $pengguna = DB::table('users')->where('id', $id)->update($data);
+        return redirect()->route('pengguna.index')
+                            ->with('success', 'Data berhasil diupdate!');
     }
 
     /**

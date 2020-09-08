@@ -75,4 +75,13 @@
           <!-- /.card -->
         </section>
         <!-- /.content -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script type="text/javascript">
+        $(document).on('ajaxComplete ready', function () {
+          $('.modalMd').off('click').on('click', function () {
+              $('#modalMdContent').load($(this).attr('value'));
+              $('#modalMdTitle').html($(this).attr('title'));
+          });
+      });
+    </script>
       @endsection

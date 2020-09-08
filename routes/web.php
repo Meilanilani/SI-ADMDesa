@@ -17,18 +17,21 @@ Auth::routes();
 
 Route::get('/', 'DashboardController@index');
 
-Route::get('/inner-join','KelahiranController@innerJoinClause');
-//CRUD-Data-Warga
+//RUD-Data-Pengguna
 Route::get('data-pengguna', 'PenggunaController@index')->name('pengguna.index');
-Route::get('data-pengguna/create', 'PenggunaController@create')->name('pengguna.create');
-Route::post('data-pengguna/store', 'PenggunaController@store')->name('pengguna.store');
 Route::get('data-pengguna/edit/{id}', 'PenggunaController@edit');
 Route::get('data-pengguna/delete/{id}', 'PenggunaController@destroy');
 Route::post('data-pengguna/update/{id}', 'PenggunaController@update');
 
-Route::resource('datawarga', 'WargaController');
+//CRUD-Data-Warga
+Route::get('data-warga', 'WargaController@index')->name('warga.index');
+Route::get('data-warga/create', 'WargaController@create')->name('warga.create');
+Route::post('data-warga/store', 'WargaController@store')->name('warga.store');
+Route::get('data-warga/edit/{id}', 'WargaController@edit');
+Route::get('data-warga/delete/{id}', 'WargaController@destroy');
+Route::post('data-warga/update/{id}', 'WargaController@update');
 
-Route::get('/datapengguna', 'AdminController@datapengguna');
+
 
 
 //CRUD-SKTM-Sekolah

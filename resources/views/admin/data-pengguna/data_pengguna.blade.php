@@ -1,4 +1,5 @@
 @extends('layouts.master')
+
 @section('content')
 
  <!-- Content Header (Page header) -->
@@ -23,7 +24,6 @@
       <div class="card-body">
         <div class="row">
           <div class="col-12">
-          <a href="{{route('pengguna.create')}}" class="btn btn-success float-right">Tambah Data</a>
           </div>
         </div>
         @if($message = Session::get('success'))
@@ -33,12 +33,11 @@
       @endif
         <br>
         <div class="table-responsive">
-        <table class="table table-bordered table-hovervvctvkfadilypn">
+          <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
             <thead>
                 <tr>
                     <th> No </th>
-                    <th> Nama Pengguna</th>
-                    <th> Email </th>
+                    <th> Username</th>
                     <th> Opsi </th>
                   </tr>
                 </thead>
@@ -52,10 +51,8 @@
                     </th>
                     @php $no++ @endphp
                     <td>{{ $post->name }}</td>
-                    <td>{{ $post->email }}</td>
                     <td>
                       <a class="btn btn-danger btn-sm" href="{{URL::to('data-pengguna/edit/'.$post->id)}}"><i class="nav-icon fas fa-edit"></i> Edit</a>
-                      <a class="btn btn-primary btn-sm" href="{{URL::to('data-pengguna/delete/'.$post->id)}}"><i class="nav-icon fas fa-trash"></i> Hapus</a>
                     </td>
                   </tr>
                 </form>
@@ -68,4 +65,15 @@
               <!-- /.card -->
             </section>
             <!-- /.content -->
+            
+            <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+            <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+            <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+          
+            <script type="text/javascript">
+              $(document).ready(function() {
+            $('#example').DataTable();
+            } );
+        </script>
           @endsection
+         
