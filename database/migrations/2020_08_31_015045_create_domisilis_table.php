@@ -15,6 +15,7 @@ class CreateDomisilisTable extends Migration
     {
         Schema::create('detail_domisili', function (Blueprint $table) {
             $table->increments('id_detail_domisili');
+            $table->string('nik_pemohon',16);
             $table->string('nik_yg_bersangkutan',16);
             $table->integer('id_persuratan')->unsigned();
             $table->timestamps();

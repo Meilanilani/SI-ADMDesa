@@ -26,7 +26,7 @@ class PengantarNikahController extends Controller
         ->select('warga.no_nik', 'warga.nama_lengkap', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat' )
         ->where('no_surat', 'LIKE', '%Suket-NA%')
         ->get();
-        return view('suket-pengantar-nikah.pengantar_nikah', compact('pnikah'));
+        return view('admin.suket-pengantar-nikah.pengantar_nikah', compact('pnikah'));
        
     }
 
@@ -39,8 +39,9 @@ class PengantarNikahController extends Controller
     {
         $surat = Persuratan::all();
         $surat = Warga::all();
+        $status_surat = 'Proses';
         $surat = $this->autonumber();
-        return view('suket-pengantar-nikah.create', ['surat'=>$surat]);
+        return view('admin.suket-pengantar-nikah.create', ['surat'=>$surat],['status_surat'=>$status_surat]);
     }
 
 
@@ -91,8 +92,8 @@ class PengantarNikahController extends Controller
         $data['id_warga'] = $request->id_warga;
         $data['tgl_pembuatan'] = $request->tgl_pembuatan;
         $data['status_surat'] = $request->status_surat;
+        $data_detail['nik_pemohon'] = $request->nik_pemohon;
         $data_detail['nik_anak'] = $request->nik_anak;
-        $data_detail['nik_ayah'] = $request->nik_ayah;
         $data_detail['nik_ibu'] = $request->nik_ibu;
 
         $image1 = $request->file('foto_pengantar');
@@ -166,7 +167,7 @@ class PengantarNikahController extends Controller
         $pnikah = DB::table('persuratan') 
         ->join('warga', 'persuratan.id_warga','=','warga.id_warga')
         ->join('detail_na', 'persuratan.id_persuratan','=','detail_na.id_persuratan')
-        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat', 'detail_na.nik_anak', 'detail_na.nik_ayah', 'detail_na.nik_ibu' )
+        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat', 'detail_na.nik_anak', 'detail_na.nik_pemohon', 'detail_na.nik_ibu' )
         ->where('persuratan.id_persuratan',$id_persuratan)
         ->first();
         
@@ -179,7 +180,7 @@ class PengantarNikahController extends Controller
         ->first();
         
 
-        return view('suket-pengantar-nikah.edit', compact('pnikah','data_anak', 'data_ibu'));
+        return view('admin.suket-pengantar-nikah.edit', compact('pnikah','data_anak', 'data_ibu'));
     }
 
     /**

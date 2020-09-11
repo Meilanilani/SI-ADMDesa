@@ -15,6 +15,7 @@ class CreateUsahasTable extends Migration
     {
         Schema::create('detail_usaha', function (Blueprint $table) {
             $table->increments('id_detail_usaha');
+            $table->string('nik_pemohon',16);
             $table->string('nik_pemilik_usaha',16);
             $table->string('nama_usaha',100);
             $table->string('jenis_usaha', 100);

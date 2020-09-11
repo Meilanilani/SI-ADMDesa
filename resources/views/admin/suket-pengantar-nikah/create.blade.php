@@ -70,7 +70,7 @@
            
         <div class="col-md-6">
           <label for="inputName">NIK Ayah</label>
-          <input type="text" name="nik_ayah" id="nik_ayah" class="form-control input-lg" />
+          <input type="text" name="nik_pemohon" id="nik_ayah" class="form-control input-lg" />
         </div>
         <div class="col-md-6">
           <label for="inputName">Nama Ayah</label>
@@ -134,12 +134,7 @@
         <input type="date"  name="tgl_pembuatan" class="form-control">
       </div>
       <div class="col-md-5">
-        <label for="inputName">Status Surat</label>
-        <select class="form-control custom-select"  name="status_surat">
-          <option selected disabled>Pilih Status</option>
-          <option>Proses</option>
-          <option>Selesai</option>
-        </select>
+        <input type="hidden" name="status_surat" value="{{ $status_surat }}" class="form-control" readonly>
     </div>
       </div></div>
       <div class="card-footer">

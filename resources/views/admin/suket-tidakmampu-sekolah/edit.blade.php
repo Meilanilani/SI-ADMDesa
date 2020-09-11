@@ -67,13 +67,11 @@
                 <div class="card">
                   <div class="card-body">
                       <div class="row">
-                        <div class="col-md-6">
-                          <label for="inputName">ID Pemohon</label>
-                          <input type="text" name="id_warga" id="id_pemohon" class="form-control input-lg" value="{{ $sktmsekolah->id_warga}}" readonly/>
-                        </div>
+                          <input type="hidden" name="id_warga" id="id_pemohon" class="form-control input-lg" value="{{ $sktmsekolah->id_warga}}" readonly/>
+                        
                     <div class="col-md-6">
                       <label for="inputName">NIK Ayah</label>
-                      <input type="text" name="nik_orangtua" id="nik_orangtua" class="form-control input-lg" value="{{ $sktmsekolah->nik_orangtua}}" readonly/>
+                      <input type="text" name="nik_pemohon" id="nik_orangtua" class="form-control input-lg" value="{{ $sktmsekolah->nik_pemohon}}" readonly/>
                     </div>
                     <div class="col-md-6">
                       <label for="inputName">Nama Ayah</label>

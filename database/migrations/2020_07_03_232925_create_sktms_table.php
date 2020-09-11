@@ -15,8 +15,8 @@ class CreateSktmsTable extends Migration
     {
         Schema::create('detail_sktms', function (Blueprint $table) {
             $table->increments('id_detail_sktms');
+            $table->string('nik_pemohon',16);
             $table->string('nik_anak',16);
-            $table->string('nik_orangtua',16);
             $table->integer('id_persuratan')->unsigned();
             $table->timestamps();
             $table->foreign('id_persuratan')->references('id_persuratan')->on('persuratan')->onDelete('cascade');

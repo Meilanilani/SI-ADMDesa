@@ -32,7 +32,7 @@
             <label for="inputName">No Surat</label>
             <input type="text" name="no_surat" class="form-control" value="{{$surat}}" readonly>
             </div>
-            <div class="col-md-7">
+            <div class="col-md-6">
               <label for="inputName">Nama Lengkap Anak</label>
               <input type="text" name="nama_anak" class="form-control input-lg" />
             </div>
@@ -45,23 +45,23 @@
               <label for="inputName">Tanggal Lahir</label>
               <input type="date" name="tanggal_lahir_anak" class="form-control input-lg" />
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <label for="inputName">Jenis Kelamin</label>
                     <select name="jenis_kelamin"  class="form-control">
                         <option>Laki-Laki</option>
                         <option>Perempuan</option>
                     </select> 
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
               <label for="inputName">Jam Lahir</label>
               <input type="time" name="jam_lahir"  class="form-control input-lg" />
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
               <label for="inputName">Anak ke</label>
               <input type="text" name="anak_ke"  class="form-control input-lg" />
             </div>
             {{ csrf_field() }}
-        <div class="col-md-6">
+        <div class="col-md-8">
           <label for="inputName">Foto Pengantar RT/ RW</label>
           <input type="file"  name="foto_pengantar">
         </div>
@@ -69,7 +69,7 @@
           <label for="inputName">Foto Kartu Keluarga</label>
           <input type="file"  name="foto_kk">
         </div>
-        <div class="col-md-6">
+        <div class="col-md-8">
           <label for="inputName">Foto KTP yang bersangkutan</label>
           <input type="file"  name="foto_ktp">
         </div>
@@ -77,14 +77,8 @@
         <label for="inputName">Tanggal Pembuatan</label>
         <input type="date"  name="tgl_pembuatan" class="form-control">
       </div>
-      <div class="col-md-5">
-        <label for="inputName">Status Surat</label>
-        <select class="form-control custom-select"  name="status_surat">
-          <option selected disabled>Pilih Status</option>
-          <option>Proses</option>
-          <option>Selesai</option>
-        </select>
-    </div>
+      <input type="hidden"  name="status_surat" value="{{$status_surat}}" class="form-control" readonly>
+   
             </div></div>
       </div> 
     </div>
@@ -94,7 +88,7 @@
               <input type="hidden" name="id_warga" id="id_pemohon" class="form-control input-lg" />
         <div class="col-md-6">
           <label for="inputName">NIK Ayah</label>
-          <input type="text" name="nik_ayah" id="nik_ayah" class="form-control input-lg" />
+          <input type="text" name="nik_pemohon" id="nik_ayah" class="form-control input-lg" />
         </div>
         <div class="col-md-6">
           <label for="inputName">Nama Ayah</label>

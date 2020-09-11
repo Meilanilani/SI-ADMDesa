@@ -32,48 +32,35 @@
             <label for="inputName">No Surat</label>
             <input type="text" name="no_surat" class="form-control" value="{{$lahir->no_surat}}" readonly>
             </div>
-            <div class="col-md-7">
+            <div class="col-md-6">
               <label for="inputName">Nama Lengkap Anak</label>
-              <input type="text" name="nama_anak" class="form-control input-lg" value="{{$lahir->nama_anak}}" readonly/>
+              <input type="text" name="nama_anak" class="form-control input-lg" value="{{$lahir->nama_anak}}" />
             </div>
             <div class="col-md-6">
               <label for="inputName">Tempat Lahir</label>
-              <input type="text" name="tempat_lahir_anak" class="form-control input-lg" value="{{$lahir->tempat_lahir_anak}}" readonly />
+              <input type="text" name="tempat_lahir_anak" class="form-control input-lg" value="{{$lahir->tempat_lahir_anak}}"  />
             </div>
             <div class="col-md-6">
               <label for="inputName">Tanggal Lahir</label>
-              <input type="date" name="tanggal_lahir_anak" class="form-control input-lg" value="{{$lahir->tanggal_lahir_anak}}" readonly/>
+              <input type="date" name="tanggal_lahir_anak" class="form-control input-lg" value="{{$lahir->tanggal_lahir_anak}}" />
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <label for="inputName">Jenis Kelamin</label>
-                <input type="date" name="jenis_kelamin" class="form-control input-lg" value="{{$lahir->jenis_kelamin}}" readonly/>
+                <input type="text" name="jenis_kelamin" class="form-control input-lg" value="{{$lahir->jenis_kelamin}}" />
               </div>
-            <div class="col-md-3">
+            <div class="col-md-6">
               <label for="inputName">Jam Lahir</label>
-              <input type="time" name="jam_lahir"  class="form-control input-lg" value="{{$lahir->jam_lahir}}" readonly />
+              <input type="time" name="jam_lahir"  class="form-control input-lg" value="{{$lahir->jam_lahir}}"  />
             </div>
-            <div class="col-md-2">
+            <div class="col-md-6">
               <label for="inputName">Anak ke</label>
-              <input type="text" name="anak_ke"  class="form-control input-lg" value="{{$lahir->anak_ke}}" readonly />
+              <input type="text" name="anak_ke"  class="form-control input-lg" value="{{$lahir->anak_ke}}"  />
             </div>
-            {{ csrf_field() }}
         <div class="col-md-6">
-          <label for="inputName">Foto Pengantar RT/ RW</label>
-          <input type="file"  name="foto_pengantar">
-        </div>
-        <div class="col-md-6">
-          <label for="inputName">Foto Kartu Keluarga</label>
-          <input type="file"  name="foto_kk">
-        </div>
-        <div class="col-md-6">
-          <label for="inputName">Foto KTP yang bersangkutan</label>
-          <input type="file"  name="foto_ktp">
-        </div>
-        <div class="col-md-5">
           <label for="inputName">Tanggal Pembuatan</label>
           <input type="date"  name="tgl_pembuatan" class="form-control" value="{{ $lahir->tgl_pembuatan}}" >
         </div>
-        <div class="col-md-5">
+        <div class="col-md-6">
           <label for="inputName">Status Surat</label>
           <select class="form-control custom-select"  name="status_surat" >
             <option selected disabled>Pilih Status</option>
@@ -91,10 +78,10 @@
     <div class="card">
       <div class="card-body">
           <div class="row">
-              <input type="hidden" name="id_warga" id="id_pemohon" class="form-control input-lg" />
+              <input type="hidden" name="id_warga" id="id_pemohon" class="form-control input-lg" value="{{ $lahir->id_warga}}" />
         <div class="col-md-6">
           <label for="inputName">NIK Ayah</label>
-          <input type="text" name="nik_ayah" id="nik_ayah" class="form-control input-lg" value="{{ $lahir->nik_ayah}}" readonly/>
+          <input type="text" name="nik_pemohon" id="nik_ayah" class="form-control input-lg" value="{{ $lahir->nik_pemohon}}" readonly/>
         </div>
         <div class="col-md-6">
           <label for="inputName">Nama Ayah</label>

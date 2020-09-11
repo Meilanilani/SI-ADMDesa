@@ -34,7 +34,7 @@
             </div>
             <div class="col-md-6">
               <label for="inputName">NIK Anak</label>
-              <input type="text" name="nik_anak"  class="form-control input-lg" value="{{ $pnikah->nik_anak}}" />
+              <input type="text" name="nik_anak"  class="form-control input-lg" value="{{ $pnikah->nik_anak}}" readonly/>
             </div>
             <div class="col-md-6">
               <label for="inputName">Nama Anak</label>
@@ -70,11 +70,11 @@
            
         <div class="col-md-6">
           <label for="inputName">NIK Ayah</label>
-          <input type="text" name="nik_ayah" id="nik_ayah" class="form-control input-lg" value="{{ $pnikah->nik_ayah}}" />
+          <input type="text" name="nik_pemohon" id="nik_ayah" class="form-control input-lg" value="{{ $pnikah->nik_pemohon}}" readonly/>
         </div>
         <div class="col-md-6">
           <label for="inputName">Nama Ayah</label>
-          <input type="text" name="nama_lengkap" id="nama_ayah" class="form-control input-lg" value="{{ $pnikah->nama_lengkap}}" />
+          <input type="text" name="nama_lengkap" id="nama_ayah" class="form-control input-lg" value="{{ $pnikah->nama_lengkap}}" readonly/>
         </div>
         <div class="col-md-6">
           <label for="inputName">Tempat Lahir</label>
@@ -94,11 +94,11 @@
         </div>
         <div class="col-md-6">
           <label for="inputName">NIK Ibu</label>
-          <input type="text" name="nik_ibu" id="nik_ibu" class="form-control input-lg" value="{{ $pnikah->nik_ibu}}" />
+          <input type="text" name="nik_ibu" id="nik_ibu" class="form-control input-lg" value="{{ $pnikah->nik_ibu}}" readonly/>
         </div>
         <div class="col-md-6">
           <label for="inputName">Nama Ibu</label>
-          <input type="text" name="nama_lengkap" id="nama_ibu" class="form-control input-lg" value="{{ $pnikah->nama_lengkap}}" />
+          <input type="text" name="nama_lengkap" id="nama_ibu" class="form-control input-lg" value="{{ $pnikah->nama_lengkap}}" readonly/>
         </div>
         <div class="col-md-6">
           <label for="inputName">Tempat Lahir</label>

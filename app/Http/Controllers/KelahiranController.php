@@ -29,7 +29,7 @@ class KelahiranController extends Controller
         ->where('no_surat', 'LIKE', '%Suket-Lahir%')
         ->get();
         
-        return view('suket-kelahiran.kelahiran', compact('lahir'));
+        return view('admin.suket-kelahiran.kelahiran', compact('lahir'));
     }
     /**
      * Show the form for creating a new resource.
@@ -42,7 +42,8 @@ class KelahiranController extends Controller
         $surat = Persuratan::all();
         $surat = Warga::all();
         $surat = $this->autonumber();
-        return view('suket-kelahiran.create',['surat'=>$surat]);
+        $status_surat = 'Proses';
+        return view('admin.suket-kelahiran.create',['surat'=>$surat],['status_surat'=>$status_surat]);
     }
 
     
@@ -93,14 +94,14 @@ class KelahiranController extends Controller
         $data['tgl_pembuatan'] = $request->tgl_pembuatan;
         $data['status_surat'] = $request->status_surat;
         $data['id_warga'] = $request->id_warga;
-        $data2['nama_anak'] = $request->nama_anak;
-        $data2['tempat_lahir_anak'] = $request->tempat_lahir_anak;
-        $data2['tanggal_lahir_anak'] = $request->tanggal_lahir_anak;
-        $data2['jenis_kelamin'] = $request->jenis_kelamin;
-        $data2['jam_lahir'] = $request->jam_lahir;
-        $data2['anak_ke'] = $request->anak_ke;
-        $data2['nik_ayah'] = $request->nik_ayah;
-        $data2['nik_ibu'] = $request->nik_ibu;
+        $data_detail['nama_anak'] = $request->nama_anak;
+        $data_detail['tempat_lahir_anak'] = $request->tempat_lahir_anak;
+        $data_detail['tanggal_lahir_anak'] = $request->tanggal_lahir_anak;
+        $data_detail['jenis_kelamin'] = $request->jenis_kelamin;
+        $data_detail['jam_lahir'] = $request->jam_lahir;
+        $data_detail['anak_ke'] = $request->anak_ke;
+        $data_detail['nik_pemohon'] = $request->nik_pemohon;
+        $data_detail['nik_ibu'] = $request->nik_ibu;
         $image1 = $request->file('foto_pengantar');
         $image2 = $request->file('foto_kk');
         $image3 = $request->file('foto_ktp');
@@ -152,8 +153,8 @@ class KelahiranController extends Controller
             $data['foto_suratkelahiran'] = $image_url;
         } 
             $lahir = DB::table('persuratan')->insertGetId($data);
-            $data2['id_persuratan'] = $lahir;
-            $lahir = DB::table('detail_kelahiran')->insertGetId($data2);
+            $data_detail['id_persuratan'] = $lahir;
+            $lahir = DB::table('detail_kelahiran')->insertGetId($data_detail);
 
             return redirect()->route('kelahiran.index')
                             ->with('success', 'Product Created Successfully!');
@@ -180,7 +181,7 @@ class KelahiranController extends Controller
         $lahir = DB::table('persuratan') 
         ->join('warga', 'persuratan.id_warga','=','warga.id_warga')
         ->join('detail_kelahiran','persuratan.id_persuratan','=','detail_kelahiran.id_persuratan')
-        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat', 'detail_kelahiran.nama_anak', 'detail_kelahiran.tempat_lahir_anak',  'detail_kelahiran.tanggal_lahir_anak', 'detail_kelahiran.jenis_kelamin', 'detail_kelahiran.jam_lahir', 'detail_kelahiran.anak_ke','detail_kelahiran.nik_ayah', 'detail_kelahiran.nik_ibu' )
+        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat', 'detail_kelahiran.nama_anak', 'detail_kelahiran.tempat_lahir_anak',  'detail_kelahiran.tanggal_lahir_anak', 'detail_kelahiran.jenis_kelamin', 'detail_kelahiran.jam_lahir', 'detail_kelahiran.anak_ke','detail_kelahiran.nik_pemohon', 'detail_kelahiran.nik_ibu' )
         ->where('persuratan.id_persuratan',$id_persuratan)
         ->first();
         
@@ -188,7 +189,7 @@ class KelahiranController extends Controller
         ->where('no_nik', $lahir->nik_ibu)
         ->first();
         
-        return view('suket-kelahiran.edit', compact('lahir', 'data_anak'));
+        return view('admin.suket-kelahiran.edit', compact('lahir', 'data_anak'));
     }
 
     /**
@@ -200,67 +201,21 @@ class KelahiranController extends Controller
      */
     public function update(Request $request, $id_persuratan)
     {
-        $data['no_surat'] = $request->no_surat;
-        $data2['hari_lahir'] = $request->hari_lahir;
-        $data2['jam_lahir'] = $request->jam_lahir;
-        $data2['anak_ke'] = $request->anak_ke;
-       
         $data['tgl_pembuatan'] = $request->tgl_pembuatan;
         $data['status_surat'] = $request->status_surat;
+        $data_detail['nama_anak'] = $request->nama_anak;
+        $data_detail['tempat_lahir_anak'] = $request->tempat_lahir_anak;
+        $data_detail['tanggal_lahir_anak'] = $request->tanggal_lahir_anak;
+        $data_detail['jenis_kelamin'] = $request->jenis_kelamin;
+        $data_detail['jam_lahir'] = $request->jam_lahir;
+        $data_detail['anak_ke'] = $request->anak_ke;
 
-        $image1 = $request->file('foto_pengantar');
-        $image2 = $request->file('foto_kk');
-        $image3 = $request->file('foto_ktp');
-        $image4 = $request->file('foto_suratnikah');
-        $image5 = $request->file('foto_suratkelahiran');
-        if($image1 != null){
-            $image_name = $image1->getClientOriginalName();
-            $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
-            
-            $upload_path = 'public/media/';
-            $image_url = $upload_path.$image_full_name;
-            $succes = $image1->move($upload_path, $image_full_name);
-            $data['foto_pengantar'] = $image_url;
-        } 
-        if($image2 != null){
-            $image_name = $image2->getClientOriginalName();
-            $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
-            
-            $upload_path = 'public/media/';
-            $image_url = $upload_path.$image_full_name;
-            $succes = $image2->move($upload_path, $image_full_name);
-            $data['foto_kk'] = $image_url;
-        } 
-        if($image3 != null){
-            $image_name = $image3->getClientOriginalName();
-            $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
-            
-            $upload_path = 'public/media/';
-            $image_url = $upload_path.$image_full_name;
-            $succes = $image3->move($upload_path, $image_full_name);
-            $data['foto_ktp'] = $image_url;
-        } 
-        if($image4 != null){
-            $image_name = $image4->getClientOriginalName();
-            $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
-            
-            $upload_path = 'public/media/';
-            $image_url = $upload_path.$image_full_name;
-            $succes = $image4->move($upload_path, $image_full_name);
-            $data['foto_suratnikah'] = $image_url;
-        } 
-        if($image5 != null){
-            $image_name = $image5->getClientOriginalName();
-            $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
-            
-            $upload_path = 'public/media/';
-            $image_url = $upload_path.$image_full_name;
-            $succes = $image5->move($upload_path, $image_full_name);
-            $data['foto_suratkelahiran'] = $image_url;
-        } 
-        $sktmrs = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->update($data);
+        $id_persuratan = DB::table('detail_kelahiran')->select('id_persuratan')->where('id_detail_kelahiran', $id_detail_kelahiran)->first();
+        $lahir = DB::table('persuratan')->where('id_persuratan', $id_persuratan->id_persuratan)->update($data);
+        $lahir = DB::table('detail_kelahiran')->where('id_detail_kelahiran', $id_detail_kelahiran)->update($data2);
+       
             return redirect()->route('kelahiran.index')
-                            ->with('success', 'Data Berhasil diupdate!');
+                            ->with('success', 'Data Berhasil diupdate!');  
     }
 
     /**
@@ -278,6 +233,27 @@ class KelahiranController extends Controller
         
         return redirect()->route('kelahiran.index')
         ->with('success', 'Data Delete Successfully!');
+    }
+
+    public function cetak_pdf($id_persuratan)
+    {
+        $lahir = DB::table('persuratan') 
+        ->join('warga', 'persuratan.id_warga','=','warga.id_warga')
+        ->join('detail_kelahiran','persuratan.id_persuratan','=','detail_kelahiran.id_persuratan')
+        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat', 'detail_kelahiran.nama_anak', 'detail_kelahiran.tempat_lahir_anak',  'detail_kelahiran.tanggal_lahir_anak', 'detail_kelahiran.jenis_kelamin', 'detail_kelahiran.jam_lahir', 'detail_kelahiran.anak_ke','detail_kelahiran.nik_ayah', 'detail_kelahiran.nik_ibu' )
+        ->where('persuratan.id_persuratan',$id_persuratan)
+        ->first();
+
+        $data_anak = DB::table('warga')
+        ->where('no_nik', $lahir->nik_ibu)
+        ->first();
+        
+        
+        
+        $pdf = PDF::loadview('admin.suket-kelahiran.print',compact('lahir', 'data_anak'));
+        $pdf->setPaper('Legal','potrait');
+        return $pdf->download('suket kelahiran.pdf');
+        
     }
 
    

@@ -27,7 +27,7 @@ class KematianController extends Controller
         ->select('warga.no_nik', 'warga.nama_lengkap', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat' )
         ->where('no_surat', 'LIKE', '%Suket-KMT%')
         ->get();
-        return view('suket-kematian.suket_kematian', compact('kematian'));
+        return view('admin.suket-kematian.suket_kematian', compact('kematian'));
     }
 
     public function autonumber(){
@@ -57,6 +57,7 @@ class KematianController extends Controller
                 'nama_lengkap' =>  $sktmsekolah['nama_lengkap'],
                 'tempat_lahir' =>  $sktmsekolah['tempat_lahir'],
                 'tanggal_lahir' =>  $sktmsekolah['tanggal_lahir'],
+                'status_perkawinan' =>  $sktmsekolah['status_perkawinan'],
                 'agama' =>  $sktmsekolah['agama'],
                 'pekerjaan' =>  $sktmsekolah['pekerjaan'],
                 'alamat' =>  $sktmsekolah['alamat'],);
@@ -72,8 +73,9 @@ class KematianController extends Controller
     {
         $kematian = Kematian::all();
         $kematian = Warga::all();
+        $status_surat = 'Proses';
         $surat = $this->autonumber();
-        return view('suket-kematian.create', ['surat'=>$surat]);
+        return view('admin.suket-kematian.create', ['surat'=>$surat], ['status_surat'=>$status_surat]);
     }
 
     /**
@@ -86,6 +88,7 @@ class KematianController extends Controller
     {
         $data['no_surat'] = $request->no_surat;
         $data['id_warga'] = $request->id_warga;
+        $data2['nik_pemohon'] = $request->nik_pemohon;
         $data2['nik_yg_bersangkutan'] = $request->nik_yg_bersangkutan;
         $data2['tgl_kematian'] = $request->tgl_kematian;
         $data2['tempat_kematian'] = $request->tempat_kematian;
@@ -165,7 +168,7 @@ class KematianController extends Controller
         ->join('detail_kematian', 'persuratan.id_persuratan','=','detail_kematian.id_persuratan')
         ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.status_perkawinan','warga.agama', 
         'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 
-        'persuratan.ket_keperluan_surat','persuratan.tgl_pembuatan','persuratan.status_surat', 'detail_kematian.nik_yg_bersangkutan', 'detail_kematian.tgl_kematian', 'detail_kematian.tempat_kematian', 'detail_kematian.penyebab_kematian' )
+        'persuratan.tgl_pembuatan','persuratan.status_surat', 'detail_kematian.nik_yg_bersangkutan', 'detail_kematian.nik_pemohon', 'detail_kematian.tgl_kematian', 'detail_kematian.tempat_kematian', 'detail_kematian.penyebab_kematian' )
         ->where('persuratan.id_persuratan',$id_persuratan)
         ->first();
     
@@ -174,7 +177,7 @@ class KematianController extends Controller
         ->first();
        
         $ktp = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->first();
-        return view('suket-kematian.edit', compact('kematian', 'data_warga'));
+        return view('admin.suket-kematian.edit', compact('kematian', 'data_warga'));
     }
 
     /**
@@ -187,57 +190,16 @@ class KematianController extends Controller
     public function update(Request $request, $id_kematian)
     {
         
-        $data['no_surat'] = $request->no_surat;
+       
         $data2['tgl_kematian'] = $request->tgl_kematian;
         $data2['tempat_kematian'] = $request->tempat_kematian;
         $data2['penyebab_kematian'] = $request->penyebab_kematian;
         $data['tgl_pembuatan'] = $request->tgl_pembuatan;
         $data['status_surat'] = $request->status_surat;
 
-        $image1 = $request->file('foto_pengantar');
-        $image2 = $request->file('foto_kk');
-        $image3 = $request->file('foto_ktp');
-        $image4 = $request->file('foto_suratkematianrs');
-        if($image1 != null){
-            $image_name = $image1->getClientOriginalName();
-            $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
-            
-            $upload_path = 'public/media/';
-            $image_url = $upload_path.$image_full_name;
-            $succes = $image1->move($upload_path, $image_full_name);
-            $data['foto_pengantar'] = $image_url;
-        } 
-        if($image2 != null){
-            $image_name = $image2->getClientOriginalName();
-            $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
-            
-            $upload_path = 'public/media/';
-            $image_url = $upload_path.$image_full_name;
-            $succes = $image2->move($upload_path, $image_full_name);
-            $data['foto_kk'] = $image_url;
-        } 
-        if($image3 != null){
-            $image_name = $image3->getClientOriginalName();
-            $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
-            
-            $upload_path = 'public/media/';
-            $image_url = $upload_path.$image_full_name;
-            $succes = $image3->move($upload_path, $image_full_name);
-            $data['foto_ktp'] = $image_url;
-        } 
-        if($image4 != null){
-            $image_name = $image4->getClientOriginalName();
-            $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
-            
-            $upload_path = 'public/media/';
-            $image_url = $upload_path.$image_full_name;
-            $succes = $image4->move($upload_path, $image_full_name);
-            $data['foto_suratkematianrs'] = $image_url;
-        } 
-            $id_persuratan = DB::table('ket_kematian')->select('id_persuratan')->where('id_kematian', $id_kematian)->first();
-            $lahir = DB::table('persuratan')->where('id_persuratan', $id_persuratan->id_persuratan)->update($data);
-            
-            $lahir = DB::table('ket_kematian')->where('id_kematian', $id_kematian)->update($data2);
+            $id_persuratan = DB::table('detail_kematian')->select('id_persuratan')->where('id_detail_kematian', $id_detail_kematian)->first();
+            $kematian = DB::table('persuratan')->where('id_persuratan', $id_persuratan->id_persuratan)->update($data);
+            $kematian = DB::table('detail_kematian')->where('id_detail_kematian', $id_detail_kematian)->update($data2);
 
             return redirect()->route('kematian.index')
                             ->with('success', 'Data Berhasil diupdate!');

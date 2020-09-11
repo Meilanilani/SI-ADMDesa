@@ -84,24 +84,8 @@
           <label for="inputName">Penyebab Kematian</label>
           <input type="text" name="penyebab_kematian" class="form-control input-lg" value="{{ $kematian->penyebab_kematian}}" readonly/>
         </div>
-        <div class="col-md-8">
-          <label for="inputName">Foto Pengantar RT/ RW</label>
-          <input type="file"  name="foto_pengantar">
-        </div>
-        <div class="col-md-8">
-          <label for="inputName">Foto Kartu Keluarga</label>
-          <input type="file"  name="foto_kk">
-        </div>
-        <div class="col-md-8">
-          <label for="inputName">Foto KTP yang bersangkutan</label>
-          <input type="file"  name="foto_ktp">
-        </div>
-        <div class="col-md-8">
-          <label for="inputName">Foto Surat Kematian RS</label>
-          <input type="file"  name="foto_suratkematianrs	">
-        </div>
         <div class="col-md-5">
-        <label for="inputName">Tanggal Pembuatan Surat</label>
+        <label for="inputName">Tanggal Pembuatan</label>
         <input type="date"  name="tgl_pembuatan" class="form-control" value="{{ $kematian->tgl_pembuatan}}">
       </div>
       <div class="col-md-5">

@@ -35,7 +35,7 @@
               <input type="hidden" name="id_warga" id="id_pemohon" value="{{ $sktmrs->id_warga}}" class="form-control input-lg" />
         <div class="col-md-6">
           <label for="inputName">NIK</label>
-          <input type="text" name="nik_kepala_keluarga" id="no_nik" class="form-control input-lg" value="{{ $sktmrs->nik_kepala_keluarga}}" readonly/>
+          <input type="text" name="nik_pemohon" id="no_nik" class="form-control input-lg" value="{{ $sktmrs->nik_pemohon}}" readonly/>
         </div>
         <div class="col-md-6">
           <label for="inputName">Nama Lengkap</label>

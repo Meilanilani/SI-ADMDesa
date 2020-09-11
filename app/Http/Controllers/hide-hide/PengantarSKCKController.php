@@ -26,7 +26,7 @@ class PengantarSKCKController extends Controller
         ->select('warga.no_nik', 'warga.nama_lengkap', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat' )
         ->where('no_surat', 'LIKE', '%Suket-SKCK%')
         ->get();
-        return view('suket-pengantar-skck.pengantar_skck', compact('skck'));
+        return view('admin.suket-pengantar-skck.pengantar_skck', compact('skck'));
     }
 
     public function autonumber(){
@@ -49,16 +49,17 @@ class PengantarSKCKController extends Controller
           public function ajax_select(Request $request){
             $no_nik = $request->no_nik;
            
-            $sktmsekolah = Warga::where('no_nik','=',$no_nik)->first();
-            if(isset($sktmsekolah)){
+            $skck = Warga::where('no_nik','=',$no_nik)->first();
+            if(isset($skck)){
                 $data = array(
-                'id_warga' => $sktmsekolah['id_warga'],
-                'nama_lengkap' =>  $sktmsekolah['nama_lengkap'],
-                'tempat_lahir' =>  $sktmsekolah['tempat_lahir'],
-                'tanggal_lahir' =>  $sktmsekolah['tanggal_lahir'],
-                'agama' =>  $sktmsekolah['agama'],
-                'pekerjaan' =>  $sktmsekolah['pekerjaan'],
-                'alamat' =>  $sktmsekolah['alamat'],);
+                'id_warga' => $skck['id_warga'],
+                'nama_lengkap' =>  $skck['nama_lengkap'],
+                'tempat_lahir' =>  $skck['tempat_lahir'],
+                'tanggal_lahir' =>  $skck['tanggal_lahir'],
+                'status_perkawinan' =>$skck['status_perkawinan'],
+                'agama' =>  $skck['agama'],
+                'pekerjaan' =>  $skck['pekerjaan'],
+                'alamat' =>  $skck['alamat'],);
             return json_encode($data);}
         }
 
@@ -69,10 +70,11 @@ class PengantarSKCKController extends Controller
      */
     public function create()
     {
-        $skck = Persuratan::all();
-        $skck = Warga::all();
+        $surat = Persuratan::all();
+        $surat = Warga::all();
+        $status_surat = 'Proses';
         $surat = $this->autonumber();
-        return view('suket-pengantar-skck.create',  ['surat'=>$surat]);
+        return view('admin.suket-pengantar-skck.create',  ['surat'=>$surat], ['status_surat'=>$status_surat]);
     }
 
     /**
@@ -89,6 +91,7 @@ class PengantarSKCKController extends Controller
         $data['tgl_masa_berlaku'] = $request->tgl_masa_berlaku;
         $data['status_surat'] = $request->status_surat;
         $data['id_warga'] = $request->id_warga;
+        $data_detail['nik_pemohon'] = $request->nik_pemohon;
         $data_detail['nik_yg_bersangkutan'] = $request->nik_yg_bersangkutan;
 
         $image1 = $request->file('foto_pengantar');
@@ -124,7 +127,7 @@ class PengantarSKCKController extends Controller
         
             $skck = DB::table('persuratan')->insertGetId($data);
             $data_detail['id_persuratan'] = $skck;
-            $ktp = DB::table('detail_skck')->insertGetId($data_detail);
+            $skck = DB::table('detail_skck')->insertGetId($data_detail);
             return redirect()->route('skck.index')
                              ->with('success', 'Data Berhasil ditambahkan!');
     
@@ -165,7 +168,7 @@ class PengantarSKCKController extends Controller
         ->first();
        
         $ktp = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->first();
-        return view('suket-pengantar-skck.edit', compact('skck', 'data_warga'));
+        return view('admin.suket-pengantar-skck.edit', compact('skck', 'data_warga'));
     }
 
     /**
@@ -178,42 +181,11 @@ class PengantarSKCKController extends Controller
     public function update(Request $request, $id_persuratan)
     {
         
-        $data['no_surat'] = $request->no_surat;
         $data['ket_keperluan_surat'] = $request->ket_keperluan_surat;
         $data['tgl_pembuatan'] = $request->tgl_pembuatan;
         $data['tgl_masa_berlaku'] = $request->tgl_masa_berlaku;
         $data['status_surat'] = $request->status_surat;
 
-        $image1 = $request->file('foto_pengantar');
-        $image2 = $request->file('foto_kk');
-        $image3 = $request->file('foto_ktp');
-        if($image1 != null){
-            $image_name = $image1->getClientOriginalName();
-            $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
-            
-            $upload_path = 'public/media/';
-            $image_url = $upload_path.$image_full_name;
-            $succes = $image1->move($upload_path, $image_full_name);
-            $data['foto_pengantar'] = $image_url;
-        } 
-        if($image2 != null){
-            $image_name = $image2->getClientOriginalName();
-            $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
-            
-            $upload_path = 'public/media/';
-            $image_url = $upload_path.$image_full_name;
-            $succes = $image2->move($upload_path, $image_full_name);
-            $data['foto_kk'] = $image_url;
-        } 
-        if($image3 != null){
-            $image_name = $image3->getClientOriginalName();
-            $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
-            
-            $upload_path = 'public/media/';
-            $image_url = $upload_path.$image_full_name;
-            $succes = $image3->move($upload_path, $image_full_name);
-            $data['foto_ktp'] = $image_url;
-        } 
         
         $skck = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->update($data);
         return redirect()->route('skck.index')

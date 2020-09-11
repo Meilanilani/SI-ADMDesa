@@ -15,6 +15,7 @@ class CreateKematiansTable extends Migration
     {
         Schema::create('detail_kematian', function (Blueprint $table) {
             $table->increments('id_detail_kematian');
+            $table->string('nik_pemohon',16);
             $table->string('nik_yg_bersangkutan',16);
             $table->date('tgl_kematian');
             $table->string('tempat_kematian', 50);

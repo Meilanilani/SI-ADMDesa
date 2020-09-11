@@ -26,7 +26,7 @@ class KTPSementaraController extends Controller
         ->select('warga.no_nik', 'warga.nama_lengkap', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat' )
         ->where('no_surat', 'LIKE', '%Suket-KTP%')
         ->get();
-        return view('suket-ktp-sementara.ktp_sementara', compact('ktp'));
+        return view('admin.suket-ktp-sementara.ktp_sementara', compact('ktp'));
     }
 
     
@@ -50,16 +50,16 @@ class KTPSementaraController extends Controller
           public function ajax_select(Request $request){
             $no_nik = $request->no_nik;
            
-            $sktmsekolah = Warga::where('no_nik','=',$no_nik)->first();
+            $ktp = Warga::where('no_nik','=',$no_nik)->first();
             if(isset($sktmsekolah)){
                 $data = array(
-                'id_warga' => $sktmsekolah['id_warga'],
-                'nama_lengkap' =>  $sktmsekolah['nama_lengkap'],
-                'tempat_lahir' =>  $sktmsekolah['tempat_lahir'],
-                'tanggal_lahir' =>  $sktmsekolah['tanggal_lahir'],
-                'agama' =>  $sktmsekolah['agama'],
-                'pekerjaan' =>  $sktmsekolah['pekerjaan'],
-                'alamat' =>  $sktmsekolah['alamat'],);
+                'id_warga' => $ktp['id_warga'],
+                'nama_lengkap' =>  $ktp['nama_lengkap'],
+                'tempat_lahir' =>  $ktp['tempat_lahir'],
+                'tanggal_lahir' =>  $ktp['tanggal_lahir'],
+                'agama' =>  $ktp['agama'],
+                'pekerjaan' =>  $ktp['pekerjaan'],
+                'alamat' =>  $ktp['alamat'],);
             return json_encode($data);}
         }
 
@@ -73,7 +73,7 @@ class KTPSementaraController extends Controller
         $ktp = Persuratan::all();
         $ktp = Warga::all();
         $surat = $this->autonumber();
-        return view('suket-ktp-sementara.create', ['surat'=>$surat]);
+        return view('admin.suket-ktp-sementara.create', ['surat'=>$surat]);
     }
 
     /**

@@ -38,13 +38,10 @@ Route::post('data-warga/update/{id}', 'WargaController@update');
 Route::get('suket-tidakmampu-sekolah', 'SKTMSekolahController@index')->name('sktmsekolah.index');
 Route::get('suket-tidakmampu-sekolah/create', 'SKTMSekolahController@create')->name('sktmsekolah.create');
 Route::post('suket-tidakmampu-sekolah/store', 'SKTMSekolahController@store')->name('sktmsekolah.store');
-
 Route::get('suket-tidakmampu-sekolah/cari', 'SKTMSekolahController@ajax_select')->name('sktmsekolah.ajax_select');
-
 Route::get('suket-tidakmampu-sekolah/edit/{id}', 'SKTMSekolahController@edit');
 Route::get('suket-tidakmampu-sekolah/delete/{id}', 'SKTMSekolahController@destroy');
 Route::post('suket-tidakmampu-sekolah/update/{id}', 'SKTMSekolahController@update');
-
 Route::get('suket-tidakmampu-sekolah/cetak_pdf/{id}','SKTMSekolahController@cetak_pdf')->name('cetak_pdf');
 
 
@@ -52,13 +49,10 @@ Route::get('suket-tidakmampu-sekolah/cetak_pdf/{id}','SKTMSekolahController@ceta
 Route::get('suket-tidakmampu-rumahsakit', 'SKTMRSController@index')->name('sktmrs.index');
 Route::get('suket-tidakmampu-rumahsakit/create', 'SKTMRSController@create')->name('sktmrs.create');
 Route::post('suket-tidakmampu-rumahsakit/store', 'SKTMRSController@store')->name('sktmrs.store');
-
 Route::get('suket-tidakmampu-rumahsakit/cari', 'SKTMRSController@ajax_select')->name('sktmrs.ajax_select');
-
 Route::get('suket-tidakmampu-rumahsakit/edit/{id}', 'SKTMRSController@edit');
 Route::get('suket-tidakmampu-rumahsakit/delete/{id}', 'SKTMRSController@destroy');
 Route::post('suket-tidakmampu-rumahsakit/update/{id}', 'SKTMRSController@update');
-
 Route::get('suket-tidakmampu-rumahsakit/cetak_pdf/{id}','SKTMRSController@cetak_pdf')->name('cetak_pdf');
 
 

@@ -32,7 +32,6 @@
                 <label for="inputName">No Surat</label>
                 <input type="text" name="no_surat" class="form-control" value="{{ $surat}}" readonly>
                 </div>
-              <input type="hidden" name="id_warga" id="id_pemohon" class="form-control input-lg" />
         <div class="col-md-6">
           <label for="inputName">NIK</label>
           <input type="text" name="nik_yg_bersangkutan" id="no_nik" class="form-control input-lg" />
@@ -55,16 +54,20 @@
         </div>
         <div class="col-md-6">
           <label for="inputName">Status</label>
-          <input type="text" name="status_perkawinan" id="agama" class="form-control input-lg" readonly/>
+          <input type="text" name="status_perkawinan" id="status_perkawinan" class="form-control input-lg" readonly/>
         </div>
         <div class="col-md-6">
           <label for="inputName">Pekerjaan</label>
           <input type="text" name="pekerjaan" id="pekerjaan" class="form-control input-lg" readonly/>
         </div>
-            <div class="col-md-7">
+            <div class="col-md-6">
               <label for="inputName">Alamat</label>
               <textarea name="alamat" id="alamat" class="form-control" rows="4" readonly></textarea>
             </span></div>
+            <div class="col-md-6">
+              <label for="inputName">Keperluan Surat</label>
+              <input type="text" name="ket_keperluan_surat"  class="form-control input-lg" />
+            </div>
             </div></div>
       </div> 
     </div>
@@ -72,10 +75,16 @@
       <div class="card-body">
           <div class="row">
         {{ csrf_field() }}
+        <input type="hidden" name="id_warga" id="id_pemohon" class="form-control input-lg" />
         <div class="col-md-6">
-          <label for="inputName">Keperluan Surat</label>
-          <input type="text" name="ket_keperluan_surat"  class="form-control input-lg" />
+          <label for="inputName">NIK Pemohon</label>
+          <input type="text" name="nik_pemohon" id="nik_pemohon" class="form-control input-lg" />
         </div>
+        <div class="col-md-6">
+          <label for="inputName">Nama Pemohon</label>
+          <input type="text" name="nama_lengkap" id="nama_pemohon" class="form-control input-lg" />
+        </div>
+        
         <div class="col-md-8">
           <label for="inputName">Foto Pengantar RT/ RW</label>
           <input type="file"  name="foto_pengantar">
@@ -89,20 +98,15 @@
           <input type="file"  name="foto_ktp">
         </div>
         <div class="col-md-5">
-        <label for="inputName">Tanggal Pembuatan Surat</label>
+        <label for="inputName">Tanggal Pembuatan </label>
         <input type="date"  name="tgl_pembuatan" class="form-control">
       </div>
       <div class="col-md-5">
-        <label for="inputName">Tanggal Masa Berlaku Surat</label>
+        <label for="inputName">Tanggal Masa Berlaku </label>
         <input type="date"  name="tgl_masa_berlaku" class="form-control">
       </div>
       <div class="col-md-5">
-        <label for="inputName">Status Surat</label>
-        <select class="form-control custom-select"  name="status_surat">
-          <option selected disabled>Pilih Status</option>
-          <option>Proses</option>
-          <option>Selesai</option>
-        </select>
+        <input type="hidden" name="status_surat" value="{{ $status_surat }}" class="form-control" readonly>
     </div>
       </div></div>
       <div class="card-footer">
@@ -128,25 +132,25 @@
                    console.log(data);
                    var json = data;
 
-                    var id_pemohon = json.id_warga;
                     var nama_lengkap = json.nama_lengkap;
                     var tempat_lahir = json.tempat_lahir;
                     var tanggal_lahir = json.tanggal_lahir;
+                    var status_perkawinan = json.status_perkawinan;
                     var agama = json.agama;
                     var pekerjaan = json.pekerjaan;
                     var alamat = json.alamat;
 
-                    console.log(id_pemohon);
                     console.log(tempat_lahir);
                     console.log(tanggal_lahir);
+                    console.log(status_perkawinan);
                     console.log(agama);
                     console.log(pekerjaan);
                     console.log(alamat);
 
-                    $('#id_pemohon').val(id_pemohon);
                     $('#nama_lengkap').val(nama_lengkap);
                     $('#tempat_lahir').val(tempat_lahir);
                     $('#tanggal_lahir').val(tanggal_lahir);
+                    $('#status_perkawinan').val(status_perkawinan);
                     $('#agama').val(agama);
                     $('#pekerjaan').val(pekerjaan);
                     $('#alamat').val(alamat);                      
@@ -154,6 +158,32 @@
              });
              return false;
         });
+        $('#nik_pemohon').on('input',function(){
+             
+             var no_nik=$(this).val();
+             $.ajax({
+                 type : "GET",
+                 url  : "{{ route('kematian.ajax_select') }}",
+                 dataType : "JSON",
+                 data : {no_nik: no_nik},
+                 cache:false,
+                 success: function(data){
+                   console.log(data);
+                   var json = data;
+
+                    var id_pemohon = json.id_warga;
+                    var nama_pemohon = json.nama_lengkap;
+
+                    console.log(id_pemohon);
+                    console.log(nama_pemohon);
+
+                    $('#id_pemohon').val(id_pemohon); 
+                    $('#nama_pemohon').val(nama_pemohon);                    
+                 }
+             });
+             return false;
+        });
+
 
       });
 </script>

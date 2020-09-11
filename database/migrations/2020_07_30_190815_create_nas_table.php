@@ -15,8 +15,8 @@ class CreateNasTable extends Migration
     {
         Schema::create('detail_na', function (Blueprint $table) {
             $table->increments('id_detail_na');
+            $table->string('nik_pemohon',16);
             $table->string('nik_anak', 16);
-            $table->string('nik_ayah',16);
             $table->string('nik_ibu',16);
             $table->timestamps();
             $table->integer('id_persuratan')->unsigned();

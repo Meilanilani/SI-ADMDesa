@@ -57,22 +57,26 @@
                 <td>{{ $post->nama_lengkap }}</td>
                 <td>{{ $post->tgl_pembuatan }}</td>
                 <td>{{ $post->status_surat }}</td>
-                <td>
-                  <a class="btn btn-danger btn-sm" href="{{URL::to('suket-tidakmampu-sekolah/edit/'.$post->id_persuratan)}}"><i class="nav-icon fas fa-edit"></i> Edit</a>
-                  <a class="btn btn-primary btn-sm" href="{{URL::to('suket-tidakmampu-sekolah/delete/'.$post->id_persuratan)}}"><i class="nav-icon fas fa-trash"></i> Hapus</a>
-                  <a class="btn btn-warning btn-sm" href="{{URL::to('suket-tidakmampu-sekolah/cetak_pdf/'.$post->id_persuratan)}}"><i class="nav-icon fas fa-trash"></i> Cetak</a>
-                  <a class="btn btn-warning btn-sm" href="{{URL::to('suket-tidakmampu-sekolah/show/'.$post->id_persuratan)}}"><i class="nav-icon fas fa-trash"></i> Show</a>
-  
-                </td>
-              </tr>
-            </form>
-            
-              @endforeach
-                  
-                    </tbody>
-              </table>
-            </div>
-            <!-- /.card-body -->
-          </div>
-    </div>
-      @endsection
+            </tr>
+        </form>
+        
+          @endforeach
+              
+                </tbody>
+          </table>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+    </section>
+    <!-- /.content -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).on('ajaxComplete ready', function () {
+      $('.modalMd').off('click').on('click', function () {
+          $('#modalMdContent').load($(this).attr('value'));
+          $('#modalMdTitle').html($(this).attr('title'));
+      });
+  });
+</script>
+  @endsection

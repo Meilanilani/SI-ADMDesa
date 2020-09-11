@@ -69,7 +69,7 @@
               <input type="hidden" name="id_warga" id="id_pemohon" class="form-control input-lg" value="" />
         <div class="col-md-6">
           <label for="inputName">NIK Ayah</label>
-          <input type="text" name="nik_orangtua" id="nik_orangtua" class="form-control input-lg" />
+          <input type="text" name="nik_pemohon" id="nik_orangtua" class="form-control input-lg" />
         </div>
         <div class="col-md-6">
           <label for="inputName">Nama Ayah</label>
@@ -108,10 +108,8 @@
         <label for="inputName">Tanggal Pembuatan</label>
         <input type="date"  name="tgl_pembuatan" class="form-control">
       </div>
-      <div class="col-md-4">
-        <label for="inputName">Status Surat</label>
-        <input type="hide" name="status_surat" value="{{ $status_surat }}" class="form-control" readonly>
-      </div>
+        <input type="hidden" name="status_surat" value="{{ $status_surat }}" class="form-control" readonly>
+      
       </div></div>
       <div class="card-footer">
         <button type="submit" class="btn btn-success">Simpan</button>

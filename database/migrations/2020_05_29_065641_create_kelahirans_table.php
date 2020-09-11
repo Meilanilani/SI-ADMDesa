@@ -22,7 +22,7 @@ class CreateKelahiransTable extends Migration
             $table->time('jam_lahir');
             $table->integer('anak_ke');
             $table->integer('id_persuratan')->unsigned();
-            $table->string('nik_ayah',16);
+            $table->string('nik_pemohon',16);
             $table->string('nik_ibu',16);
             $table->timestamps();
             
