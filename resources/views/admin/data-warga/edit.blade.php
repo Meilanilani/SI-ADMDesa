@@ -29,17 +29,27 @@
                             <div class="col-md-6">
                                 <label for="inputName">No KK</label>
                                 <input type="text" name="no_kk" value="{{ $warga->no_kk }}" id="warga-no_kk"
-                                    class="form-control">
+                                    class="form-control @error('no_kk') is-invalid @enderror">
+                                @error('no_kk')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="col-md-6">
                                 <label for="inputName">No NIK</label>
                                 <input type="text" name="no_nik" value="{{ $warga->no_nik }}" id="warga-no_nik"
-                                    class="form-control">
+                                    class="form-control @error('no_nik') is-invalid @enderror">
+                                @error('no_nik')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="col-md-6">
                                 <label for="inputName">Nama Lengkap</label>
                                 <input type="text" name="nama_lengkap" value="{{ $warga->nama_lengkap }}"
-                                    id="warga-nama_lengkap" class="form-control">
+                                    id="warga-nama_lengkap"
+                                    class="form-control @error('nama_lengkap') is-invalid @enderror">
+                                @error('nama_lengkap')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="col-md-6">
                                 <label for="inputName">Jenis Kelamin</label>
@@ -52,7 +62,11 @@
                             <div class="col-md-6">
                                 <label for="inputName">Tempat Lahir</label>
                                 <input type="text" name="tempat_lahir" value="{{ $warga->tempat_lahir }}"
-                                    id="warga-tempat_lahir" class="form-control">
+                                    id="warga-tempat_lahir"
+                                    class="form-control @error('tempat_lahir') is-invalid @enderror">
+                                @error('tempat_lahir')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="col-md-6">
                                 <label for="inputName">Tanggal Lahir</label>
@@ -88,7 +102,10 @@
                             <div class="col-md-6">
                                 <label for="inputName">Pekerjaan</label>
                                 <input type="text" name="pekerjaan" value="{{ $warga->pekerjaan }}" id="warga-pekerjaan"
-                                    class="form-control">
+                                    class="form-control @error('pekerjaan') is-invalid @enderror">
+                                @error('pekerjaan')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="col-md-6">
                                 <label for="inputName">Status Perkawinan</label>
@@ -120,17 +137,26 @@
                     <div class="col-md-6">
                         <label for="inputName">Nama Ayah</label>
                         <input type="text" name="nama_ayah" value="{{ $warga->nama_ayah }}" id="warga-nama_ayah"
-                            class="form-control">
+                            class="form-control @error('nama_ayah') is-invalid @enderror">
+                        @error('nama_ayah')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="col-md-6">
                         <label for="inputName">Nama Ibu</label>
                         <input type="text" name="nama_ibu" value="{{ $warga->nama_ibu }}" id="warga-nama_ibu"
-                            class="form-control">
+                            class="form-control @error('nama_ibu') is-invalid @enderror">
+                        @error('nama_ibu')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="col-md-8">
                         <label for="inputDescription">Alamat</label>
-                        <textarea name="alamat" id="warga-alamat" class="form-control"
-                            rows="4">{{ $warga->alamat }}</textarea>
+                        <textarea name="alamat" id="warga-alamat"
+                            class="form-control @error('alamat') is-invalid @enderror"
+                            rows="4">{{ $warga->alamat }}</textarea>@error('alamat')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
             </div>

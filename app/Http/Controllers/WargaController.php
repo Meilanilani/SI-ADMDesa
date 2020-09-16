@@ -44,10 +44,6 @@ class WargaController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            
-        ]);
-
         $message =[
             'required' => 'Isi tidak boleh kosong',
             'min' => 'Minimal harus 16 karakter',
@@ -131,21 +127,27 @@ class WargaController extends Controller
      */
     public function update(Request $request, $id_warga)
     {
-        $request->validate([
-            'no_kk' => 'required|max:16',
-            'no_nik' => 'required|max:16',
-            'nama_lengkap' => 'required|max:255',
-            'jenis_kelamin' => 'required|max:255',
-            'tempat_lahir' => 'required|max:255',
-            'tanggal_lahir' => 'required|max:255',
-            'pendidikan' => 'required|max:255',
-            'pekerjaan' => 'required|max:255',
-            'status_perkawinan' => 'required|max:255',
-            'nama_ayah' => 'required|max:255',
-            'nama_ibu' => 'required|max:255',
-            'alamat' => 'required|max:255'
+        $message =[
+            'required' => 'Isi tidak boleh kosong',
+            'min' => 'Minimal harus 16 karakter',
+            'max' => 'Maximal harus 16 karakter'
+        ];
 
-        ]);
+        $this->validate($request,[
+            'no_kk' => 'required|min:16|max:16',
+            'no_nik' => 'required|max:16|min:16|max:16',
+            'nama_lengkap' => 'required',
+            'jenis_kelamin' => 'required',
+            'tempat_lahir' => 'required',
+            'tanggal_lahir' => 'required',
+            'pendidikan' => 'required',
+            'pekerjaan' => 'required',
+            'status_perkawinan' => 'required',
+            'status_hub_keluarga' => 'required',
+            'nama_ayah' => 'required',
+            'nama_ibu' => 'required',
+            'alamat' => 'required',
+        ], $message); 
 
         $warga = Warga::find($id_warga);
         $warga->no_kk = $request->get('no_kk');
