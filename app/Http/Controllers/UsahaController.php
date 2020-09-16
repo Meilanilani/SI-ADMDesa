@@ -24,10 +24,10 @@ class UsahaController extends Controller
     {
         $usaha = DB::table('persuratan') 
         ->join('warga','persuratan.id_warga','=','warga.id_warga')
-        ->select('warga.no_nik', 'warga.nama_lengkap', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat' )
+        ->select('warga.no_nik', 'warga.nama_lengkap', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.created_at','persuratan.status_surat' )
         ->where('no_surat', 'LIKE', '%Suket-USAHA%')
         ->get();
-        return view('suket-usaha.suket_usaha', compact('usaha'));
+        return view('admin.suket-usaha.suket_usaha', compact('usaha'));
     }
 
     public function autonumber(){
@@ -76,7 +76,8 @@ class UsahaController extends Controller
         $usaha = Usaha::all();
         $usaha = Warga::all();
         $surat = $this->autonumber();
-        return view('suket-usaha.create', ['surat'=>$surat]);
+        $status_surat = 'Proses';
+        return view('admin.suket-usaha.create', ['surat'=>$surat], ['status_surat'=>$status_surat]);
     }
 
     /**
@@ -89,14 +90,13 @@ class UsahaController extends Controller
     {
         $data['no_surat'] = $request->no_surat;
         $data['id_warga'] = $request->id_warga;
+        $data['status_surat'] = $request->status_surat;
+        $data2['nik_pemohon'] = $request->nik_pemohon;
         $data2['nik_pemilik_usaha'] = $request->nik_pemilik_usaha;
         $data2['nama_usaha'] = $request->nama_usaha;
         $data2['jenis_usaha'] = $request->jenis_usaha;
         $data2['penghasilan_bulanan'] = $request->penghasilan_bulanan;
         $data2['alamat_usaha'] = $request->alamat_usaha;
-       
-        $data['tgl_pembuatan'] = $request->tgl_pembuatan;
-        $data['status_surat'] = $request->status_surat;
 
         $image1 = $request->file('foto_pengantar');
         $image2 = $request->file('foto_kk');
@@ -161,7 +161,7 @@ class UsahaController extends Controller
         ->join('detail_usaha', 'persuratan.id_persuratan','=','detail_usaha.id_persuratan')
         ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 'warga.status_perkawinan',
         'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 
-        'persuratan.tgl_pembuatan','persuratan.tgl_masa_berlaku','persuratan.status_surat', 'detail_usaha.nik_pemilik_usaha',  'detail_usaha.nama_usaha', 'detail_usaha.jenis_usaha', 'detail_usaha.penghasilan_bulanan','detail_usaha.alamat_usaha')
+        'persuratan.tgl_masa_berlaku','persuratan.status_surat', 'detail_usaha.nik_pemilik_usaha','detail_usaha.nik_pemohon',  'detail_usaha.nama_usaha', 'detail_usaha.jenis_usaha', 'detail_usaha.penghasilan_bulanan','detail_usaha.alamat_usaha')
         ->where('persuratan.id_persuratan',$id_persuratan)
         ->first();
 
@@ -170,7 +170,7 @@ class UsahaController extends Controller
         ->first();
        
         $ktp = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->first();
-        return view('suket-usaha.edit', compact('usaha', 'data_warga'));
+        return view('admin.suket-usaha.edit', compact('usaha', 'data_warga'));
     }
 
     /**
@@ -184,13 +184,12 @@ class UsahaController extends Controller
     {
         $data['no_surat'] = $request->no_surat;
         $data['id_warga'] = $request->id_warga;
+        $data2['nik_pemohon'] = $request->nik_pemohon;
         $data2['nik_pemilik_usaha'] = $request->nik_pemilik_usaha;
         $data2['nama_usaha'] = $request->nama_usaha;
         $data2['jenis_usaha'] = $request->jenis_usaha;
         $data2['penghasilan_bulanan'] = $request->penghasilan_bulanan;
         $data2['alamat_usaha'] = $request->alamat_usaha;
-       
-        $data['tgl_pembuatan'] = $request->tgl_pembuatan;
         $data['status_surat'] = $request->status_surat;
 
         $image1 = $request->file('foto_pengantar');

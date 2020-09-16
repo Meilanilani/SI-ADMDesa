@@ -28,7 +28,7 @@ class SKTMSekolahController extends Controller
        
         $sktmsekolah = DB::table('persuratan') 
         ->join('warga','persuratan.id_warga','=','warga.id_warga')
-        ->select('warga.no_nik', 'warga.nama_lengkap', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat', 'persuratan.created_at' )
+        ->select('warga.no_nik', 'warga.nama_lengkap', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.created_at','persuratan.status_surat', 'persuratan.created_at' )
         ->where('no_surat', 'LIKE', '%Suket-TMS%')
         ->get();
         return view('admin.suket-tidakmampu-sekolah.sktm_sekolah', compact('sktmsekolah'));
@@ -95,7 +95,6 @@ class SKTMSekolahController extends Controller
     public function store(Request $request)
     {
         $data['no_surat'] = $request->no_surat;
-        $data['tgl_pembuatan'] = $request->tgl_pembuatan;
         $data['status_surat'] = $request->status_surat;
         $data['id_warga'] = $request->id_warga;
         $data_detail['nik_anak'] = $request->nik_anak;
@@ -180,9 +179,9 @@ class SKTMSekolahController extends Controller
         $sktmsekolah = DB::table('persuratan') 
         ->join('warga', 'persuratan.id_warga','=','warga.id_warga')
         ->join('detail_sktms', 'persuratan.id_persuratan','=','detail_sktms.id_persuratan')
-        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat', 'detail_sktms.nik_anak', 'detail_sktms.nik_pemohon' )
+        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat','persuratan.status_surat', 'detail_sktms.nik_anak', 'detail_sktms.nik_pemohon' )
         ->where('persuratan.id_persuratan',$id_persuratan)
-        ->first();
+        ->first();  
         
         $data_anak = DB::table('warga')
         ->where('no_nik', $sktmsekolah->nik_anak)
@@ -231,7 +230,7 @@ class SKTMSekolahController extends Controller
         $sktmsekolah = DB::table('persuratan') 
         ->join('warga', 'persuratan.id_warga','=','warga.id_warga')
         ->join('detail_sktms', 'persuratan.id_persuratan','=','detail_sktms.id_persuratan')
-        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan', 'detail_sktms.nik_anak', 'detail_sktms.nik_pemohon' )
+        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.updated_at', 'detail_sktms.nik_anak', 'detail_sktms.nik_pemohon' )
         ->where('persuratan.id_persuratan',$id_persuratan)
         ->first();
 

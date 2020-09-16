@@ -100,10 +100,6 @@
           <label for="inputName">Foto Surat Kematian RS</label>
           <input type="file"  name="foto_suratkematianrs	">
         </div>
-        <div class="col-md-5">
-        <label for="inputName">Tanggal Pembuatan Surat</label>
-        <input type="date"  name="tgl_pembuatan" class="form-control">
-      </div>
       <div class="col-md-5">
         <label for="inputName">Status Surat</label>
         <select class="form-control custom-select"  name="status_surat">

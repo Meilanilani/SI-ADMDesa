@@ -32,9 +32,10 @@
                 <label for="inputName">No Surat</label>
                 <input type="text" name="no_surat" class="form-control" value="{{ $surat}}" readonly>
                 </div>
+              
         <div class="col-md-6">
-          <label for="inputName">NIK</label>
-          <input type="text" name="nik_yg_bersangkutan" id="no_nik" class="form-control input-lg" />
+          <label for="inputName">NIK Yang Bersangkutan</label>
+          <input type="text" name="nik_yg_bersangkutan" id="nik_yg_bersangkutan" class="form-control input-lg" />
         </div>
         <div class="col-md-6">
           <label for="inputName">Nama Lengkap</label>
@@ -60,14 +61,10 @@
           <label for="inputName">Pekerjaan</label>
           <input type="text" name="pekerjaan" id="pekerjaan" class="form-control input-lg" readonly/>
         </div>
-            <div class="col-md-6">
+            <div class="col-md-7">
               <label for="inputName">Alamat</label>
               <textarea name="alamat" id="alamat" class="form-control" rows="4" readonly></textarea>
             </span></div>
-            <div class="col-md-6">
-              <label for="inputName">Keperluan Surat</label>
-              <input type="text" name="ket_keperluan_surat"  class="form-control input-lg" />
-            </div>
             </div></div>
       </div> 
     </div>
@@ -82,7 +79,7 @@
         </div>
         <div class="col-md-6">
           <label for="inputName">Nama Pemohon</label>
-          <input type="text" name="nama_lengkap" id="nama_pemohon" class="form-control input-lg" />
+          <input type="text" name="nama_lengkap" id="nama_pemohon" class="form-control input-lg" readonly/>
         </div>
         
         <div class="col-md-8">
@@ -97,18 +94,17 @@
           <label for="inputName">Foto KTP yang bersangkutan</label>
           <input type="file"  name="foto_ktp">
         </div>
-        <div class="col-md-5">
-        <label for="inputName">Tanggal Pembuatan </label>
-        <input type="date"  name="tgl_pembuatan" class="form-control">
-      </div>
-      <div class="col-md-5">
-        <label for="inputName">Tanggal Masa Berlaku </label>
-        <input type="date"  name="tgl_masa_berlaku" class="form-control">
-      </div>
-      <div class="col-md-5">
         <input type="hidden" name="status_surat" value="{{ $status_surat }}" class="form-control" readonly>
+        <div class="col-md-6">
+          <label for="inputName">Keterangan Keperluan Surat</label>
+          <input type="text" name="ket_keperluan_surat" class="form-control input-lg" />
+        </div>
+        <div class="col-md-6">
+          <label for="inputName">Tanggal Masa Berlaku</label>
+          <input type="date" name="tgl_masa_berlaku" class="form-control input-lg" />
+        </div>
     </div>
-      </div></div>
+      </div>
       <div class="card-footer">
         <button type="submit" class="btn btn-success">Simpan</button>
                   <a class="btn btn-success" href="{{route('skck.index')}}">Kembali</a>
@@ -119,12 +115,12 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script type="text/javascript">
       $(document).ready(function(){
-         $('#no_nik').on('input',function(){
+         $('#nik_yg_bersangkutan').on('input',function(){
              
              var no_nik=$(this).val();
              $.ajax({
                  type : "GET",
-                 url  : "{{ route('ktp.ajax_select') }}",
+                 url  : "{{ route('kematian.ajax_select') }}",
                  dataType : "JSON",
                  data : {no_nik: no_nik},
                  cache:false,
@@ -139,13 +135,6 @@
                     var agama = json.agama;
                     var pekerjaan = json.pekerjaan;
                     var alamat = json.alamat;
-
-                    console.log(tempat_lahir);
-                    console.log(tanggal_lahir);
-                    console.log(status_perkawinan);
-                    console.log(agama);
-                    console.log(pekerjaan);
-                    console.log(alamat);
 
                     $('#nama_lengkap').val(nama_lengkap);
                     $('#tempat_lahir').val(tempat_lahir);
@@ -183,7 +172,6 @@
              });
              return false;
         });
-
 
       });
 </script>

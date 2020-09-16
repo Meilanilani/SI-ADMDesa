@@ -18,7 +18,9 @@ class CreateDomisilisTable extends Migration
             $table->string('nik_pemohon',16);
             $table->string('nik_yg_bersangkutan',16);
             $table->integer('id_persuratan')->unsigned();
-            $table->timestamps();
+            
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent(); 
             $table->foreign('id_persuratan')->references('id_persuratan')->on('persuratan')->onDelete('cascade');
         });
     }

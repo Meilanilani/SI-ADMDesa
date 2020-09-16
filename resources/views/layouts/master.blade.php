@@ -319,5 +319,41 @@
 <script src="/assets/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="/assets/js/demo.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+            <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+            <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+          
+            <script type="text/javascript">
+              $(document).ready(function() {
+            $('#data_pengguna').DataTable();
+            } );
+            $(document).ready(function() {
+            $('#data_warga').DataTable();
+            } );
+            $(document).ready(function() {
+            $('#data_sktms').DataTable();
+            } );
+            $(document).ready(function() {
+            $('#data_sktmrs').DataTable();
+            } );
+            $(document).ready(function() {
+            $('#data_kelahiran').DataTable();
+            } );
+            $(document).ready(function() {
+            $('#data_kematian').DataTable();
+            } );
+            $(document).ready(function() {
+            $('#data_na').DataTable();
+            } );
+            $(document).ready(function() {
+            $('#data_skck').DataTable();
+            } );
+            $(document).ready(function() {
+            $('#data_ktp').DataTable();
+            } );
+            $(document).ready(function() {
+            $('#data_usaha').DataTable();
+            } );
+        </script>
 </body>
 </html>

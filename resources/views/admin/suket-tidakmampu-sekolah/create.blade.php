@@ -69,7 +69,7 @@
               <input type="hidden" name="id_warga" id="id_pemohon" class="form-control input-lg" value="" />
         <div class="col-md-6">
           <label for="inputName">NIK Ayah</label>
-          <input type="text" name="nik_pemohon" id="nik_orangtua" class="form-control input-lg" />
+          <input type="text" name="nik_pemohon" id="nik_pemohon" class="form-control input-lg" />
         </div>
         <div class="col-md-6">
           <label for="inputName">Nama Ayah</label>
@@ -104,10 +104,6 @@
           <label for="inputName">Foto KTP yang bersangkutan</label>
           <input type="file"  name="foto_ktp">
         </div>
-        <div class="col-md-5">
-        <label for="inputName">Tanggal Pembuatan</label>
-        <input type="date"  name="tgl_pembuatan" class="form-control">
-      </div>
         <input type="hidden" name="status_surat" value="{{ $status_surat }}" class="form-control" readonly>
       
       </div></div>
@@ -160,7 +156,7 @@
              return false;
         });
         
-        $('#nik_orangtua').on('input',function(){
+        $('#nik_pemohon').on('input',function(){
              
              var no_nik=$(this).val();
              $.ajax({

@@ -27,13 +27,33 @@
           </div>
         </div>
         @if($message = Session::get('success'))
-      <div class="alert alert-success">
-      <p>{{$message}}</p>
-      </div>
+        <div class="card bg-gradient-success">
+          <div class="card-header border-0">
+            
+            <h3 class="card-title">{{$message}}</h3>
+            
+              <!-- tools card -->
+          <div class="card-tools">
+            <!-- button with a dropdown -->
+            <div class="btn-group">
+            <button type="button" class="btn btn-success btn-sm" data-card-widget="remove">
+              <i class="fas fa-times"></i>
+            </button>
+            </div>
+          </div>
+          <!-- /. tools -->
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body pt-0">
+          <!--The calendar -->
+          <div id="calendar" style="width: 100%"></div>
+        </div>
+        </div>
+        <!-- /.card-body -->
       @endif
         <br>
         <div class="table-responsive">
-          <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+          <table id="data_pengguna" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
             <thead>
                 <tr>
                     <th> No </th>
@@ -66,14 +86,6 @@
             </section>
             <!-- /.content -->
             
-            <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-            <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-            <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
-          
-            <script type="text/javascript">
-              $(document).ready(function() {
-            $('#example').DataTable();
-            } );
-        </script>
+            
           @endsection
          

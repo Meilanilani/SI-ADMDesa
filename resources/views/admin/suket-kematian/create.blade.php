@@ -33,7 +33,7 @@
                 <input type="text" name="no_surat" class="form-control" value="{{ $surat}}" readonly>
                 </div>
               
-        <div class="col-md-6">
+          <div class="col-md-6">
           <label for="inputName">NIK Yang Bersangkutan</label>
           <input type="text" name="nik_yg_bersangkutan" id="nik_yg_bersangkutan" class="form-control input-lg" />
         </div>
@@ -109,10 +109,6 @@
           <label for="inputName">Foto Surat Kematian RS</label>
           <input type="file"  name="foto_suratkematianrs	">
         </div>
-        <div class="col-md-5">
-        <label for="inputName">Tanggal Pembuatan</label>
-        <input type="date"  name="tgl_pembuatan" class="form-control">
-      </div>
         <input type="hidden" name="status_surat" value="{{ $status_surat }}" class="form-control" readonly>
     </div>
       </div>

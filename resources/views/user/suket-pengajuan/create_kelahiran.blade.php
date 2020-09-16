@@ -73,10 +73,6 @@
           <label for="inputName">Foto KTP yang bersangkutan</label>
           <input type="file"  name="foto_ktp">
         </div>
-        <div class="col-md-5">
-        <label for="inputName">Tanggal Pembuatan</label>
-        <input type="date"  name="tgl_pembuatan" class="form-control">
-      </div>
       <div class="col-md-5">
         <label for="inputName">Status Surat</label>
         <select class="form-control custom-select"  name="status_surat">

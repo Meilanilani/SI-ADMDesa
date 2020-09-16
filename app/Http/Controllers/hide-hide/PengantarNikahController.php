@@ -23,7 +23,7 @@ class PengantarNikahController extends Controller
     {
         $pnikah = DB::table('persuratan')
         ->join('warga','persuratan.id_warga','=','warga.id_warga')
-        ->select('warga.no_nik', 'warga.nama_lengkap', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat' )
+        ->select('warga.no_nik', 'warga.nama_lengkap', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.created_at','persuratan.status_surat' )
         ->where('no_surat', 'LIKE', '%Suket-NA%')
         ->get();
         return view('admin.suket-pengantar-nikah.pengantar_nikah', compact('pnikah'));
@@ -90,7 +90,6 @@ class PengantarNikahController extends Controller
     {
         $data['no_surat'] = $request->no_surat;
         $data['id_warga'] = $request->id_warga;
-        $data['tgl_pembuatan'] = $request->tgl_pembuatan;
         $data['status_surat'] = $request->status_surat;
         $data_detail['nik_pemohon'] = $request->nik_pemohon;
         $data_detail['nik_anak'] = $request->nik_anak;
@@ -167,7 +166,7 @@ class PengantarNikahController extends Controller
         $pnikah = DB::table('persuratan') 
         ->join('warga', 'persuratan.id_warga','=','warga.id_warga')
         ->join('detail_na', 'persuratan.id_persuratan','=','detail_na.id_persuratan')
-        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat', 'detail_na.nik_anak', 'detail_na.nik_pemohon', 'detail_na.nik_ibu' )
+        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat','persuratan.status_surat', 'detail_na.nik_anak', 'detail_na.nik_pemohon', 'detail_na.nik_ibu' )
         ->where('persuratan.id_persuratan',$id_persuratan)
         ->first();
         
@@ -193,49 +192,8 @@ class PengantarNikahController extends Controller
     public function update(Request $request, $id_persuratan)
     {
         $data['no_surat'] = $request->no_surat;
-        $data['tgl_pembuatan'] = $request->tgl_pembuatan;
         $data['status_surat'] = $request->status_surat;
 
-        $image1 = $request->file('foto_pengantar');
-        $image2 = $request->file('foto_kk');
-        $image3 = $request->file('foto_ktp');
-        $image4 = $request->file('foto_ijazah');
-        if($image1 != null){
-            $image_name = $image1->getClientOriginalName();
-            $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
-            
-            $upload_path = 'public/media/';
-            $image_url = $upload_path.$image_full_name;
-            $succes = $image1->move($upload_path, $image_full_name);
-            $data['foto_pengantar'] = $image_url;
-        } 
-        if($image2 != null){
-            $image_name = $image2->getClientOriginalName();
-            $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
-            
-            $upload_path = 'public/media/';
-            $image_url = $upload_path.$image_full_name;
-            $succes = $image2->move($upload_path, $image_full_name);
-            $data['foto_kk'] = $image_url;
-        } 
-        if($image3 != null){
-            $image_name = $image3->getClientOriginalName();
-            $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
-            
-            $upload_path = 'public/media/';
-            $image_url = $upload_path.$image_full_name;
-            $succes = $image3->move($upload_path, $image_full_name);
-            $data['foto_ktp'] = $image_url;
-        } 
-        if($image4 != null){
-            $image_name = $image4->getClientOriginalName();
-            $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
-            
-            $upload_path = 'public/media/';
-            $image_url = $upload_path.$image_full_name;
-            $succes = $image4->move($upload_path, $image_full_name);
-            $data['foto_ijazah'] = $image_url;
-        } 
         $pnikah = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->update($data);
         return redirect()->route('pnikah.index')
                             ->with('success', 'Data berhasil diupdate!');

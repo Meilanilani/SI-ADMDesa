@@ -24,7 +24,7 @@ class KematianController extends Controller
     {
         $kematian = DB::table('persuratan') 
         ->join('warga','persuratan.id_warga','=','warga.id_warga')
-        ->select('warga.no_nik', 'warga.nama_lengkap', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat' )
+        ->select('warga.no_nik', 'warga.nama_lengkap', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.created_at','persuratan.status_surat' )
         ->where('no_surat', 'LIKE', '%Suket-KMT%')
         ->get();
         return view('admin.suket-kematian.suket_kematian', compact('kematian'));
@@ -87,14 +87,13 @@ class KematianController extends Controller
     public function store(Request $request)
     {
         $data['no_surat'] = $request->no_surat;
+        $data['status_surat'] = $request->status_surat;
         $data['id_warga'] = $request->id_warga;
         $data2['nik_pemohon'] = $request->nik_pemohon;
         $data2['nik_yg_bersangkutan'] = $request->nik_yg_bersangkutan;
         $data2['tgl_kematian'] = $request->tgl_kematian;
         $data2['tempat_kematian'] = $request->tempat_kematian;
         $data2['penyebab_kematian'] = $request->penyebab_kematian;
-        $data['tgl_pembuatan'] = $request->tgl_pembuatan;
-        $data['status_surat'] = $request->status_surat;
 
         $image1 = $request->file('foto_pengantar');
         $image2 = $request->file('foto_kk');
@@ -168,7 +167,7 @@ class KematianController extends Controller
         ->join('detail_kematian', 'persuratan.id_persuratan','=','detail_kematian.id_persuratan')
         ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.status_perkawinan','warga.agama', 
         'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 
-        'persuratan.tgl_pembuatan','persuratan.status_surat', 'detail_kematian.nik_yg_bersangkutan', 'detail_kematian.nik_pemohon', 'detail_kematian.tgl_kematian', 'detail_kematian.tempat_kematian', 'detail_kematian.penyebab_kematian' )
+        'persuratan.status_surat', 'detail_kematian.nik_yg_bersangkutan', 'detail_kematian.nik_pemohon', 'detail_kematian.tgl_kematian', 'detail_kematian.tempat_kematian', 'detail_kematian.penyebab_kematian' )
         ->where('persuratan.id_persuratan',$id_persuratan)
         ->first();
     
@@ -194,7 +193,6 @@ class KematianController extends Controller
         $data2['tgl_kematian'] = $request->tgl_kematian;
         $data2['tempat_kematian'] = $request->tempat_kematian;
         $data2['penyebab_kematian'] = $request->penyebab_kematian;
-        $data['tgl_pembuatan'] = $request->tgl_pembuatan;
         $data['status_surat'] = $request->status_surat;
 
             $id_persuratan = DB::table('detail_kematian')->select('id_persuratan')->where('id_detail_kematian', $id_detail_kematian)->first();
@@ -226,7 +224,7 @@ class KematianController extends Controller
         $kematian = DB::table('persuratan') 
         ->join('warga', 'persuratan.id_warga','=','warga.id_warga')
         ->join('detail_kematian', 'persuratan.id_persuratan','=','detail_kematian.id_persuratan')
-        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.jenis_kelamin', 'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat', 'detail_kematian.nik_yg_bersangkutan', 'detail_kematian.tgl_kematian', 'detail_kematian.tempat_kematian', 'detail_kematian.penyebab_kematian' )
+        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.jenis_kelamin', 'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.created_at','persuratan.status_surat', 'detail_kematian.nik_yg_bersangkutan', 'detail_kematian.tgl_kematian', 'detail_kematian.tempat_kematian', 'detail_kematian.penyebab_kematian' )
         ->where('persuratan.id_persuratan',$id_persuratan)
         ->first();
         

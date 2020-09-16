@@ -25,7 +25,7 @@ class SKTMRSController extends Controller
     {
         $sktmrs = DB::table('persuratan')
         ->join('warga','persuratan.id_warga','=','warga.id_warga')
-        ->select('warga.no_nik', 'warga.nama_lengkap', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat' )
+        ->select('warga.no_nik', 'warga.nama_lengkap', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.created_at','persuratan.status_surat' )
         ->where('no_surat', 'LIKE', '%Suket-TMRS%')
         ->get();
         return view('admin.suket-tidakmampu-rs.sktm_rs', compact('sktmrs'));
@@ -87,7 +87,6 @@ class SKTMRSController extends Controller
     public function store(Request $request)
     {
         $data['no_surat'] = $request->no_surat; 
-        $data['tgl_pembuatan'] = $request->tgl_pembuatan;
         $data['status_surat'] = $request->status_surat;
         $data['id_warga'] = $request->id_warga;
         $data_detail['nik_pemohon'] = $request->nik_pemohon;
@@ -155,7 +154,7 @@ class SKTMRSController extends Controller
         $sktmrs = DB::table('persuratan')
         ->join('warga','persuratan.id_warga','=','warga.id_warga')
         ->join('detail_sktmrs', 'persuratan.id_persuratan','=','detail_sktmrs.id_persuratan')
-        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat', 'detail_sktmrs.nik_pemohon', 'detail_sktmrs.nik_yg_bersangkutan')
+        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.status_surat', 'detail_sktmrs.nik_pemohon', 'detail_sktmrs.nik_yg_bersangkutan')
         ->where('no_surat', 'LIKE', '%Suket-TMRS%')
         ->where('persuratan.id_persuratan',$id_persuratan)
         ->first();
@@ -205,7 +204,7 @@ class SKTMRSController extends Controller
         $sktmrs = DB::table('persuratan') 
         ->join('warga', 'persuratan.id_warga','=','warga.id_warga')
         ->join('detail_sktmrs', 'persuratan.id_persuratan','=','detail_sktmrs.id_persuratan')
-        ->select('warga.id_warga','warga.no_nik', 'warga.no_kk', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat','persuratan.ket_keperluan_surat', 'detail_sktmrs.nik_pemohon', 'detail_sktmrs.nik_yg_bersangkutan' )
+        ->select('warga.id_warga','warga.no_nik', 'warga.no_kk', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.updated_at','persuratan.status_surat','persuratan.ket_keperluan_surat', 'detail_sktmrs.nik_pemohon', 'detail_sktmrs.nik_yg_bersangkutan' )
         ->where('persuratan.id_persuratan',$id_persuratan)
         ->first();
 

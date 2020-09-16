@@ -121,7 +121,7 @@ Route::post('suket-pengantar-nikah/update/{id}', 'PengantarNikahController@updat
 
 Route::get('pdf', 'AdminController@index');
 
-Route::get('/home', 'DashboardController@index')->name('sktm_sekolah.index');
+Route::get('/home', 'DashboardController@index');
 
 //CRUD-Suket-Domisili
 Route::get('suket-domisili', 'DomisiliController@index')->name('domisili.index');
@@ -138,6 +138,7 @@ Route::get('suket-pindah/create', 'PindahController@create')->name('pindah.creat
 Route::post('suket-pindah/store', 'PindahController@store')->name('pindah.store');
 
 Route::get('suket-pindah/cari', 'PindahController@ajax_select')->name('pindah.ajax_select');
+Route::get('suket-pindah/cari_nik', 'PindahController@ajax_select_nik')->name('pindah.ajax_select_nik');
 Route::get('suket-pindah/edit/{id}', 'PindahController@edit');
 Route::get('suket-pindah/delete/{id}', 'PindahController@destroy');
 Route::post('suket-pindah/update/{id}', 'PindahController@update');

@@ -32,7 +32,6 @@
                 <label for="inputName">No Surat</label>
                 <input type="text" name="no_surat" class="form-control" value="{{ $domisili->no_surat}}" readonly>
                 </div>
-              <input type="hidden" name="id_warga" id="id_pemohon" value="{{ $domisili->id_warga}}" class="form-control input-lg" />
         <div class="col-md-6">
           <label for="inputName">NIK</label>
           <input type="text" name="nik_yg_bersangkutan" id="no_nik" class="form-control input-lg" value="{{ $domisili->nik_yg_bersangkutan}}" readonly/>
@@ -81,14 +80,6 @@
           <label for="inputName">Foto KTP yang bersangkutan</label>
           <input type="file"  name="foto_ktp">
         </div>
-        <div class="col-md-5">
-        <label for="inputName">Tanggal Pembuatan</label>
-        <input type="date"  name="tgl_pembuatan" class="form-control" value="{{$domisili->tgl_pembuatan}}">
-      </div>
-      <div class="col-md-5">
-        <label for="inputName">Tanggal Masa Berlaku</label>
-        <input type="date"  name="tgl_masa_berlaku" class="form-control" value="{{$domisili->tgl_pembuatan}}">
-      </div>
       <div class="col-md-5">
         <label for="inputName">Status Surat</label>
         <select class="form-control custom-select"  name="status_surat" >

@@ -32,9 +32,9 @@
                 <label for="inputName">No Surat</label>
                 <input type="text" name="no_surat" class="form-control" value="{{ $surat}}" readonly>
                 </div>
-              <input type="hidden" name="id_warga" id="id_pemohon" class="form-control input-lg" />
+              
         <div class="col-md-6">
-          <label for="inputName">NIK</label>
+          <label for="inputName">NIK Pemilik Usaha</label>
           <input type="text" name="nik_pemilik_usaha" id="no_nik" class="form-control input-lg" />
         </div>
         <div class="col-md-6">
@@ -73,6 +73,15 @@
       <div class="card-body">
           <div class="row">
         {{ csrf_field() }}
+        <input type="hidden" name="id_warga" id="id_pemohon" class="form-control input-lg" />
+        <div class="col-md-6">
+          <label for="inputName">NIK Pemohon</label>
+          <input type="text" name="nik_pemohon" id="nik_pemohon" class="form-control input-lg" />
+        </div>
+        <div class="col-md-6">
+          <label for="inputName">Nama Pemohon</label>
+          <input type="text" name="nama_lengkap" id="nama_pemohon" class="form-control input-lg" readonly/>
+        </div>
         <div class="col-md-6">
           <label for="inputName">Nama Usaha</label>
           <input type="text" name="nama_usaha"  class="form-control input-lg" />
@@ -101,18 +110,8 @@
           <label for="inputName">Foto Surat Izin Suami/ Istri/ Ortu</label>
           <input type="file"  name="foto_suratizin">
         </div>
-        <div class="col-md-5">
-        <label for="inputName">Tanggal Pembuatan Surat</label>
-        <input type="date"  name="tgl_pembuatan" class="form-control">
-      </div>
-      <div class="col-md-5">
-        <label for="inputName">Status Surat</label>
-        <select class="form-control custom-select"  name="status_surat">
-          <option selected disabled>Pilih Status</option>
-          <option>Proses</option>
-          <option>Selesai</option>
-        </select>
-    </div>
+      <input type="hidden" name="status_surat"  class="form-control input-lg" value="{{$status_surat}}">
+    
       </div></div>
       <div class="card-footer">
         <button type="submit" class="btn btn-success">Simpan</button>
@@ -129,7 +128,7 @@
              var no_nik=$(this).val();
              $.ajax({
                  type : "GET",
-                 url  : "{{ route('skck.ajax_select') }}",
+                 url  : "{{ route('usaha.ajax_select') }}",
                  dataType : "JSON",
                  data : {no_nik: no_nik},
                  cache:false,
@@ -146,7 +145,6 @@
                     var status_perkawinan = json.status_perkawinan;
                     var alamat = json.alamat;
 
-                    console.log(id_pemohon);
                     console.log(tempat_lahir);
                     console.log(tanggal_lahir);
                     console.log(status_perkawinan);
@@ -154,7 +152,6 @@
                     console.log(pekerjaan);
                     console.log(alamat);
 
-                    $('#id_pemohon').val(id_pemohon);
                     $('#nama_lengkap').val(nama_lengkap);
                     $('#tempat_lahir').val(tempat_lahir);
                     $('#tanggal_lahir').val(tanggal_lahir);
@@ -162,6 +159,29 @@
                     $('#agama').val(agama);
                     $('#pekerjaan').val(pekerjaan);
                     $('#alamat').val(alamat);                      
+                 }
+             });
+             return false;
+        });
+        $('#nik_pemohon').on('input',function(){
+             
+             var no_nik=$(this).val();
+             $.ajax({
+                 type : "GET",
+                 url  : "{{ route('usaha.ajax_select') }}",
+                 dataType : "JSON",
+                 data : {no_nik: no_nik},
+                 cache:false,
+                 success: function(data){
+                   console.log(data);
+                   var json = data;
+
+                    var id_pemohon = json.id_warga;
+                    var nama_pemohon = json.nama_lengkap;
+                   
+                    $('#id_pemohon').val(id_pemohon);
+                    $('#nama_pemohon').val(nama_pemohon);
+                                         
                  }
              });
              return false;

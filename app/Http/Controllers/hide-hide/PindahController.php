@@ -23,10 +23,10 @@ class PindahController extends Controller
     {
         $pindah = DB::table('persuratan') 
         ->join('warga','persuratan.id_warga','=','warga.id_warga')
-        ->select('warga.no_nik', 'warga.nama_lengkap', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat' )
+        ->select('warga.no_nik', 'warga.nama_lengkap', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.created_at','persuratan.status_surat' )
         ->where('no_surat', 'LIKE', '%Suket-PH%')
         ->get();
-        return view('suket-pindah.suket_pindah', compact('pindah'));
+        return view('admin.suket-pindah.suket_pindah', compact('pindah'));
     }
 
     /**
@@ -58,18 +58,25 @@ class PindahController extends Controller
             $pindah = Warga::where('no_kk','=',$no_kk)->first();
             if(isset($pindah)){
                 $data = array(
-                'no_nik' => $pindah['no_nik'],);
+                'id_warga' => $pindah['id_warga'],
+                'nama_lengkap' =>  $pindah['nama_lengkap'],
+                'no_nik' =>  $pindah['no_nik'],
+            );
                 
             return json_encode($data);}
         }
 
+    
+
     public function create()
     {
-    
+        
+
         $pindah = Pindah::all();
         $pindah = Warga::all();
         $surat = $this->autonumber();
-        return view('suket-pindah.create',['surat'=>$surat]);
+        $status_surat = 'Proses';
+        return view('admin.suket-pindah.create',['surat'=>$surat], ['status_surat'=>$status_surat]);
     }
 
     /**
@@ -81,11 +88,12 @@ class PindahController extends Controller
     public function store(Request $request)
     {
         $data['no_surat'] = $request->no_surat;
+        $data['status_surat'] = $request->status_surat;
+        $data['id_warga'] = $request->id_warga;
+        $data2['nik_pemohon'] = $request->nik_pemohon;
+        $data2['no_kk'] = $request->no_kk;
         $data2['alamat_tujuan'] = $request->alamat_tujuan;
         $data2['alasan_pindah'] = $request->alasan_pindah;
-        $data2['jumlah_pengikut'] = $request->jumlah_pengikut;
-        $data['tgl_pembuatan'] = $request->tgl_pembuatan;
-        $data['status_surat'] = $request->status_surat;
 
         $image1 = $request->file('foto_pengantar');
         $image2 = $request->file('foto_kk');
@@ -170,7 +178,7 @@ class PindahController extends Controller
         ->select('ket_pindah.id_ket_pindah','persuratan.id_persuratan', 'persuratan.no_surat', 'persuratan.foto_pengantar', 'persuratan.foto_kk', 'persuratan.foto_ktp','persuratan.foto_akta_cerai','persuratan.foto_surat_pindah_sebelumnya','persuratan.tgl_pembuatan','persuratan.status_surat','ket_pindah.alamat_tujuan', 'ket_pindah.alasan_pindah', 'ket_pindah.jumlah_pengikut')
         ->where('id_ket_pindah',$id_ket_pindah)
         ->first();
-        return view('suket-pindah.edit', compact('pindah'));
+        return view('admin.suket-pindah.edit', compact('pindah'));
     }
 
     /**
@@ -254,15 +262,13 @@ class PindahController extends Controller
      * @param  \App\Pindah  $pindah
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id_ket_pindah)
+    public function destroy($id_persuratan)
     {
-        $pindah = DB::table('persuratan') 
-        ->join('ket_pindah','persuratan.id_persuratan','=','ket_pindah.id_persuratan')
-        ->select('ket_pindah.id_ket_pindah','persuratan.id_persuratan', 'persuratan.no_surat', 'persuratan.foto_pengantar', 'persuratan.foto_kk', 'persuratan.foto_ktp','persuratan.foto_akta_cerai','persuratan.foto_surat_pindah_sebelumnya','persuratan.tgl_pembuatan','persuratan.status_surat','ket_pindah.alamat_tujuan', 'ket_pindah.alasan_pindah', 'ket_pindah.jumlah_pengikut')
-        ->where('id_ket_pindah',$id_ket_pindah)
-        ->delete();
+        $data = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->first();
+       
+        $pindah = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->delete();
         
         return redirect()->route('pindah.index')
-        ->with('success', 'Data Berhasil dihapus!');
+        ->with('success', 'Data Berhasil Dihapus!');
     }
 }

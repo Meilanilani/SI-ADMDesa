@@ -30,7 +30,9 @@ class CreateWargasTable extends Migration
             $table->string('nama_ibu', 50);
             $table->string('alamat');   
 
-            $table->timestamps();
+            
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent();
         });
     }
 

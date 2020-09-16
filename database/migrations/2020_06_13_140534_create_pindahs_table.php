@@ -14,12 +14,15 @@ class CreatePindahsTable extends Migration
     public function up()
     {
         Schema::create('detail_pindah', function (Blueprint $table) {
+            $table->string('no_kk',16);
+            $table->string('nik_pemohon',16);
             $table->increments('id_ket_pindah');
             $table->string('alamat_tujuan');
             $table->string('alasan_pindah')->nullable();
-            $table->string('no_kk',16);
             $table->integer('id_persuratan')->unsigned();
-            $table->timestamps();
+            
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent(); 
             $table->foreign('id_persuratan')->references('id_persuratan')->on('persuratan')->onDelete('cascade');
         });
     }

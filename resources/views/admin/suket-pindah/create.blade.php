@@ -32,14 +32,12 @@
                 <label for="inputName">No Surat</label>
                 <input type="text" name="no_surat" class="form-control" value="{{ $surat}}" readonly>
                 </div>
-              <input type="hidden" name="id_warga" id="id_pemohon" class="form-control input-lg" />
+              <input type="text" name="id_warga" id="id_pemohon" class="form-control input-lg" />
+              <input type="text" name="nik_pemohon" id="nik_pemohon" class="form-control input-lg" />
+              
         <div class="col-md-6">
-          <label for="inputName">No KK</label>
+          <label for="inputName">No KK</label>  
           <input type="text" name="no_kk" id="no_kk" class="form-control input-lg" />
-        </div>
-        <div class="col-md-5">
-          <label for="inputName">Jumlah Anggota Keluarga</label>
-          <input type="text" class="form-control input-lg" readonly/>
         </div>
         <div class="col-md-8">
           <label for="inputName">Alamat Tujuan</label>
@@ -68,18 +66,7 @@
           <label for="inputName">Foto KTP yang bersangkutan</label>
           <input type="file"  name="foto_ktp">
         </div>
-        <div class="col-md-5">
-        <label for="inputName">Tanggal Pembuatan</label>
-        <input type="date"  name="tgl_pembuatan" class="form-control">
-      </div>
-      <div class="col-md-5">
-        <label for="inputName">Status Surat</label>
-        <select class="form-control custom-select"  name="status_surat">
-          <option selected disabled>Pilih Status</option>
-          <option>Proses</option>
-          <option>Selesai</option>
-        </select>
-    </div>
+      <input type="hidden" name="status_surat" class="form-control input-lg" value="{{$status_surat}}" />
       </div></div>
       <div class="card-footer">
         <button type="submit" class="btn btn-success">Simpan</button>
@@ -104,64 +91,20 @@
                    console.log(data);
                    var json = data;
 
-                    var nama_lengkap = json.nama_lengkap;
-                    var tempat_lahir = json.tempat_lahir;
-                    var tanggal_lahir = json.tanggal_lahir;
-                    var agama = json.agama;
-                    var pekerjaan = json.pekerjaan;
-                    var alamat = json.alamat;
+                    var id_pemohon = json.id_warga;
+                    var nik_pemohon = json.no_nik;
 
-                    console.log(id_pemohon);
-                    console.log(tempat_lahir);
-                    console.log(tanggal_lahir);
-                    console.log(agama);
-                    console.log(pekerjaan);
-                    console.log(alamat);
+                    
 
-                    $('#id_pemohon').val(id_pemohon);
-                    $('#nama_lengkap').val(nama_lengkap);
-                    $('#tempat_lahir').val(tempat_lahir);
-                    $('#tanggal_lahir').val(tanggal_lahir);
-                    $('#agama').val(agama);
-                    $('#pekerjaan').val(pekerjaan);
-                    $('#alamat').val(alamat);                      
+                    $('#id_pemohon').val(id_pemohon);     
+                    $('#nik_pemohon').val(nik_pemohon);                   
                  }
              });
              return false;
         });
         
-        $('#nik_yg_bersangkutan').on('input',function(){
-             
-             var no_nik=$(this).val();
-             $.ajax({
-                 type : "GET",
-                 url  : "{{ route('sktmrs.ajax_select') }}",
-                 dataType : "JSON",
-                 data : {no_nik: no_nik},
-                 cache:false,
-                 success: function(data){
-                   console.log(data);
-                   var json = data;
-
-                    
-                    var nama_yg_bersangkutan = json.nama_lengkap;
-                    var tempat_lahir_yg_bersangkutan = json.tempat_lahir;
-                    var tgl_lahir_yg_bersangkutan = json.tanggal_lahir;
-                    
-                    
-                    console.log(nama_yg_bersangkutan);
-                    console.log(tempat_lahir_yg_bersangkutan);
-                    console.log(tgl_lahir_yg_bersangkutan);
-                  
-                   
-                    $('#nama_yg_bersangkutan').val(nama_yg_bersangkutan);
-                    $('#tempat_lahir_yg_bersangkutan').val(tempat_lahir_yg_bersangkutan);
-                    $('#tgl_lahir_yg_bersangkutan').val(tgl_lahir_yg_bersangkutan);
-                   
-                 }
-             });
-             return false;
-        });
+      
+            
 
       });
 </script>

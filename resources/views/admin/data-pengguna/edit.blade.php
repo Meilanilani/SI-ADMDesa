@@ -21,15 +21,6 @@
               <div class="card-body">
                 <div class="row">
                   <div class="col-md-6">
-                    @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                            <li> {{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                    @endif
                     <form action="{{ url('data-pengguna/update/'.$pengguna->id)}}" method="POST" enctype="multipart/form-data">
                       @csrf
                       <div class="form-group">
@@ -40,7 +31,10 @@
                         </div>
                         <div class="col-md-6">
                           <label for="inputName">Password</label>
-                          <input type="text" name="password" class="form-control">
+                          <input type="text" name="password" class="form-control @error('password') is-invalid @enderror">
+                          @error('password')
+                           <div class="invalid-feedback">{{ $message }}</div>
+                          @enderror
                           </div>
                     </div>
                   </div>

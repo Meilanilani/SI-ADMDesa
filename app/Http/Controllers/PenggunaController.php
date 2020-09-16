@@ -95,6 +95,17 @@ class PenggunaController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $message =[
+            'required' => 'Password tidak boleh kosong',
+            'min' => 'Password harus 8 Karakter'
+        ];
+
+        $this->validate($request,[
+            'password' => ['required', 'string', 'min:8']
+        ], $message);
+
+       
+
         $data['name'] = $request->name;
         $data['password'] = Hash::make($request->password); 
 

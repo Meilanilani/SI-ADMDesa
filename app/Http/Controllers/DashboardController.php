@@ -60,8 +60,6 @@ class DashboardController extends Controller
         ->where('no_surat', 'LIKE', '%Suket-KK%')
         ->count();
 
-        
-        
         return view('admin.dashboard', compact('sktmsekolah', 'sktmrs','kematian', 'kelahiran', 'pnikah', 'skck', 'ktp', 'usaha', 'pindah', 'domisili', 'kk'));
     }
 }

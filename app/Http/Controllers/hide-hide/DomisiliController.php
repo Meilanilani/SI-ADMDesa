@@ -24,10 +24,10 @@ class DomisiliController extends Controller
     {
         $domisili = DB::table('persuratan') 
         ->join('warga','persuratan.id_warga','=','warga.id_warga')
-        ->select('warga.no_nik', 'warga.nama_lengkap', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat' )
+        ->select('warga.no_nik', 'warga.nama_lengkap', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.created_at','persuratan.status_surat' )
         ->where('no_surat', 'LIKE', '%Suket-D%')
         ->get();
-        return view('suket-domisili.suket-domisili', compact('domisili'));
+        return view('admin.suket-domisili.suket-domisili', compact('domisili'));
     }
 
     /**
@@ -40,7 +40,8 @@ class DomisiliController extends Controller
         $domisili = Persuratan::all();
         $domisili = Warga::all();
         $surat = $this->autonumber();
-        return view('suket-domisili.create', ['surat'=>$surat]);
+        $status_surat = 'Proses';
+        return view('admin.suket-domisili.create', ['surat'=>$surat], ['status_surat'=>$status_surat]);
     }
 
     public function autonumber(){
@@ -70,6 +71,7 @@ class DomisiliController extends Controller
                 'nama_lengkap' =>  $domisili['nama_lengkap'],
                 'tempat_lahir' =>  $domisili['tempat_lahir'],
                 'tanggal_lahir' =>  $domisili['tanggal_lahir'],
+                'status_perkawinan' =>  $domisili['status_perkawinan'],
                 'agama' =>  $domisili['agama'],
                 'pekerjaan' =>  $domisili['pekerjaan'],
                 'alamat' =>  $domisili['alamat'],);
@@ -85,10 +87,10 @@ class DomisiliController extends Controller
     public function store(Request $request)
     {
         $data['no_surat'] = $request->no_surat;
-        $data['tgl_pembuatan'] = $request->tgl_pembuatan;
         $data['status_surat'] = $request->status_surat;
         $data['id_warga'] = $request->id_warga;
         $data_detail['nik_yg_bersangkutan'] = $request->nik_yg_bersangkutan;
+        $data_detail['nik_pemohon'] = $request->nik_pemohon;
 
 
         $image1 = $request->file('foto_pengantar');
@@ -153,7 +155,7 @@ class DomisiliController extends Controller
         ->join('detail_domisili', 'persuratan.id_persuratan','=','detail_domisili.id_persuratan')
         ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 
         'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 
-        'persuratan.tgl_pembuatan','persuratan.status_surat', 'detail_domisili.nik_yg_bersangkutan' )
+        'persuratan.status_surat', 'detail_domisili.nik_yg_bersangkutan' )
         ->where('persuratan.id_persuratan',$id_persuratan)
         ->first();
 
@@ -164,7 +166,7 @@ class DomisiliController extends Controller
         ->first();
        
         $domisili = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->first();
-        return view('suket-domisili.edit', compact('domisili', 'data_warga'));
+        return view('admin.suket-domisili.edit', compact('domisili', 'data_warga'));
     }
 
     /**

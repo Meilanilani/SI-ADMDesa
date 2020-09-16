@@ -24,7 +24,7 @@
         </div>
         @endif
       <div class="card-body">
-        <form action="{{ route('kematian.store')}}" method="POST" enctype="multipart/form-data">
+        <form action="{{ url('suket-kematian/update/'.$kematian->id_persuratan)}}" method="POST" enctype="multipart/form-data">
           @csrf
           <div class="form-group">
             <div class="row">
@@ -32,8 +32,8 @@
                 <label for="inputName">No Surat</label>
                 <input type="text" name="no_surat" class="form-control" value="{{ $kematian->no_surat}}" readonly>
                 </div>
-              <input type="hidden" name="id_warga" id="id_pemohon" class="form-control input-lg" value="{{ $kematian->id_warga}}"  />
-        <div class="col-md-6">
+             
+          <div class="col-md-6">
           <label for="inputName">NIK</label>
           <input type="text" name="nik_yg_bersangkutan" id="no_nik" class="form-control input-lg"  value="{{ $kematian->nik_yg_bersangkutan}}" readonly />
         </div>
@@ -72,6 +72,15 @@
       <div class="card-body">
           <div class="row">
         {{ csrf_field() }}
+        <input type="hidden" name="id_warga" id="id_pemohon" class="form-control input-lg" value="{{ $kematian->id_warga}}" readonly/>
+        <div class="col-md-6">
+          <label for="inputName">NIK Pemohon</label>
+          <input type="text" name="nik_pemohon" id="nik_pemohon" class="form-control input-lg" value="{{ $kematian->nik_pemohon}}" readonly />
+        </div>
+        <div class="col-md-6">
+          <label for="inputName">Nama Pemohon</label>
+          <input type="text" name="nama_lengkap" id="nama_pemohon" class="form-control input-lg" value="{{ $kematian->nama_lengkap}}" readonly/>
+        </div>
         <div class="col-md-6">
           <label for="inputName">Tanggal Kematian</label>
           <input type="date" name="tgl_kematian" class="form-control input-lg" value="{{ $kematian->tgl_kematian}}" readonly/>
@@ -84,10 +93,6 @@
           <label for="inputName">Penyebab Kematian</label>
           <input type="text" name="penyebab_kematian" class="form-control input-lg" value="{{ $kematian->penyebab_kematian}}" readonly/>
         </div>
-        <div class="col-md-5">
-        <label for="inputName">Tanggal Pembuatan</label>
-        <input type="date"  name="tgl_pembuatan" class="form-control" value="{{ $kematian->tgl_pembuatan}}">
-      </div>
       <div class="col-md-5">
         <label for="inputName">Status Surat</label>
         <select class="form-control custom-select"  name="status_surat" >

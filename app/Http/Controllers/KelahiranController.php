@@ -25,7 +25,7 @@ class KelahiranController extends Controller
         
         $lahir = DB::table('persuratan') 
         ->join('warga','persuratan.id_warga','=','warga.id_warga')
-        ->select('warga.no_nik', 'warga.nama_lengkap', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat' )
+        ->select('warga.no_nik', 'warga.nama_lengkap', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.created_at','persuratan.status_surat' )
         ->where('no_surat', 'LIKE', '%Suket-Lahir%')
         ->get();
         
@@ -91,7 +91,6 @@ class KelahiranController extends Controller
     public function store(Request $request)
     {
         $data['no_surat'] = $request->no_surat;
-        $data['tgl_pembuatan'] = $request->tgl_pembuatan;
         $data['status_surat'] = $request->status_surat;
         $data['id_warga'] = $request->id_warga;
         $data_detail['nama_anak'] = $request->nama_anak;
@@ -181,7 +180,7 @@ class KelahiranController extends Controller
         $lahir = DB::table('persuratan') 
         ->join('warga', 'persuratan.id_warga','=','warga.id_warga')
         ->join('detail_kelahiran','persuratan.id_persuratan','=','detail_kelahiran.id_persuratan')
-        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat', 'detail_kelahiran.nama_anak', 'detail_kelahiran.tempat_lahir_anak',  'detail_kelahiran.tanggal_lahir_anak', 'detail_kelahiran.jenis_kelamin', 'detail_kelahiran.jam_lahir', 'detail_kelahiran.anak_ke','detail_kelahiran.nik_pemohon', 'detail_kelahiran.nik_ibu' )
+        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat','persuratan.status_surat', 'detail_kelahiran.nama_anak', 'detail_kelahiran.tempat_lahir_anak',  'detail_kelahiran.tanggal_lahir_anak', 'detail_kelahiran.jenis_kelamin', 'detail_kelahiran.jam_lahir', 'detail_kelahiran.anak_ke','detail_kelahiran.nik_pemohon', 'detail_kelahiran.nik_ibu' )
         ->where('persuratan.id_persuratan',$id_persuratan)
         ->first();
         
@@ -201,7 +200,6 @@ class KelahiranController extends Controller
      */
     public function update(Request $request, $id_persuratan)
     {
-        $data['tgl_pembuatan'] = $request->tgl_pembuatan;
         $data['status_surat'] = $request->status_surat;
         $data_detail['nama_anak'] = $request->nama_anak;
         $data_detail['tempat_lahir_anak'] = $request->tempat_lahir_anak;

@@ -21,7 +21,9 @@ class CreateKematiansTable extends Migration
             $table->string('tempat_kematian', 50);
             $table->string('penyebab_kematian', 50);
             $table->integer('id_persuratan')->unsigned();
-            $table->timestamps();
+            
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent(); 
             $table->foreign('id_persuratan')->references('id_persuratan')->on('persuratan')->onDelete('cascade');
         });
     }

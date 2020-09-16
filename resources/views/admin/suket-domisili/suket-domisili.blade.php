@@ -1,37 +1,58 @@
-@extends('layouts.master')
+          @extends('layouts.master')
 @section('content')
-
- <!-- Content Header (Page header) -->
+          
  <div class="content-header">
-    <div class="container-fluid">
-      <div class="row mb-2">
-      </div><!-- /.row -->
-    </div><!-- /.container-fluid -->
-  </div>
-  <!-- /.content-header -->
-  
+  <div class="container-fluid">
+    <div class="row mb-2">
+    </div><!-- /.row -->
+  </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
 <!-- Main content -->
 <section class="content">
-
-    <!-- Default box -->
-    <div class="card">
-      <div class="card card-info">
-        <div class="card-header">
+  <!-- Default box -->
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">
           <h3 class="card-title">Data Surat Keterangan Domisili</h3>
           <div class="card-tools">
             <a href="{{route('domisili.create')}}" class="btn btn-block btn-secondary btn-sm">Tambah Data</a>
-          </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-12">
         </div>
       </div>
-      @if($message = Session::get('success'))
-      <div class="alert alert-success">
-      <p>{{$message}}</p>
+  
+    @if($message = Session::get('success'))
+      <div class="card bg-gradient-success">
+        <div class="card-header border-0">
+          
+          <h3 class="card-title">{{$message}}</h3>
+          
+            <!-- tools card -->
+        <div class="card-tools">
+          <!-- button with a dropdown -->
+          <div class="btn-group">
+          <button type="button" class="btn btn-success btn-sm" data-card-widget="remove">
+            <i class="fas fa-times"></i>
+          </button>
+          </div>
+        </div>
+        <!-- /. tools -->
       </div>
-      @endif
-      <div class="card-body">
-        <br>
-        <div class="table-responsive">
-        <table class="table table-bordered table-hovervvctvkfadilypn">
+      <!-- /.card-header -->
+      <div class="card-body pt-0">
+        <!--The calendar -->
+        <div id="calendar" style="width: 100%"></div>
+      </div>
+      </div>
+      <!-- /.card-body -->
+    @endif
+    <div class="card-body">
+      <div class="table-responsive">
+        <table id="data_sktms" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
             <thead>
                 <tr>
                     <th> No </th>
@@ -55,7 +76,7 @@
                 <td>{{ $post->no_surat }}</td>
                 <td>{{ $post->no_nik }}</td>
                 <td>{{ $post->nama_lengkap }}</td>
-                <td>{{ $post->tgl_pembuatan }}</td>
+                <td>{{ $post->created_at }}</td>
                 <td>{{ $post->status_surat }}</td>
                 <td>
                   <a class="btn btn-danger btn-sm" href="{{URL::to('suket-domisili/edit/'.$post->id_persuratan)}}"><i class="nav-icon fas fa-edit"></i> Edit</a>

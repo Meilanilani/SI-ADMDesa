@@ -70,7 +70,7 @@
            
         <div class="col-md-6">
           <label for="inputName">NIK Ayah</label>
-          <input type="text" name="nik_ayah" id="nik_ayah" class="form-control input-lg" />
+          <input type="text" name="nik_pemohon" id="nik_ayah" class="form-control input-lg" />
         </div>
         <div class="col-md-6">
           <label for="inputName">Nama Ayah</label>

@@ -18,8 +18,10 @@ class CreateNasTable extends Migration
             $table->string('nik_pemohon',16);
             $table->string('nik_anak', 16);
             $table->string('nik_ibu',16);
-            $table->timestamps();
             $table->integer('id_persuratan')->unsigned();
+            
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent(); 
             $table->foreign('id_persuratan')->references('id_persuratan')->on('persuratan')->onDelete('cascade');
         });
     }

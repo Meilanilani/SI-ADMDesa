@@ -30,12 +30,13 @@ class CreatePersuratansTable extends Migration
             $table->string('foto_akta_notaris', 255)->nullable();
             $table->string('foto_sertifikat_tanah', 255)->nullable();
             $table->string('foto_sptpbb', 255)->nullable();
-            $table->date('tgl_pembuatan');
             $table->date('tgl_masa_berlaku')->nullable();
             $table->enum('status_surat', ['Proses', 'Selesai']);
            
             $table->integer('id_warga')->unsigned();
-            $table->timestamps();
+            
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent(); 
             
             $table->foreign('id_warga')->references('id_warga')->on('warga')->onDelete('cascade');
         });
