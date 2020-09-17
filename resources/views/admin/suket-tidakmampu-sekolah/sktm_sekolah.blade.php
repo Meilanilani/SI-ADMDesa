@@ -76,7 +76,7 @@
                 <td>{{ $post->no_surat }}</td>
                 <td>{{ $post->no_nik }}</td>
                 <td>{{ $post->nama_lengkap }}</td>
-                <td>{{ $post->created_at }}</td>
+                <td>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $post->created_at)->isoFormat('D MMMM Y')}}</td>
                 <td>{{ $post->status_surat }}</td>
                 <td>
                   <a class="btn btn-danger btn-sm" href="{{URL::to('suket-tidakmampu-sekolah/edit/'.$post->id_persuratan)}}"><i class="nav-icon fas fa-edit"></i> Edit</a>

@@ -25,13 +25,13 @@ class SKTMSekolahController extends Controller
      */
     public function index()
     {
-       
+        $date = date("Y-m-d");
         $sktmsekolah = DB::table('persuratan') 
         ->join('warga','persuratan.id_warga','=','warga.id_warga')
         ->select('warga.no_nik', 'warga.nama_lengkap', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.created_at','persuratan.status_surat', 'persuratan.created_at' )
         ->where('no_surat', 'LIKE', '%Suket-TMS%')
         ->get();
-        return view('admin.suket-tidakmampu-sekolah.sktm_sekolah', compact('sktmsekolah'));
+        return view('admin.suket-tidakmampu-sekolah.sktm_sekolah', ['sktmsekolah'=>$sktmsekolah],['date'=>$date] );
     }
 
     /**
@@ -94,6 +94,17 @@ class SKTMSekolahController extends Controller
      */
     public function store(Request $request)
     {
+        $message =[
+            'required' => 'Isi tidak boleh kosong',
+            'min' => 'Isi minimal harus 16 Karakter',
+            'max' => 'Isi maximal harus 16 Karakter'
+        ];
+
+        $this->validate($request,[
+            'nik_anak' => ['required', 'string', 'min:16', 'max:16'],
+            'nik_pemohon' => ['required', 'string', 'min:16', 'max:16']
+        ], $message);  
+
         $data['no_surat'] = $request->no_surat;
         $data['status_surat'] = $request->status_surat;
         $data['id_warga'] = $request->id_warga;

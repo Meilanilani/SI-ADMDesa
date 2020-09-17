@@ -83,7 +83,7 @@ hr.style2{
         </tr>
         <tr>
             <td><font size="2">Pekerjaan</font></td>
-            <td width="350px"> : {{ $sktmsekolah->pekerjaan }}</font></td>
+            <td width="350px"><font size="2"> : {{ $sktmsekolah->pekerjaan }}</font></td>
         </tr>
         <tr>
             <td><font size="2">Kewarganegaraan</font></td>
@@ -156,7 +156,7 @@ hr.style2{
     <table align="center">
         <tr>
             <td width="400px"> </td>
-            <td><font size="2">Cihampelas, {{ $sktmsekolah->updated_at }}</font></td>
+            <td><font size="2">Cihampelas, {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $sktmsekolah->updated_at)->isoFormat('D MMMM Y') }}</font></td>
         </tr>
         <tr>
             <td align="center" colspan="2"><font size="2">Mengetahui</font></td>
@@ -183,7 +183,7 @@ hr.style2{
         <tr>
             <td align="center" colspan="2"><font size="2">KEPALA DESA CIHAMPELAS</font></td>
         </tr>
-    </table><br><br><br>
+    </table><br><br><br><br>
         <table align="center">
         <tr>
             <td align="center" colspan="2"><font size="2"><strong> ASEP MULYADI</strong></font></td>
