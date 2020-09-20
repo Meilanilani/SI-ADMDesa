@@ -24,18 +24,18 @@
         </div>
         @endif
       <div class="card-body">
-        <form action="{{ route('sktmrs.store')}}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('pengajuan.store_sktmrs')}}" method="POST" enctype="multipart/form-data">
           @csrf
           <div class="form-group">
             <div class="row">
               <div class="col-md-7">
                 <label for="inputName">No Surat</label>
-                <input type="text" name="no_surat" class="form-control" value="" readonly>
+              <input type="text" name="no_surat" class="form-control" value="{{$surat}}" readonly>
                 </div>
               <input type="hidden" name="id_warga" id="id_pemohon" class="form-control input-lg" />
         <div class="col-md-6">
           <label for="inputName">NIK</label>
-          <input type="text" name="nik_kepala_keluarga" id="no_nik" class="form-control input-lg" />
+          <input type="text" name="nik_pemohon" id="no_nik" class="form-control input-lg" />
         </div>
         <div class="col-md-6">
           <label for="inputName">Nama Lengkap</label>
@@ -96,22 +96,12 @@
           <label for="inputName">Foto KTP yang bersangkutan</label>
           <input type="file"  name="foto_ktp">
         </div>
-        <div class="col-md-5">
-        <label for="inputName">Tanggal Pembuatan</label>
-        <input type="date"  name="tgl_pembuatan" class="form-control">
-      </div>
       <div class="col-md-5">
-        <label for="inputName">Status Surat</label>
-        <select class="form-control custom-select"  name="status_surat">
-          <option selected disabled>Pilih Status</option>
-          <option>Proses</option>
-          <option>Selesai</option>
-        </select>
+        <input type="hidden" name="status_surat" class="form-control input-lg" value="{{$status_surat}}" />
     </div>
       </div></div>
       <div class="card-footer">
         <button type="submit" class="btn btn-success">Simpan</button>
-                  <a class="btn btn-success" href="{{route('sktmrs.index')}}">Kembali</a>
       </div>
     </div>
   </div>

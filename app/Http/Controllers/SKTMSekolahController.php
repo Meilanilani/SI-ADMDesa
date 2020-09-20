@@ -10,6 +10,7 @@ use PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+
 class SKTMSekolahController extends Controller
 {
     public function __construct()
@@ -82,7 +83,11 @@ class SKTMSekolahController extends Controller
             'agama' =>  $sktmsekolah['agama'],
             'pekerjaan' =>  $sktmsekolah['pekerjaan'],
             'alamat' =>  $sktmsekolah['alamat'],);
-        return json_encode($data);}
+        }
+        else{
+            $data = null;
+        }
+        return json_encode($data);
     }
     
 
@@ -162,18 +167,6 @@ class SKTMSekolahController extends Controller
      */
     public function show(SKTMSekolah $sKTMSekolah)
     {    
-        $sktmsekolah = DB::table('persuratan') 
-        ->join('warga', 'persuratan.id_warga','=','warga.id_warga')
-        ->join('detail_sktms', 'persuratan.id_persuratan','=','detail_sktms.id_persuratan')
-        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat', 'detail_sktms.nik_anak', 'detail_sktms.nik_orangtua' )
-        ->where('persuratan.id_persuratan',$id_persuratan)
-        ->first();
-        
-        $data_anak = DB::table('warga')
-        ->where('no_nik', $sktmsekolah->nik_anak)
-        ->first();
-
-        return view('admin.suket-tidakmampu-sekolah.show',compact('sktmsekolah','data_anak'))->renderSections()['content'];
     
     }
 
@@ -212,9 +205,10 @@ class SKTMSekolahController extends Controller
     public function update(Request $request, $id_persuratan)
     {
         
+        $data_detail['nama_anak'] = $request->nama_anak;
         $data['status_surat'] = $request->status_surat;
         
-        $sktmsekolah = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->update($data);
+        $kelahiran = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->update($data);
         return redirect()->route('sktmsekolah.index')
                             ->with('success', 'Data berhasil diupdate!');
     }

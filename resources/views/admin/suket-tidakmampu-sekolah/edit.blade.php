@@ -96,12 +96,8 @@
                   <div class="col-md-5">
                     <label for="inputName">Status Surat</label>
                     <select class="form-control custom-select"  name="status_surat" >
-                      <option selected disabled>Pilih Status</option>
-                      @if (isset($sktmsekolah->status_surat))
-                      <option selected>{{$sktmsekolah->status_surat}}</option>
-                      @endif
-                      <option>Proses</option>
-                      <option>Selesai</option>
+                      <option <?= $sktmsekolah->status_surat == 'Proses'? 'Selected' : 'Proses' ?>>Proses</option>
+                      <option <?= $sktmsekolah->status_surat == 'Selesai'? 'Selected' : 'Selesai' ?>>Selesai</option>
                     </select>
                 </div>
                   </div></div>
@@ -109,12 +105,7 @@
                     <button type="submit" class="btn btn-success">Simpan</button>
                     <a class="btn btn-success" href="{{route('sktmsekolah.index')}}">Kembali</a>
                          
-                      </div>
-                    </div>
-                  </div>
-                  
-                      </div>
-                      </div>
+                     
                       </div>
                     <!-- /.card-body -->
                   </div>

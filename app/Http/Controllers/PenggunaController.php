@@ -102,7 +102,7 @@ class PenggunaController extends Controller
 
         $this->validate($request,[
             'password' => ['required', 'string', 'min:8']
-        ], $message);
+        ], $message);   
 
        
 

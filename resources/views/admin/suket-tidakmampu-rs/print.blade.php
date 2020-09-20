@@ -80,11 +80,11 @@ hr.style2{
         
         <tr>
             <td><font size="2">Pekerjaan</font></td>
-            <td width="350px"> : {{ $sktmrs->pekerjaan }}</font></td>
+            <td width="350px"><font size="2"> : {{ $sktmrs->pekerjaan }}</font></td>
         </tr>
         <tr>
             <td><font size="2">No NIK</font></td>
-            <td width="350px"><font size="2"> : {{ $sktmrs->nik_kepala_keluarga }}</font></td>
+            <td width="350px"><font size="2"> : {{ $sktmrs->nik_pemohon }}</font></td>
         </tr>
         <tr>
             <td><font size="2">No Kartu Keluarga</font></td>
@@ -103,7 +103,7 @@ hr.style2{
         <tr>
             <td align="left" width="566px">
                 <font size="2">Orang tersebut diatas tersebut adalah betul warga kami berdasarkan data yang ada pada kami  
-                    bahwa betul orang tersebut diatas termasuk Golongan Pra-KS/KS-1 atau <strong> Keluarga Tidak Mampu </strong> dan surat keterangan ini dipergunakan untuk <strong> {{ $sktmrs->ket_keperluan_surat }} @foreach ($data as $data) Atas nama {{ $data->nama_lengkap }} ({{ $data->tempat_lahir }}, {{ $data->tanggal_lahir }}) @endforeach</strong></font>
+                    bahwa betul orang tersebut diatas termasuk Golongan Pra-KS/KS-1 atau <strong> Keluarga Tidak Mampu </strong> dan surat keterangan ini dipergunakan untuk <strong> {{ $sktmrs->ket_keperluan_surat }} @foreach ($data as $data) Atas nama {{ $data->nama_lengkap }} ({{ $data->tempat_lahir }}, {{  Carbon\Carbon::createFromFormat('Yy-mm-d H:i:s', $data->tanggal_lahir)->isoFormat('D MMMM Y')  }})@endforeach</strong></font>
             </td>
         </tr>
     </table>
@@ -111,7 +111,7 @@ hr.style2{
     <table align="center">
         <tr>
             <td width="400px"> </td>
-            <td><font size="2">Cihampelas, 27 Maret 2019</td>
+            <td><font size="2">Cihampelas, {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $sktmrs->updated_at)->isoFormat('D MMMM Y') }} </td>
         </tr>
         <tr>
             <td align="center" colspan="2"><font size="2">Mengetahui</td>

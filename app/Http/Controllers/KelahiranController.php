@@ -7,6 +7,7 @@ use App\Kelahiran;
 use App\Warga;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class KelahiranController extends Controller
 {
@@ -28,6 +29,8 @@ class KelahiranController extends Controller
         ->select('warga.no_nik', 'warga.nama_lengkap', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.created_at','persuratan.status_surat' )
         ->where('no_surat', 'LIKE', '%Suket-Lahir%')
         ->get();
+
+       
         
         return view('admin.suket-kelahiran.kelahiran', compact('lahir'));
     }
@@ -90,6 +93,22 @@ class KelahiranController extends Controller
      */
     public function store(Request $request)
     {
+        
+        $message =[
+            'required' => 'Isi tidak boleh kosong',
+            'min' => 'Isi minimal harus 16 Karakter',
+            'max' => 'Isi maximal harus 16 Karakter'
+        ];
+
+        $this->validate($request,[
+            'nama_anak' => ['required'],
+            'tempat_lahir_anak' => ['required'],
+            'jam_lahir' => ['required'],
+            'anak_ke' => ['required'],
+            'nik_pemohon' => ['required', 'string', 'min:16', 'max:16'],
+            'nik_ibu' => ['required', 'string', 'min:16', 'max:16']
+        ], $message);  
+
         $data['no_surat'] = $request->no_surat;
         $data['status_surat'] = $request->status_surat;
         $data['id_warga'] = $request->id_warga;
@@ -208,10 +227,11 @@ class KelahiranController extends Controller
         $data_detail['jam_lahir'] = $request->jam_lahir;
         $data_detail['anak_ke'] = $request->anak_ke;
 
-        $id_persuratan = DB::table('detail_kelahiran')->select('id_persuratan')->where('id_detail_kelahiran', $id_detail_kelahiran)->first();
+        $id_persuratan = DB::table('detail_kelahiran')->select('id_persuratan')->where('id_persuratan', $id_persuratan)->first();
         $lahir = DB::table('persuratan')->where('id_persuratan', $id_persuratan->id_persuratan)->update($data);
-        $lahir = DB::table('detail_kelahiran')->where('id_detail_kelahiran', $id_detail_kelahiran)->update($data2);
-       
+        $lahir = DB::table('detail_kelahiran')->where('id_persuratan', $id_persuratan->id_persuratan)->update($data_detail);
+        
+
             return redirect()->route('kelahiran.index')
                             ->with('success', 'Data Berhasil diupdate!');  
     }

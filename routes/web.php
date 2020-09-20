@@ -149,6 +149,8 @@ Route::get('user-suket-tidakmampu-sekolah/create', 'UserController@create_sktmse
 Route::post('user-suket-tidakmampu-sekolah/store', 'UserController@store_sktmsekolah')->name('pengajuan.store_sktmsekolah');
 Route::get('user-suket-tidakmampu-sekolah/cari', 'UserController@ajax_select_sktmsekolah')->name('pengajuan.ajax_select_sktmsekolah');
 Route::get('user-suket-tidakmampu-rumahsakit/create', 'UserController@create_sktmrs')->name('pengajuan.create_sktmrs');
+Route::post('user-suket-tidakmampu-rumahsakit/store', 'UserController@store_sktmrs')->name('pengajuan.store_sktmrs');
+Route::get('user-suket-tidakmampu-rumahsakit/cari', 'UserController@ajax_select_sktmrs')->name('pengajuan.ajax_select_sktmrs');
 Route::get('user-suket-kelahiran/create', 'UserController@create_kelahiran')->name('pengajuan.create_kelahiran');
 Route::get('user-suket-kematian/create', 'UserController@create_kematian')->name('pengajuan.create_kematian');
 Route::get('user-suket-pengantar-nikah/create', 'UserController@create_pengantarnikah')->name('pengajuan.create_pengantarnikah');

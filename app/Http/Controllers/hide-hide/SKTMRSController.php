@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\SKTMRS;
 use App\Persuratan;
 use App\Warga;
+use App\Admin;
 use PDF;
+use App\Notifications\SKTMRSNotifikasiSelesai;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -75,7 +77,11 @@ class SKTMRSController extends Controller
             'agama' =>  $sktmsekolah['agama'],
             'pekerjaan' =>  $sktmsekolah['pekerjaan'],
             'alamat' =>  $sktmsekolah['alamat'],);
-        return json_encode($data);}
+        }
+        else{
+            $data = null;
+        }
+        return json_encode($data);
     }
 
     /**
@@ -86,6 +92,17 @@ class SKTMRSController extends Controller
      */
     public function store(Request $request)
     {
+        $message =[
+            'required' => 'Isi tidak boleh kosong',
+            'min' => 'Isi minimal harus 16 Karakter',
+            'max' => 'Isi maximal harus 16 Karakter'
+        ];
+
+        $this->validate($request,[
+            'nik_yg_bersangkutan' => ['required', 'string', 'min:16', 'max:16'],
+            'nik_pemohon' => ['required', 'string', 'min:16', 'max:16']
+        ], $message);  
+
         $data['no_surat'] = $request->no_surat; 
         $data['status_surat'] = $request->status_surat;
         $data['id_warga'] = $request->id_warga;
@@ -178,10 +195,18 @@ class SKTMRSController extends Controller
         $data['status_surat'] = $request->status_surat;
         
         $sktmrs = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->update($data);
+
+
+         //Notifikasi
+         $data_user = Admin::where('name','user')
+         ->first();
+ 
+         $data_user->notify(new SKTMRSNotifikasiSelesai());
+
         return redirect()->route('sktmrs.index')
                             ->with('success', 'Data berhasil diupdate!');
     }
-
+ 
     /**
      * Remove the specified resource from storage.
      *
@@ -209,7 +234,7 @@ class SKTMRSController extends Controller
         ->first();
 
         $data = DB::table('warga')
-        ->where('no_nik', $sktmrs[1]->nik_yg_bersangkutan)
+        ->where('no_nik', $sktmrs->nik_yg_bersangkutan)
         ->get();
         
         

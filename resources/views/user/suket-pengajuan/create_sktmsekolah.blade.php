@@ -72,7 +72,7 @@
             </div>
         <div class="col-md-6">
           <label for="inputName">NIK Ayah</label>
-          <input type="text" name="nik_orangtua" id="nik_orangtua" class="form-control input-lg" value="{{Auth::user()->name}}"/>
+          <input type="text" name="nik_pemohon" id="nik_pemohon" class="form-control input-lg" value="{{Auth::user()->name}}"/>
         </div>
         <div class="col-md-6">
           <label for="inputName">Nama Ayah</label>
@@ -107,10 +107,6 @@
           <label for="inputName">Foto KTP yang bersangkutan</label>
           <input type="file"  name="foto_ktp">
         </div>
-        <div class="col-md-5">
-        <label for="inputName">Tanggal Pembuatan</label>
-        <input type="date"  name="tgl_pembuatan" class="form-control">
-      </div>
       <div class="col-md-5">
         <label for="inputName">Status Surat</label>
       <input type="text" name="status_surat" id="status_surat" value="{{$status_surat}}" class="form-control input-lg" readonly/>
@@ -165,7 +161,7 @@
              return false;
         });
         
-        $('#nik_orangtua').on('input',function(){
+        $('#nik_pemohon').on('input',function(){
              
              var no_nik=$(this).val();
              $.ajax({

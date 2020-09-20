@@ -32,9 +32,11 @@
                 <label for="inputName">No Surat</label>
                 <input type="text" name="no_surat" class="form-control" value="{{ $surat}}" readonly>
                 </div>
-              <input type="text" name="id_warga" id="id_pemohon" class="form-control input-lg" />
-              <input type="text" name="nik_pemohon" id="nik_pemohon" class="form-control input-lg" />
-              
+              <input type="hidden" name="id_warga" id="id_pemohon" class="form-control input-lg" />
+              <div class="col-md-6">
+                <label for="inputName">No NIK</label>  
+                <input type="text" name="nik_pemohon" id="nik_pemohon" class="form-control input-lg" />
+              </div>
         <div class="col-md-6">
           <label for="inputName">No KK</label>  
           <input type="text" name="no_kk" id="no_kk" class="form-control input-lg" />
@@ -91,8 +93,10 @@
                    console.log(data);
                    var json = data;
 
-                    var id_pemohon = json.id_warga;
+                   $.each( , function(index, value) {
                     var nik_pemohon = json.no_nik;
+                  });
+                    
 
                     
 

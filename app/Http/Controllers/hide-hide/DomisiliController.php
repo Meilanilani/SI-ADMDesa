@@ -158,7 +158,7 @@ class DomisiliController extends Controller
         'persuratan.status_surat', 'detail_domisili.nik_yg_bersangkutan' )
         ->where('persuratan.id_persuratan',$id_persuratan)
         ->first();
-
+       
         
         
         $data_warga = DB::table('warga')

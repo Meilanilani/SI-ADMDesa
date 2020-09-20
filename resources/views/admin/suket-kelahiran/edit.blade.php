@@ -57,10 +57,6 @@
               <input type="text" name="anak_ke"  class="form-control input-lg" value="{{$lahir->anak_ke}}"  />
             </div>
         <div class="col-md-6">
-          <label for="inputName">Tanggal Pembuatan</label>
-          <input type="date"  name="tgl_pembuatan" class="form-control" value="{{ $lahir->tgl_pembuatan}}" >
-        </div>
-        <div class="col-md-6">
           <label for="inputName">Status Surat</label>
           <select class="form-control custom-select"  name="status_surat" >
             <option selected disabled>Pilih Status</option>

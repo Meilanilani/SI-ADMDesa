@@ -10,5 +10,6 @@ class Domisili extends Model
     protected $fillable = [
         'nik_yg_bersangkutan'
     ];
+    protected $dateFormat = 'Y-m-d H:i';
     protected $primaryKey = 'id_detail_domisili';
 }

@@ -14,15 +14,7 @@
 <section class="content">
   <div class="card-group">
     <div class="card">
-        @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li> {{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-        @endif
+       
       <div class="card-body">
         <form action="{{ route('sktmrs.store')}}" method="POST" enctype="multipart/form-data">
           @csrf
@@ -35,7 +27,10 @@
               <input type="hidden" name="id_warga" id="id_pemohon" class="form-control input-lg" />
         <div class="col-md-6">
           <label for="inputName">NIK Kepala Keluarga</label>
-          <input type="text" name="nik_pemohon" id="no_nik" class="form-control input-lg" />
+          <input type="text" name="nik_pemohon" id="no_nik" class="form-control @error('nik_pemohon') is-invalid @enderror">
+          @error('nik_pemohon')
+          <div class="invalid-feedback">{{ $message }}</div>
+          @enderror
         </div>
         <div class="col-md-6">
           <label for="inputName">Nama Lengkap</label>
@@ -69,7 +64,10 @@
           <div class="row">
             <div class="col-md-6">
               <label for="inputName">NIK Anggota yang diajukan</label>
-              <input type="text" name="nik_yg_bersangkutan" id="nik_yg_bersangkutan" class="form-control input-lg" />
+              <input type="text" name="nik_yg_bersangkutan" id="nik_yg_bersangkutan" class="form-control @error('nik_yg_bersangkutan') is-invalid @enderror">
+              @error('nik_yg_bersangkutan')
+              <div class="invalid-feedback">{{ $message }}</div>
+              @enderror
             </div>
             <div class="col-md-6">
               <label for="inputName">Nama Lengkap</label>
@@ -120,6 +118,9 @@
                  success: function(data){
                    console.log(data);
                    var json = data;
+                   if(!json){
+                      return alert("Data yang anda masukkan tidak ada!");
+                    }
 
                     var id_pemohon = json.id_warga;
                     var nama_lengkap = json.nama_lengkap;
@@ -128,13 +129,6 @@
                     var agama = json.agama;
                     var pekerjaan = json.pekerjaan;
                     var alamat = json.alamat;
-
-                    console.log(id_pemohon);
-                    console.log(tempat_lahir);
-                    console.log(tanggal_lahir);
-                    console.log(agama);
-                    console.log(pekerjaan);
-                    console.log(alamat);
 
                     $('#id_pemohon').val(id_pemohon);
                     $('#nama_lengkap').val(nama_lengkap);
@@ -160,18 +154,14 @@
                  success: function(data){
                    console.log(data);
                    var json = data;
-
+                   if(!json){
+                      return alert("Data yang anda masukkan tidak ada!");
+                    }
                     
                     var nama_yg_bersangkutan = json.nama_lengkap;
                     var tempat_lahir_yg_bersangkutan = json.tempat_lahir;
                     var tgl_lahir_yg_bersangkutan = json.tanggal_lahir;
                     
-                    
-                    console.log(nama_yg_bersangkutan);
-                    console.log(tempat_lahir_yg_bersangkutan);
-                    console.log(tgl_lahir_yg_bersangkutan);
-                  
-                   
                     $('#nama_yg_bersangkutan').val(nama_yg_bersangkutan);
                     $('#tempat_lahir_yg_bersangkutan').val(tempat_lahir_yg_bersangkutan);
                     $('#tgl_lahir_yg_bersangkutan').val(tgl_lahir_yg_bersangkutan);

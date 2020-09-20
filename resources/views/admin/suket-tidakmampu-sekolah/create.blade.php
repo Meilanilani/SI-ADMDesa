@@ -140,6 +140,9 @@
                 success: function (data) {
                     console.log(data);
                     var json = data;
+                    if(!json){
+                      return alert("Data yang anda masukkan tidak ada!");
+                    }
 
                     var nama_anak = json.nama_lengkap;
                     var ttl_anak1 = json.tempat_lahir;
@@ -147,6 +150,8 @@
                     var agama_anak = json.agama;
                     var pekerjaan_anak = json.pekerjaan;
                     var alamat = json.alamat;
+
+                    console.log(nama_anak);
 
                     $('#nama_anak').val(nama_anak);
                     $('#ttl_anak1').val(ttl_anak1);
@@ -162,7 +167,7 @@
         $('#nik_pemohon').on('input', function () {
 
             var no_nik = $(this).val();
-            var $noMatches = $('.no-matches');
+            
             $.ajax({
                 type: "GET",
                 url: "{{ route('sktmsekolah.ajax_select') }}",
@@ -174,6 +179,9 @@
                 success: function (data) {
 
                     var json = data;
+                    if(!json){
+                      return alert("Data yang anda masukkan tidak ada!");
+                    }
 
                     var id_pemohon = json.id_warga;
                     var nama_ayah = json.nama_lengkap;

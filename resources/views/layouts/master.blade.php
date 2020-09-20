@@ -354,6 +354,23 @@
             $(document).ready(function() {
             $('#data_usaha').DataTable();
             } );
+            $('#exampleModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) // Button that triggered the modal
+  var surat = button.data('show-surat')
+  var nik = button.data('show-nik-pemohon')
+  var nama = button.data('show-nama-lengkap') // Extract info from data-* attributes
+
+  var modal = $(this)
+  modal.find('#surat').val(surat)
+  modal.find('#nik_pemohon').val(nik)
+  modal.find('#nama_lengkap').val(nama)
+
+  console.log(surat);
+  console.log(nik);
+  console.log(nama);
+  console.log("test");
+  
+})
         </script>
 </body>
 </html>

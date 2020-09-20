@@ -96,17 +96,13 @@
           <label for="inputName">Foto KTP yang bersangkutan</label>
           <input type="file"  name="foto_ktp">
         </div>
-      <div class="col-md-5">
-        <label for="inputName">Status Surat</label>
-        <select class="form-control custom-select"  name="status_surat" >
-          <option selected disabled>Pilih Status</option>
-          @if (isset($sktmrs->status_surat))
-          <option selected>{{$sktmrs->status_surat}}</option>
-          @endif
-          <option>Proses</option>
-          <option>Selesai</option>
-        </select>
-    </div>
+        <div class="col-md-5">
+          <label for="inputName">Status Surat</label>
+          <select class="form-control custom-select"  name="status_surat" >
+            <option <?= $sktmrs->status_surat == 'Proses'? 'Selected' : 'Proses' ?>>Proses</option>
+            <option <?= $sktmrs->status_surat == 'Selesai'? 'Selected' : 'Selesai' ?>>Selesai</option>
+          </select>
+      </div>
       </div></div>
       <div class="card-footer">
         <button type="submit" class="btn btn-success">Simpan</button>
