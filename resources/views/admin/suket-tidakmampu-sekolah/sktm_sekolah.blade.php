@@ -83,6 +83,8 @@
                   <a class="btn btn-primary btn-sm" href="{{URL::to('suket-tidakmampu-sekolah/delete/'.$post->id_persuratan)}}"><i class="nav-icon fas fa-trash"></i> Hapus</a>
                   <a class="btn btn-warning btn-sm" href="{{URL::to('suket-tidakmampu-sekolah/cetak_pdf/'.$post->id_persuratan)}}"><i class="nav-icon fas fa-trash"></i> Cetak</a>
                   <a class="btn btn-warning btn-sm" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-show-surat={{ $post->no_surat}}" data-show-nik-pemohon={{ $post->no_nik}}" data-show-nama={{ $post->nama_lengkap}}" ><i class="nav-icon fas fa-trash"></i>Show</a>
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Open
+                    modal for @mdo</button>
                 </td>
               </tr>
             </form>
@@ -95,7 +97,39 @@
 
 
 <!-- Start Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@fat">Open
+  modal for @fat</button>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">Open
+  modal for @getbootstrap</button>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">New message</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="md-form">
+            <input type="text" class="form-control" id="recipient-name">
+          </div>
+          <div class="md-form">
+            <textarea type="text" id="message-text" class="form-control md-textarea" rows="3"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Send message</button>
+      </div>
+    </div>
+  </div>
+</div>
+{{-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -124,7 +158,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> --}}
 <!-- End Modal --> 
             </div>
             <!-- /.card-body -->
@@ -134,6 +168,14 @@
       @endsection
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
       <script type="text/javascript">
-  
+     $(function(){
+    $('#exampleModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var recipient = button.data('id');
+        var modal = $(this);
+        modal.find('.modal-title').text('New message to ' + recipient);
+        modal.find('.modal-body input').val(recipient);
+    });
+});
 </script>
        

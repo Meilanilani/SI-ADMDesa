@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\SKTMRS;
 use App\Persuratan;
 use App\Warga;
-use App\Admin;
+use App\User;
 use PDF;
 use App\Notifications\SKTMRSNotifikasiSelesai;
 use Illuminate\Http\Request;
@@ -198,15 +198,15 @@ class SKTMRSController extends Controller
 
 
          //Notifikasi
-         $data_user = Admin::where('name','user')
-         ->first();
- 
-         $data_user->notify(new SKTMRSNotifikasiSelesai());
+
+        $data_user = User::find($id = 'id');
+        
+        $data_user->notify(new SKTMRSNotifikasiSelesai());
 
         return redirect()->route('sktmrs.index')
                             ->with('success', 'Data berhasil diupdate!');
     }
- 
+  
     /**
      * Remove the specified resource from storage.
      *
@@ -236,8 +236,6 @@ class SKTMRSController extends Controller
         $data = DB::table('warga')
         ->where('no_nik', $sktmrs->nik_yg_bersangkutan)
         ->get();
-        
-        
         
         $pdf = PDF::loadview('admin.suket-tidakmampu-rs.print',compact('sktmrs', 'data'));
         $pdf->setPaper('Legal','potrait');

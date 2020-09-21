@@ -34,11 +34,14 @@ class CreatePersuratansTable extends Migration
             $table->enum('status_surat', ['Proses', 'Selesai']);
            
             $table->integer('id_warga')->unsigned();
+            $table->bigInteger('id')->unsigned();
             
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent(); 
             
             $table->foreign('id_warga')->references('id_warga')->on('warga')->onDelete('cascade');
+
+            $table->foreign('id')->references('id')->on('users')->onDelete('cascade');
         });
             
     }

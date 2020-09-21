@@ -332,6 +332,7 @@
             } );
             $(document).ready(function() {
             $('#data_sktms').DataTable();
+            
             } );
             $(document).ready(function() {
             $('#data_sktmrs').DataTable();
@@ -353,24 +354,19 @@
             } );
             $(document).ready(function() {
             $('#data_usaha').DataTable();
+
             } );
-            $('#exampleModal').on('show.bs.modal', function (event) {
-  var button = $(event.relatedTarget) // Button that triggered the modal
-  var surat = button.data('show-surat')
-  var nik = button.data('show-nik-pemohon')
-  var nama = button.data('show-nama-lengkap') // Extract info from data-* attributes
+            $(document).ready(function (){
+    $('#exampleModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var recipient = button.data('id');
+        var modal = $(this);
+        modal.find('.modal-title').text('New message to ' + recipient);
+        modal.find('.modal-body input').val(recipient);
 
-  var modal = $(this)
-  modal.find('#surat').val(surat)
-  modal.find('#nik_pemohon').val(nik)
-  modal.find('#nama_lengkap').val(nama)
-
-  console.log(surat);
-  console.log(nik);
-  console.log(nama);
-  console.log("test");
-  
-})
+        console.log('tes')
+    });
+});
         </script>
 </body>
 </html>
