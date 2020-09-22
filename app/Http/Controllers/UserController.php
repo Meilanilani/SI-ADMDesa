@@ -10,6 +10,7 @@ use App\Notifications\SKTMRSCreateData;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -191,6 +192,7 @@ class UserController extends Controller
         $data['no_surat'] = $request->no_surat; 
         $data['status_surat'] = $request->status_surat;
         $data['id_warga'] = $request->id_warga;
+        $data['id']= Auth::id();
         $data_detail['nik_pemohon'] = $request->nik_pemohon;
         $data_detail['nik_yg_bersangkutan'] = $request->nik_yg_bersangkutan;
 
@@ -228,7 +230,7 @@ class UserController extends Controller
             $sktmrs = DB::table('persuratan')->insertGetId($data);
             $data_detail['id_persuratan'] = $sktmrs;
             $sktmrs = DB::table('detail_sktmrs')->insertGetId($data_detail);
-            
+        
             
             //Notifikasi
          $data_admin = User::where('name','admin')

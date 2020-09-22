@@ -96,13 +96,13 @@
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="far fa-bell"></i>
-          <span class="badge badge-warning navbar-badge">{{count(Auth::admin()->unreadNotifications)}}</span>
+          <span class="badge badge-warning navbar-badge">{{count(Auth::user()->unreadNotifications)}}</span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <span class="dropdown-item dropdown-header">{{count(Auth::admin()->unreadNotifications)}} Notifications</span>
-          @foreach (Auth::admin()->unreadNotifications as $notification)
+          <span class="dropdown-item dropdown-header">{{count(Auth::user()->unreadNotifications)}} Notifications</span>
+          @foreach (Auth::user()->unreadNotifications as $notification)
           <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
+          <a href="{{route('pengajuan.index')}}" class="dropdown-item">
             <i class="fas fa-envelope mr-2"></i> {{$notification->data['message']}}
             <span class="float-right text-muted text-sm">{{$notification->created_at->diffForHumans() }}</span>
           </a>

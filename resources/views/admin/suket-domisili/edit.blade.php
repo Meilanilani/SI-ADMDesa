@@ -33,7 +33,9 @@
                 <input type="text" name="no_surat" class="form-control" value="{{ $domisili->no_surat}}" readonly>
                 </div>
         <div class="col-md-6">
+          
           <label for="inputName">NIK</label>
+
           <input type="text" name="nik_yg_bersangkutan" id="no_nik" class="form-control input-lg" value="{{ $domisili->nik_yg_bersangkutan}}" readonly/>
         </div>
         <div class="col-md-6">

@@ -26,6 +26,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('admin.dashboard');
+        if (Auth::user()->name=='admin'){
+            return view('admin.dashboard');
+            }
+            else{
+            return view ('user.dashboard');
+        }
+       
     }
 }

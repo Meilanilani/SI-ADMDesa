@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Persuratan;
 use App\Warga;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 
@@ -16,6 +17,8 @@ class DashboardController extends Controller
     }
     
     public function index(){
+        
+
         $sktmsekolah = DB::table('persuratan') 
         ->where('no_surat', 'LIKE', '%Suket-TMS%')
         ->count();
@@ -60,6 +63,13 @@ class DashboardController extends Controller
         ->where('no_surat', 'LIKE', '%Suket-KK%')
         ->count();
 
-        return view('admin.dashboard', compact('sktmsekolah', 'sktmrs','kematian', 'kelahiran', 'pnikah', 'skck', 'ktp', 'usaha', 'pindah', 'domisili', 'kk'));
+        
+        
+        if (Auth::user()->name=='admin'){
+            return view('admin.dashboard', compact('sktmsekolah', 'sktmrs','kematian', 'kelahiran', 'pnikah', 'skck', 'ktp', 'usaha', 'pindah', 'domisili', 'kk'));
+            }
+            else{
+            return view ('user.dashboard');
+        }
     }
 }

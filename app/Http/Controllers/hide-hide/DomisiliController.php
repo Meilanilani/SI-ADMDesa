@@ -6,6 +6,7 @@ use App\Domisili;
 use App\Warga;
 use App\Persuratan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class DomisiliController extends Controller
@@ -89,6 +90,7 @@ class DomisiliController extends Controller
         $data['no_surat'] = $request->no_surat;
         $data['status_surat'] = $request->status_surat;
         $data['id_warga'] = $request->id_warga;
+        $data['id']= Auth::id();
         $data_detail['nik_yg_bersangkutan'] = $request->nik_yg_bersangkutan;
         $data_detail['nik_pemohon'] = $request->nik_pemohon;
 
@@ -158,14 +160,12 @@ class DomisiliController extends Controller
         'persuratan.status_surat', 'detail_domisili.nik_yg_bersangkutan' )
         ->where('persuratan.id_persuratan',$id_persuratan)
         ->first();
-       
-        
+               
         
         $data_warga = DB::table('warga')
         ->where('no_nik', $domisili->nik_yg_bersangkutan)
         ->first();
        
-        $domisili = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->first();
         return view('admin.suket-domisili.edit', compact('domisili', 'data_warga'));
     }
 

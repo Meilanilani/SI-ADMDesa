@@ -6,19 +6,21 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Auth;
 
 class SKTMRSNotifikasiSelesai extends Notification implements ShouldQueue
 {
     use Queueable;
+    private $id_persuratan;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($id_persuratan)
     {
-        //
+        $this->id_persuratan=$id_persuratan;
     }
 
     /**
@@ -53,7 +55,7 @@ class SKTMRSNotifikasiSelesai extends Notification implements ShouldQueue
     {
         return [
             'message'=>'Pengajuan SKTM Sekolah telah selesai diproses, <br>
-            Silahkan ambil surat anda di Kantor Desa!'
+            Silahkan ambil surat anda di Kantor Desa!','from'=>Auth::id(), 'id_persuratan'=>$this->id_persuratan
         ];
     }
 }

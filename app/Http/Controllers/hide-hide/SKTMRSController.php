@@ -199,9 +199,13 @@ class SKTMRSController extends Controller
 
          //Notifikasi
 
-        $data_user = User::find($id = 'id');
+        $data = DB::table('persuratan')
+        ->where('id_persuratan', $id_persuratan)
+        ->first();
+
+        $data_user = User::find($data->id);
         
-        $data_user->notify(new SKTMRSNotifikasiSelesai());
+        $data_user->notify(new SKTMRSNotifikasiSelesai($id_persuratan));
 
         return redirect()->route('sktmrs.index')
                             ->with('success', 'Data berhasil diupdate!');

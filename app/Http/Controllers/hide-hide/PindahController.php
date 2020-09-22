@@ -90,6 +90,7 @@ class PindahController extends Controller
         $data['no_surat'] = $request->no_surat;
         $data['status_surat'] = $request->status_surat;
         $data['id_warga'] = $request->id_warga;
+        $data['id']= Auth::id();
         $data2['nik_pemohon'] = $request->nik_pemohon;
         $data2['no_kk'] = $request->no_kk;
         $data2['alamat_tujuan'] = $request->alamat_tujuan;
