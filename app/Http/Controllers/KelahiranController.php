@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Persuratan;
 use App\Kelahiran;
 use App\Warga;
+use PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Facade\FlareClient\View;
+use Illuminate\Support\Facades\Auth;
 
 class KelahiranController extends Controller
 {
@@ -78,10 +81,11 @@ class KelahiranController extends Controller
                 'nama_lengkap' =>  $sktmsekolah['nama_lengkap'],
                 'tempat_lahir' =>  $sktmsekolah['tempat_lahir'],
                 'tanggal_lahir' =>  $sktmsekolah['tanggal_lahir'],
-                'agama' =>  $sktmsekolah['agama'],
-                'pekerjaan' =>  $sktmsekolah['pekerjaan'],
                 'alamat' =>  $sktmsekolah['alamat'],);
-            return json_encode($data);}
+                }else{
+                    $data = null;
+                }
+                return json_encode($data);
         }
 
 
@@ -97,20 +101,30 @@ class KelahiranController extends Controller
         $message =[
             'required' => 'Isi tidak boleh kosong',
             'min' => 'Isi minimal harus 16 Karakter',
-            'max' => 'Isi maximal harus 16 Karakter'
+            'max' => 'Isi maximal harus 16 Karakter',
+            'numeric' => 'Isi harus angka'
         ];
 
         $this->validate($request,[
             'nama_anak' => ['required'],
             'tempat_lahir_anak' => ['required'],
             'jam_lahir' => ['required'],
-            'anak_ke' => ['required'],
-            'nik_pemohon' => ['required', 'string', 'min:16', 'max:16'],
-            'nik_ibu' => ['required', 'string', 'min:16', 'max:16']
+            'anak_ke' => ['required', 'numeric'],
+            'nik_pemohon' => ['required','min:16', 'max:16'],
+            'nik_ibu' => ['required','min:16', 'max:16'],
+            'jenis_kelamin' => ['required'],
+            'tanggal_lahir' => ['required'],
+            'foto_pengantar' => ['required'],
+            'foto_kk' => ['required'],
+            'foto_ktp' => ['required'],
+            'foto_suratnikah' => ['required'],
+            'foto_suratkelahiran' => ['required'],
+            
         ], $message);  
 
         $data['no_surat'] = $request->no_surat;
         $data['status_surat'] = $request->status_surat;
+        $data['id']= Auth::id();
         $data['id_warga'] = $request->id_warga;
         $data_detail['nama_anak'] = $request->nama_anak;
         $data_detail['tempat_lahir_anak'] = $request->tempat_lahir_anak;
@@ -183,9 +197,21 @@ class KelahiranController extends Controller
      * @param  \App\Kelahiran  $kelahiran
      * @return \Illuminate\Http\Response
      */
-    public function show(Kelahiran $kelahiran)
+    public function show($id_persuratan)
     {
-        //
+        $lahir = DB::table('persuratan') 
+        ->join('warga', 'persuratan.id_warga','=','warga.id_warga')
+        ->join('detail_kelahiran','persuratan.id_persuratan','=','detail_kelahiran.id_persuratan')
+        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat','persuratan.foto_pengantar','persuratan.foto_kk','persuratan.foto_ktp','persuratan.foto_suratnikah','persuratan.foto_suratkelahiran', 'persuratan.updated_at', 'detail_kelahiran.nama_anak', 'detail_kelahiran.tempat_lahir_anak',  'detail_kelahiran.tanggal_lahir_anak', 'detail_kelahiran.jenis_kelamin', 'detail_kelahiran.jam_lahir', 
+        'detail_kelahiran.anak_ke','detail_kelahiran.nik_pemohon', 'detail_kelahiran.nik_ibu' )
+        ->where('persuratan.id_persuratan',$id_persuratan)
+        ->first();
+
+        $data_ibu = DB::table('warga')
+        ->where('no_nik', $lahir->nik_ibu)
+        ->get();
+        
+        return view('admin.suket-kelahiran.show', compact('lahir', 'data_ibu'));
     }
 
     /**
@@ -219,6 +245,22 @@ class KelahiranController extends Controller
      */
     public function update(Request $request, $id_persuratan)
     {
+        $message =[
+            'required' => 'Isi tidak boleh kosong',
+            'min' => 'Isi minimal harus 16 Karakter',
+            'max' => 'Isi maximal harus 16 Karakter',
+            'numeric' => 'Isi harus angka'
+        ];
+
+        $this->validate($request,[
+            'nama_anak' => ['required'],
+            'tempat_lahir_anak' => ['required'],
+            'jam_lahir' => ['required'],
+            'anak_ke' => ['required', 'numeric'],
+            'jenis_kelamin' => ['required'],
+            'tanggal_lahir' => ['required'],
+            
+        ], $message);  
         $data['status_surat'] = $request->status_surat;
         $data_detail['nama_anak'] = $request->nama_anak;
         $data_detail['tempat_lahir_anak'] = $request->tempat_lahir_anak;
@@ -258,17 +300,18 @@ class KelahiranController extends Controller
         $lahir = DB::table('persuratan') 
         ->join('warga', 'persuratan.id_warga','=','warga.id_warga')
         ->join('detail_kelahiran','persuratan.id_persuratan','=','detail_kelahiran.id_persuratan')
-        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat', 'detail_kelahiran.nama_anak', 'detail_kelahiran.tempat_lahir_anak',  'detail_kelahiran.tanggal_lahir_anak', 'detail_kelahiran.jenis_kelamin', 'detail_kelahiran.jam_lahir', 'detail_kelahiran.anak_ke','detail_kelahiran.nik_ayah', 'detail_kelahiran.nik_ibu' )
+        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.updated_at', 'detail_kelahiran.nama_anak', 'detail_kelahiran.tempat_lahir_anak',  'detail_kelahiran.tanggal_lahir_anak', 'detail_kelahiran.jenis_kelamin', 'detail_kelahiran.jam_lahir', 'detail_kelahiran.anak_ke','detail_kelahiran.nik_pemohon', 'detail_kelahiran.nik_ibu' )
         ->where('persuratan.id_persuratan',$id_persuratan)
         ->first();
 
-        $data_anak = DB::table('warga')
+        $data_ibu = DB::table('warga')
         ->where('no_nik', $lahir->nik_ibu)
-        ->first();
+        ->get();
+
         
+    
         
-        
-        $pdf = PDF::loadview('admin.suket-kelahiran.print',compact('lahir', 'data_anak'));
+        $pdf = PDF::loadview('admin.suket-kelahiran.print',compact('lahir', 'data_ibu'));
         $pdf->setPaper('Legal','potrait');
         return $pdf->download('suket kelahiran.pdf');
         

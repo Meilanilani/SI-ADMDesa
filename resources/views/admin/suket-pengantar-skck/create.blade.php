@@ -101,7 +101,7 @@
         </div>
         <div class="col-md-6">
           <label for="inputName">Tanggal Masa Berlaku</label>
-          <input type="date" name="tgl_masa_berlaku" class="form-control input-lg" />
+          <input type="text" name="tgl_masa_berlaku" class="form-control" value="{{ $date}}" readonly>
         </div>
     </div>
       </div>

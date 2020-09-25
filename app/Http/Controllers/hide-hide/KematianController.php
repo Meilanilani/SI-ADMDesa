@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Kematian;
 use App\Warga;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use PDF;
 
@@ -86,9 +87,28 @@ class KematianController extends Controller
      */
     public function store(Request $request)
     {
+        $message =[
+            'required' => 'Isi tidak boleh kosong',
+            'min' => 'Isi minimal harus 16 Karakter',
+            'max' => 'Isi maximal harus 16 Karakter',
+        ];
+
+        $this->validate($request,[
+            'nik_pemohon' => ['required', 'max:16', 'min:16'],
+            'nik_yg_bersangkutan' => ['required', 'max:16', 'min:16'],
+            'tgl_kematian' => ['required'],
+            'tempat_kematian' => ['required'],
+            'penyebab_kematian' => ['required'],
+            'foto_pengantar' => ['required'],
+            'foto_kk' => ['required'],
+            'foto_ktp' => ['required'],
+            
+        ], $message); 
+
         $data['no_surat'] = $request->no_surat;
         $data['status_surat'] = $request->status_surat;
         $data['id_warga'] = $request->id_warga;
+        $data['id']= Auth::id();
         $data2['nik_pemohon'] = $request->nik_pemohon;
         $data2['nik_yg_bersangkutan'] = $request->nik_yg_bersangkutan;
         $data2['tgl_kematian'] = $request->tgl_kematian;
@@ -149,9 +169,23 @@ class KematianController extends Controller
      * @param  \App\Kematian  $kematian
      * @return \Illuminate\Http\Response
      */
-    public function show(Kematian $kematian)
+    public function show($id_persuratan)
     {
-        //
+        $kematian = DB::table('persuratan') 
+        ->join('warga', 'persuratan.id_warga','=','warga.id_warga')
+        ->join('detail_kematian', 'persuratan.id_persuratan','=','detail_kematian.id_persuratan')
+        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.jenis_kelamin', 'warga.tanggal_lahir', 'warga.status_perkawinan','warga.agama', 
+        'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.updated_at', 'persuratan.foto_pengantar','persuratan.foto_kk','persuratan.foto_ktp','persuratan.foto_suratkematianrs',
+        'persuratan.status_surat', 'detail_kematian.nik_yg_bersangkutan', 'detail_kematian.nik_pemohon', 'detail_kematian.tgl_kematian', 'detail_kematian.tempat_kematian', 'detail_kematian.penyebab_kematian' )
+        ->where('persuratan.id_persuratan',$id_persuratan)
+        ->first();
+    
+        $data_warga = DB::table('warga')
+        ->where('no_nik', $kematian->nik_yg_bersangkutan)
+        ->get();
+       
+        
+        return view('admin.suket-kematian.show',compact('kematian', 'data_warga'));
     }
 
     /**
@@ -175,7 +209,6 @@ class KematianController extends Controller
         ->where('no_nik', $kematian->nik_yg_bersangkutan)
         ->first();
        
-        $ktp = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->first();
         return view('admin.suket-kematian.edit', compact('kematian', 'data_warga'));
     }
 
@@ -186,19 +219,18 @@ class KematianController extends Controller
      * @param  \App\Kematian  $kematian
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id_kematian)
+    public function update(Request $request, $id_persuratan)
     {
         
-       
+        $data['status_surat'] = $request->status_surat;
         $data2['tgl_kematian'] = $request->tgl_kematian;
         $data2['tempat_kematian'] = $request->tempat_kematian;
         $data2['penyebab_kematian'] = $request->penyebab_kematian;
-        $data['status_surat'] = $request->status_surat;
 
-            $id_persuratan = DB::table('detail_kematian')->select('id_persuratan')->where('id_detail_kematian', $id_detail_kematian)->first();
-            $kematian = DB::table('persuratan')->where('id_persuratan', $id_persuratan->id_persuratan)->update($data);
-            $kematian = DB::table('detail_kematian')->where('id_detail_kematian', $id_detail_kematian)->update($data2);
-
+        $id_persuratan = DB::table('detail_kematian')->select('id_persuratan')->where('id_persuratan', $id_persuratan)->first();
+        $kematian = DB::table('persuratan')->where('id_persuratan', $id_persuratan->id_persuratan)->update($data);
+        $kematian = DB::table('detail_kematian')->where('id_persuratan', $id_persuratan->id_persuratan)->update($data2);
+        
             return redirect()->route('kematian.index')
                             ->with('success', 'Data Berhasil diupdate!');
     }
@@ -224,15 +256,20 @@ class KematianController extends Controller
         $kematian = DB::table('persuratan') 
         ->join('warga', 'persuratan.id_warga','=','warga.id_warga')
         ->join('detail_kematian', 'persuratan.id_persuratan','=','detail_kematian.id_persuratan')
-        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.jenis_kelamin', 'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.created_at','persuratan.status_surat', 'detail_kematian.nik_yg_bersangkutan', 'detail_kematian.tgl_kematian', 'detail_kematian.tempat_kematian', 'detail_kematian.penyebab_kematian' )
+        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.jenis_kelamin', 'warga.tanggal_lahir', 'warga.status_perkawinan','warga.agama', 
+        'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.updated_at', 
+        'persuratan.status_surat', 'detail_kematian.nik_yg_bersangkutan', 'detail_kematian.nik_pemohon', 'detail_kematian.tgl_kematian', 'detail_kematian.tempat_kematian', 'detail_kematian.penyebab_kematian' )
         ->where('persuratan.id_persuratan',$id_persuratan)
         ->first();
+    
+        $data_warga = DB::table('warga')
+        ->where('no_nik', $kematian->nik_yg_bersangkutan)
+        ->first();
+       
         
-        
-        
-        $pdf = PDF::loadview('suket-kematian.print',compact('kematian'));
+        $pdf = PDF::loadview('admin.suket-kematian.print',compact('kematian', 'data_warga'));
         $pdf->setPaper('Legal','potrait');
-        return $pdf->download('suket-tidak kematian    .pdf');
+        return $pdf->download('suket-kematian.pdf');
         
     }
 }

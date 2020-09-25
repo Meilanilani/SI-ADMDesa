@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Pindah;
 use App\Warga;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class PindahController extends Controller
@@ -172,14 +173,20 @@ class PindahController extends Controller
      * @param  \App\Pindah  $pindah
      * @return \Illuminate\Http\Response
      */
-    public function edit($id_ket_pindah)
+    public function edit($id_persuratan)
     {
-        $pindah = DB::table('persuratan') 
-        ->join('ket_pindah','persuratan.id_persuratan','=','ket_pindah.id_persuratan')
-        ->select('ket_pindah.id_ket_pindah','persuratan.id_persuratan', 'persuratan.no_surat', 'persuratan.foto_pengantar', 'persuratan.foto_kk', 'persuratan.foto_ktp','persuratan.foto_akta_cerai','persuratan.foto_surat_pindah_sebelumnya','persuratan.tgl_pembuatan','persuratan.status_surat','ket_pindah.alamat_tujuan', 'ket_pindah.alasan_pindah', 'ket_pindah.jumlah_pengikut')
-        ->where('id_ket_pindah',$id_ket_pindah)
+        $pindah = DB::table('persuratan')
+        ->join('warga','persuratan.id_warga','=','warga.id_warga')
+        ->join('detail_pindah', 'persuratan.id_persuratan','=','detail_pindah.id_persuratan')
+        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.status_surat', 'detail_pindah.nik_pemohon', 'detail_pindah.no_kk', 'detail_pindah.alamat_tujuan', 'detail_pindah.alasan_pindah')
+        ->where('no_surat', 'LIKE', '%Suket-PH%')
+        ->where('persuratan.id_persuratan',$id_persuratan)
         ->first();
-        return view('admin.suket-pindah.edit', compact('pindah'));
+        
+        $data_kk = DB::table('warga')
+        ->where('no_nik', $pindah->no_kk)
+        ->first();
+        return view('admin.suket-pindah.edit', compact('pindah','data_kk'));
     }
 
     /**
@@ -189,71 +196,20 @@ class PindahController extends Controller
      * @param  \App\Pindah  $pindah
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id_ket_pindah)
+    public function update(Request $request, $id_persuratan)
     {
         $data['no_surat'] = $request->no_surat;
-        $data2['alamat_tujuan'] = $request->alamat_tujuan;
-        $data2['alasan_pindah'] = $request->alasan_pindah;
-        $data2['jumlah_pengikut'] = $request->jumlah_pengikut;
-        $data['tgl_pembuatan'] = $request->tgl_pembuatan;
+        $data_detail['alamat_tujuan'] = $request->alamat_tujuan;
+        $data_detail['alasan_pindah'] = $request->alasan_pindah;
         $data['status_surat'] = $request->status_surat;
 
-        $image1 = $request->file('foto_pengantar');
-        $image2 = $request->file('foto_kk');
-        $image3 = $request->file('foto_ktp');
-        $image4 = $request->file('foto_akta_cerai');
-        $image5 = $request->file('foto_surat_pindah_sebelumnya');
-        if($image1 != null){
-            $image_name = $image1->getClientOriginalName();
-            $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
-            
-            $upload_path = 'public/media/';
-            $image_url = $upload_path.$image_full_name;
-            $succes = $image1->move($upload_path, $image_full_name);
-            $data['foto_pengantar'] = $image_url;
-        } 
-        if($image2 != null){
-            $image_name = $image2->getClientOriginalName();
-            $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
-            
-            $upload_path = 'public/media/';
-            $image_url = $upload_path.$image_full_name;
-            $succes = $image2->move($upload_path, $image_full_name);
-            $data['foto_kk'] = $image_url;
-        } 
-        if($image3 != null){
-            $image_name = $image3->getClientOriginalName();
-            $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
-            
-            $upload_path = 'public/media/';
-            $image_url = $upload_path.$image_full_name;
-            $succes = $image3->move($upload_path, $image_full_name);
-            $data['foto_ktp'] = $image_url;
-        } 
-        if($image4 != null){
-            $image_name = $image4->getClientOriginalName();
-            $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
-            
-            $upload_path = 'public/media/';
-            $image_url = $upload_path.$image_full_name;
-            $succes = $image4->move($upload_path, $image_full_name);
-            $data['foto_akta_cerai'] = $image_url;
-        } 
-        if($image5 != null){
-            $image_name = $image4->getClientOriginalName();
-            $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
-            
-            $upload_path = 'public/media/';
-            $image_url = $upload_path.$image_full_name;
-            $succes = $image5->move($upload_path, $image_full_name);
-            $data['foto_surat_pindah_sebelumnya'] = $image_url;
-        } 
-        $id_persuratan = DB::table('ket_pindah')->select('id_persuratan')->where('id_ket_pindah', $id_ket_pindah)->first();
-            $lahir = DB::table('persuratan')->where('id_persuratan', $id_persuratan->id_persuratan)->update($data);
-            
-            $lahir = DB::table('ket_pindah')->where('id_ket_pindah', $id_ket_pindah)->update($data2);
+       
+        $id_persuratan = DB::table('detail_pindah')->select('id_persuratan')->where('id_persuratan', $id_persuratan)->first();
+        $lahir = DB::table('persuratan')->where('id_persuratan', $id_persuratan->id_persuratan)->update($data);
+        $lahir = DB::table('detail_pindah')->where('id_persuratan', $id_persuratan->id_persuratan)->update($data_detail);
+        
 
-            return redirect()->route('pindah.index')
+        return redirect()->route('pindah.index')
                             ->with('success', 'Data Berhasil diupdate!');
     }
 
@@ -271,5 +227,25 @@ class PindahController extends Controller
         
         return redirect()->route('pindah.index')
         ->with('success', 'Data Berhasil Dihapus!');
+    }
+    public function cetak_pdf($id_persuratan)
+    {
+        $pindah = DB::table('persuratan')
+        ->join('warga','persuratan.id_warga','=','warga.id_warga')
+        ->join('detail_pindah', 'persuratan.id_persuratan','=','detail_pindah.id_persuratan')
+        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 'warga.pekerjaan','warga.alamat', 'warga.jenis_kelamin', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.status_surat', 'detail_pindah.nik_pemohon', 'detail_pindah.no_kk', 'detail_pindah.alamat_tujuan', 'detail_pindah.alasan_pindah')
+        ->where('no_surat', 'LIKE', '%Suket-PH%')
+        ->where('persuratan.id_persuratan',$id_persuratan)
+        ->first();
+        
+        $data_kk = DB::table('warga')
+        ->where('no_kk', $pindah->no_kk)
+        ->get();
+        
+        // $pdf = PDF::loadview('admin.suket-tidakmampu-rs.print',compact('sktmrs', 'data'));
+        // $pdf->setPaper('Legal','potrait');
+        // return $pdf->download('suket tidak mampu rumah sakit.pdf');
+        return view('admin.suket-pindah.print', compact('pindah','data_kk'));
+        
     }
 }

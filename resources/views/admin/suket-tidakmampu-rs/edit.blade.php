@@ -73,15 +73,15 @@
             </div>
             <div class="col-md-6">
               <label for="inputName">Nama Lengkap</label>
-              <input type="text" name="nama_lengkap" id="nama_yg_bersangkutan" class="form-control input-lg" value="{{ $sktmrs->nama_lengkap}}" readonly/>
+              <input type="text" name="nama_lengkap" id="nama_yg_bersangkutan" class="form-control input-lg" value="{{ $data->nama_lengkap}}" readonly/>
             </div>
             <div class="col-md-6">
               <label for="inputName">Tempat Lahir</label>
-              <input type="text" name="tempat_lahir" id="tempat_lahir_yg_bersangkutan" class="form-control input-lg" value="{{ $sktmrs->tempat_lahir}}" readonly/>
+              <input type="text" name="tempat_lahir" id="tempat_lahir_yg_bersangkutan" class="form-control input-lg" value="{{ $data->tempat_lahir}}" readonly/>
             </div>
             <div class="col-md-6">
               <label for="inputName">Tanggal Lahir</label>
-              <input type="date" name="tanggal_lahir" id="tgl_lahir_yg_bersangkutan" class="form-control input-lg" value="{{ $sktmrs->tanggal_lahir}}" readonly/>
+              <input type="date" name="tanggal_lahir" id="tgl_lahir_yg_bersangkutan" class="form-control input-lg" value="{{ $data->tanggal_lahir}}" readonly/>
             </div>
         {{ csrf_field() }}
         <div class="col-md-8">

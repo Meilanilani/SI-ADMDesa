@@ -14,15 +14,6 @@
 <section class="content">
   <div class="card-group">
     <div class="card">
-        @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li> {{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-        @endif
       <div class="card-body">
         <form action="{{ url('suket-kelahiran/update/'.$lahir->id_persuratan)}}" method="POST" enctype="multipart/form-data">
           @csrf
@@ -34,37 +25,51 @@
             </div>
             <div class="col-md-6">
               <label for="inputName">Nama Lengkap Anak</label>
-              <input type="text" name="nama_anak" class="form-control input-lg" value="{{$lahir->nama_anak}}" />
+              <input type="text" name="nama_anak" value="{{$lahir->nama_anak}}" class="form-control @error('nama_anak') is-invalid @enderror">
+              @error('nama_anak')
+              <div class="invalid-feedback">{{ $message }}</div>
+              @enderror
             </div>
             <div class="col-md-6">
               <label for="inputName">Tempat Lahir</label>
-              <input type="text" name="tempat_lahir_anak" class="form-control input-lg" value="{{$lahir->tempat_lahir_anak}}"  />
+              <input type="text" name="tempat_lahir_anak" value="{{$lahir->tempat_lahir_anak}}" class="form-control @error('tempat_lahir_anak') is-invalid @enderror">
+              @error('tempat_lahir_anak')
+              <div class="invalid-feedback">{{ $message }}</div>
+              @enderror
             </div>
             <div class="col-md-6">
               <label for="inputName">Tanggal Lahir</label>
-              <input type="date" name="tanggal_lahir_anak" class="form-control input-lg" value="{{$lahir->tanggal_lahir_anak}}" />
+              <input type="date" name="tanggal_lahir_anak" value="{{$lahir->tanggal_lahir_anak}}" class="form-control @error('tanggal_lahir') is-invalid @enderror">
+              @error('tanggal_lahir')
+              <div class="invalid-feedback">{{ $message }}</div>
+              @enderror
             </div>
             <div class="col-md-6">
                 <label for="inputName">Jenis Kelamin</label>
-                <input type="text" name="jenis_kelamin" class="form-control input-lg" value="{{$lahir->jenis_kelamin}}" />
+                <select class="form-control custom-select"  name="jenis_kelamin" >
+                  <option <?= $lahir->jenis_kelamin == 'Laki-Laki'? 'Selected' : 'Laki-Laki' ?>>Laki-Laki</option>
+                  <option <?= $lahir->jenis_kelamin == 'Perempuan'? 'Selected' : 'Perempuan' ?>>Perempuan</option>
+                </select>
               </div>
             <div class="col-md-6">
               <label for="inputName">Jam Lahir</label>
-              <input type="time" name="jam_lahir"  class="form-control input-lg" value="{{$lahir->jam_lahir}}"  />
+              <input type="time" name="jam_lahir" value="{{$lahir->jam_lahir}}" class="form-control @error('jam_lahir') is-invalid @enderror">
+              @error('jam_lahir')
+              <div class="invalid-feedback">{{ $message }}</div>
+              @enderror
             </div>
             <div class="col-md-6">
               <label for="inputName">Anak ke</label>
-              <input type="text" name="anak_ke"  class="form-control input-lg" value="{{$lahir->anak_ke}}"  />
+              <input type="text" name="anak_ke" value="{{$lahir->anak_ke}}" class="form-control @error('anak_ke') is-invalid @enderror">
+              @error('anak_ke')
+              <div class="invalid-feedback">{{ $message }}</div>
+              @enderror
             </div>
         <div class="col-md-6">
           <label for="inputName">Status Surat</label>
           <select class="form-control custom-select"  name="status_surat" >
-            <option selected disabled>Pilih Status</option>
-            @if (isset($lahir->status_surat))
-            <option selected>{{$lahir->status_surat}}</option>
-            @endif
-            <option>Proses</option>
-            <option>Selesai</option>
+            <option <?= $lahir->status_surat == 'Proses'? 'Selected' : 'Proses' ?>>Proses</option>
+            <option <?= $lahir->status_surat == 'Selesai'? 'Selected' : 'Selesai' ?>>Selesai</option>
           </select>
     </div>
             </div>
@@ -91,14 +96,7 @@
           <label for="inputName">Tanggal Lahir</label>
           <input type="date" name="tanggal_lahir" id="ttl_ayah2" class="form-control input-lg" value="{{ $lahir->tanggal_lahir}}" readonly/>
         </div>
-        <div class="col-md-6">
-          <label for="inputName">Agama</label>
-          <input type="text" name="agama" id="agama_ayah" class="form-control input-lg"  value="{{ $lahir->agama}}" readonly/>
-        </div>
-        <div class="col-md-6">
-          <label for="inputName">Pekerjaan</label>
-          <input type="text" name="pekerjaan" id="pekerjaan_ayah" class="form-control input-lg"  value="{{ $lahir->pekerjaan}}" readonly/>
-        </div>
+        
         <div class="col-md-6">
             <label for="inputName">NIK Ibu</label>
             <input type="text" name="nik_ibu" id="nik_ibu" class="form-control input-lg"  value="{{ $lahir->nik_ibu}}" readonly />
@@ -115,14 +113,7 @@
             <label for="inputName">Tanggal Lahir</label>
             <input type="date" name="tanggal_lahir" id="ttl_ibu2" class="form-control input-lg" value="{{ $lahir->tanggal_lahir}}" readonly/>
           </div>
-          <div class="col-md-6">
-            <label for="inputName">Agama</label>
-            <input type="text" name="agama" id="agama_ibu" class="form-control input-lg" value="{{ $lahir->agama}}" readonly/>
-          </div>
-          <div class="col-md-6">
-            <label for="inputName">Pekerjaan</label>
-            <input type="text" name="pekerjaan" id="pekerjaan_ibu" class="form-control input-lg"  value="{{ $lahir->pekerjaan}}" readonly/>
-          </div>
+          
         <div class="col-md-7">
             <label for="inputName">Alamat</label>
         <textarea name="alamat" id="alamat" class="form-control" rows="4" readonly>{{$lahir->alamat}}</textarea>

@@ -1,7 +1,6 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -75,7 +74,7 @@ hr.style2{
         </tr>
         <tr>
             <td><font size="2">Tempat/ Tanggal Lahir </font> </td>
-            <td width="350px"><font size="2"> : {{ $sktmsekolah->tempat_lahir }} , {{ $sktmsekolah->tanggal_lahir }} </font></td>
+            <td width="350px"><font size="2"> : {{ $sktmsekolah->tempat_lahir }} ,  {{ Carbon\Carbon::createFromFormat('Y-m-d', $sktmsekolah->tanggal_lahir)->isoFormat('D-MM-Y') }} </font></td>
         </tr>
         <tr>
             <td><font size="2">Agama</font></td>
@@ -91,7 +90,7 @@ hr.style2{
         </tr>
         <tr>
             <td><font size="2">Alamat</font></td>
-            <td width="350px"> : {{ $sktmsekolah->alamat }}</font></td>
+            <td width="350px"><font size="2"> : {{ $sktmsekolah->alamat }}</font></td>
         </tr>
 
     </table>
@@ -113,7 +112,7 @@ hr.style2{
         </tr>
         <tr>
             <td><font size="2">Tempat/ Tanggal Lahir </font></td>
-            <td width="350px"><font size="2"> : {{ $data->tempat_lahir }} , {{ $data->tanggal_lahir }}</font></td>
+            <td width="350px"><font size="2"> : {{ $data->tempat_lahir }} , {{ Carbon\Carbon::createFromFormat('Y-m-d', $data->tanggal_lahir)->isoFormat('D-MM-Y') }}</font></td>
         </tr>
         <tr>
             <td><font size="2">Agama</font></td>

@@ -44,7 +44,11 @@
                             <div class="col-md-6">
                                 <label for="inputName">Jenis Kelamin</label>
                                 <select name="jenis_kelamin" value="{{ old('jenis_kelamin') }}" id="warga-jenis_kelamin"
-                                    class="form-control">
+                                class="form-control @error('jenis_kelamin') is-invalid @enderror">
+                                @error('jenis_kelamin')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                                    <option selected disabled>Pilih Jenis Kelamin</option>
                                     <option>Laki-Laki</option>
                                     <option>Perempuan</option>
                                 </select>
@@ -61,11 +65,18 @@
                             <div class="col-md-6">
                                 <label for="inputName">Tanggal Lahir</label>
                                 <input type="date" name="tanggal_lahir" value="{{ old('tanggal_lahir') }}"
-                                    id="warga-tanggal_lahir" class="form-control">
+                                    id="warga-tanggal_lahir" class="form-control @error('tanggal_lahir') is-invalid @enderror">
+                                    @error('tanggal_lahir')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                             </div>
                             <div class="col-md-6">
                                 <label for="inputName">Agama</label>
-                                <select name="agama" value="{{ old('agama') }}" id="warga-agama" class="form-control">
+                                <select name="agama" value="{{ old('agama') }}" id="warga-agama" class="form-control @error('agama') is-invalid @enderror">
+                                    @error('agama')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                    <option selected disabled>Pilih Agama</option>
                                     <option>Islam</option>
                                     <option>Katolik</option>
                                     <option>Protestan</option>
@@ -78,7 +89,11 @@
                             <div class="col-md-6">
                                 <label for="inputName">Pendidikan</label>
                                 <select name="pendidikan" value="{{ old('pendidikan') }}" id="warga-pendidikan"
-                                    class="form-control">
+                                class="form-control @error('pendidikan') is-invalid @enderror">
+                                @error('pendidikan')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                                    <option selected disabled>Pilih Pendidikan</option>
                                     <option>Belum Sekolah</option>
                                     <option>SD/ MI</option>
                                     <option>SMP/MTs</option>
@@ -100,7 +115,11 @@
                             <div class="col-md-6">
                                 <label for="inputName">Status Perkawinan</label>
                                 <select name="status_perkawinan" value="{{ old('status_perkawinan') }}"
-                                    id="warga-status_perkawinan" class="form-control">
+                                    id="warga-status_perkawinan" class="form-control @error('status_perkawinan') is-invalid @enderror">
+                                    @error('status_perkawinan')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                    <option selected disabled>Pilih Status Perkawinan</option>
                                     <option>Belum Menikah</option>
                                     <option>Menikah</option>
                                     <option>Cerai Mati</option>
@@ -110,7 +129,11 @@
                             <div class="col-md-6">
                                 <label for="inputName">Status Hub Keluarga</label>
                                 <select name="status_hub_keluarga" value="{{ old('status_hub_keluarga') }}"
-                                    id="warga-status_hub_keluarga" class="form-control" class="form-control">
+                                    id="warga-status_hub_keluarga" class="form-control @error('status_hub_keluarga') is-invalid @enderror">
+                                    @error('status_hub_keluarga')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                    <option selected disabled>Pilih Status Hub Keluarga</option>
                                     <option>Kepala Keluarga</option>
                                     <option>Istri</option>
                                     <option>Anak</option>

@@ -58,6 +58,7 @@ class WargaController extends Controller
             'tempat_lahir' => 'required',
             'tanggal_lahir' => 'required',
             'pendidikan' => 'required',
+            'agama' => 'required',
             'pekerjaan' => 'required',
             'status_perkawinan' => 'required',
             'status_hub_keluarga' => 'required',
@@ -155,6 +156,7 @@ class WargaController extends Controller
         $warga->nama_lengkap = $request->get('nama_lengkap');
         $warga->jenis_kelamin = $request->get('jenis_kelamin');
         $warga->tempat_lahir = $request->get('tempat_lahir');
+        $warga->agama = $request->get('agama');
         $warga->tanggal_lahir = $request->get('tanggal_lahir');
         $warga->pendidikan = $request->get('pendidikan');
         $warga->pekerjaan = $request->get('pekerjaan');

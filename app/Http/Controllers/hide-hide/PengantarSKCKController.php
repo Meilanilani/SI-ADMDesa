@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Persuratan;
 use App\Warga;
 use App\PengantarSKCK;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -63,6 +64,8 @@ class PengantarSKCKController extends Controller
             return json_encode($data);}
         }
 
+        
+
     /**
      * Show the form for creating a new resource.
      *
@@ -72,9 +75,16 @@ class PengantarSKCKController extends Controller
     {
         $surat = Persuratan::all();
         $surat = Warga::all();
+
+        $date = new DateTime('now');
+        $date->modify('+3 month');
+        $date = $date->format('Y-m-d');
+
+        dd($date);
+
         $status_surat = 'Proses';
         $surat = $this->autonumber();
-        return view('admin.suket-pengantar-skck.create',  ['surat'=>$surat], ['status_surat'=>$status_surat]);
+        return view('admin.suket-pengantar-skck.create', ['surat'=>$surat], ['status_surat'=>$status_surat], ['date'=>$date]);
     }
 
     /**
@@ -89,6 +99,7 @@ class PengantarSKCKController extends Controller
         $data['ket_keperluan_surat'] = $request->ket_keperluan_surat;
         $data['tgl_masa_berlaku'] = $request->tgl_masa_berlaku;
         $data['status_surat'] = $request->status_surat;
+        $data['id']= Auth::id();
         $data['id_warga'] = $request->id_warga;
         $data_detail['nik_pemohon'] = $request->nik_pemohon;
         $data_detail['nik_yg_bersangkutan'] = $request->nik_yg_bersangkutan;

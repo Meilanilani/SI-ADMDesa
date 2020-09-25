@@ -30,15 +30,22 @@
                         </ul>
                     </div>
                     @endif
-                    <form action="{{ url('suket-pindah/update/'.$pindah->id_ket_pindah)}}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ url('suket-pindah/update/'.$pindah->id_persuratan)}}" method="POST" enctype="multipart/form-data">
                       @csrf
                       <div class="form-group">
                       <div class="row">
                         <div class="col-md-6">
                         <label for="inputName">No Surat</label>
                         <input type="text" name="no_surat" class="form-control" value="{{ $pindah->no_surat}}">
-
                         </div>
+                        <div class="col-md-6">
+                          <label for="inputName">No NIK</label>  
+                          <input type="text" name="nik_pemohon" id="nik_pemohon" value="{{ $pindah->nik_pemohon}}" class="form-control input-lg" />
+                        </div>
+                        <div class="col-md-6">
+                          <label for="inputName">No KK</label>  
+                          <input type="text" name="no_kk" id="no_kk" class="form-control input-lg" value="{{ $pindah->no_kk}}" />
+                      </div>
                             <div class="col-md-8">
                               <label for="inputDescription">Alamat Tujuan</label>
                               <textarea name="alamat_tujuan" class="form-control" rows="3"> {{ $pindah->alamat_tujuan}}</textarea>
@@ -47,41 +54,14 @@
                               <label for="inputDescription">Alasan Pindah</label>
                               <textarea name="alasan_pindah" class="form-control" rows="3">{{ $pindah->alasan_pindah}}</textarea>
                             </div>
-                            <div class="col-md-2">
-                              <label for="inputName">Jumlah Pengikut</label>
-                              <input type="number" name="jumlah_pengikut" class="form-control" value="{{ $pindah->jumlah_pengikut}}">
-                            </div>
-                            <div class="col-md-6">
-                              <label for="inputName">Foto Pengantar RT/ RW</label>
-                              <input type="file"  name="foto_pengantar">
-                            </div>
-                            <div class="col-md-6">
-                              <label for="inputName">Foto Kartu Keluarga</label>
-                              <input type="file"  name="foto_kk">
-                            </div>
-                            <div class="col-md-6">
-                              <label for="inputName">Foto KTP Suami Istri</label>
-                              <input type="file"  name="foto_ktp">
-                            </div>
-                            <div class="col-md-6">
-                              <label for="inputName">Foto Surat Akta Cerai</label>
-                              <input type="file"  name="foto_akta_cerai">
-                            </div>
-                            <div class="col-md-6">
-                            <label for="inputName">Foto Surat Pindah Sebelumnya</label>
-                            <input type="file"  name="foto_surat_pindah_sebelumnya">
-                          </div>
-                          <div class="col-md-5">
-                            <label for="inputName">Tanggal Pembuatan</label>
-                            <input type="date" name="tgl_pembuatan" class="form-control" value="{{ $pindah->tgl_pembuatan}}">
-                          </div>
+                            
+                          
                         <div class="col-md-5">
                           <label for="inputName">Status Surat</label>
-                          <select class="form-control custom-select"  name="status_surat">
-                            <option selected disabled>Pilih Status</option>
-                            <option>Proses</option>
-                            <option>Selesai</option>
-                          </select>
+                    <select class="form-control custom-select"  name="status_surat" >
+                      <option <?= $pindah->status_surat == 'Proses'? 'Selected' : 'Proses' ?>>Proses</option>
+                      <option <?= $pindah->status_surat == 'Selesai'? 'Selected' : 'Selesai' ?>>Selesai</option>
+                    </select>
                       </div>
                     </div>
                   </div>

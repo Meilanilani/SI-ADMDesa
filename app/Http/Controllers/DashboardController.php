@@ -15,6 +15,27 @@ class DashboardController extends Controller
     {
         $this->middleware('auth');
     }
+
+    public function ubah_password(){
+        
+        return view('gantipassword');
+
+    }
+
+    public function update_password(Request $request){
+        if ($request->password!=$request->konfirmasi){
+            return redirect()->back()->withErrors('Password tidak sama');
+
+        }
+
+        $user = Auth::user();
+        $user->password=bcrypt($request->password);
+        $user->save();
+
+        return redirect()->back()->with('success', 'Password Berhasil diubah !');
+        
+
+    }
     
     public function index(){
         

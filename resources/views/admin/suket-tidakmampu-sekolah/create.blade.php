@@ -108,7 +108,7 @@
                         <input type="file" name="foto_kk">
                     </div>
                     <div class="col-md-8">
-                        <label for="inputName">Foto KTP yang bersangkutan</label>
+                        <label for="inputName">Foto KTP Suami Istri</label>
                         <input type="file" name="foto_ktp">
                     </div>
                     <input type="hidden" name="status_surat" value="{{ $status_surat }}" class="form-control" readonly>
@@ -141,7 +141,7 @@
                     console.log(data);
                     var json = data;
                     if(!json){
-                      return alert("Data yang anda masukkan tidak ada!");
+                      return alert("NIK yang anda masukkan tidak ada!");
                     }
 
                     var nama_anak = json.nama_lengkap;
@@ -151,7 +151,6 @@
                     var pekerjaan_anak = json.pekerjaan;
                     var alamat = json.alamat;
 
-                    console.log(nama_anak);
 
                     $('#nama_anak').val(nama_anak);
                     $('#ttl_anak1').val(ttl_anak1);
@@ -180,7 +179,7 @@
 
                     var json = data;
                     if(!json){
-                      return alert("Data yang anda masukkan tidak ada!");
+                      return alert("NIK yang anda masukkan tidak ada!");
                     }
 
                     var id_pemohon = json.id_warga;

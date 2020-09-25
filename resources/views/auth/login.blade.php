@@ -8,6 +8,15 @@
   <!-- /.login-logo -->
   <div id="login">
     <div class="container">
+        @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li> {{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
         <div id="login-row" class="row justify-content-center align-items-center">
             <div id="login-column" class="col-md-6">
                 <div id="login-box" class="col-md-12">

@@ -56,38 +56,38 @@ hr.style2{
             <td align="center"><strong><u>SURAT KETERANGAN PINDAH</u></strong></td>
         </tr>
         <tr>
-            <td align="center">Nomor :</td>
+        <td align="center">Nomor : {{$pindah->no_surat}}</td>
         </tr>
     </table><br>
     
     <table align="center">
         <tr>
             <td><font size="2">NIK</td>
-            <td width="350px"><font size="2"> :</td>
+            <td width="350px"><font size="2"> :{{$pindah->no_nik}}</td>
         </tr>
         <tr>
             <td><font size="2">Nama Lengkap</td>
-            <td ><font size="2"> :</td>
+            <td ><font size="2"> : {{$pindah->nama_lengkap}}</td>
         </tr> 
         <tr>
             <td><font size="2">Jenis Kelamin</td>
-            <td width="350px"><font size="2"> :</td>
+            <td width="350px"><font size="2"> : {{$pindah->jenis_kelamin}}</td>
         </tr>
         <tr>
             <td><font size="2">Nomor Kartu Keluarga</td>
-            <td width="350px"><font size="2"> : </td>
+            <td width="350px"><font size="2"> : {{$pindah->no_kk}} </td>
         </tr>
         <tr>
             <td><font size="2">Nama Kepala Keluarga</td>
-            <td width="350px"><font size="2"> : </td>
+            <td width="350px"><font size="2"> : {{$pindah->nama_lengkap}} </td>
         </tr>
         <tr>
             <td><font size="2">Pekerjaan</td>
-            <td width="350px"><font size="2"> : </td>
+            <td width="350px"><font size="2"> : {{$pindah->pekerjaan}} </td>
         </tr>
         <tr>
             <td><font size="2">Alamat</td>
-            <td width="350px"><font size="2"> : </td>
+            <td width="350px"><font size="2"> : {{$pindah->alamat}}</td>
         </tr>
         
     </table>
@@ -96,15 +96,15 @@ hr.style2{
     <table align="center">
         <tr>
             <td><font size="2">Alamat Tujuan Pindah</td>
-            <td width="350px"><font size="2"> :</td>
+            <td width="350px"><font size="2"> : {{$pindah->alamat_tujuan}}</td>
         </tr>
         <tr>
             <td><font size="2">Alasan Pindah</td>
-            <td ><font size="2"> :</td>
+            <td ><font size="2"> : {{$pindah->alasan_pindah}}</td>
         </tr> 
         <tr>
             <td><font size="2">Jumlah Pengikut</td>
-            <td width="350px"><font size="2"> :</td>
+            <td width="350px"><font size="2"> : {{count($data_kk)-1}} </td>
         </tr>
        
     </table>
@@ -118,6 +118,22 @@ hr.style2{
             <td><font size="2"> Hubungan Keluarga</td>
             <td><font size="2"> Status Perkawinan</td>
         </tr>
+        <tr>
+            @php
+            $no=1  
+            @endphp
+            @foreach($data_kk as $post)
+            <tr>
+              <th scope="row">{{$no}}
+                </th>
+                @php $no++ @endphp
+                <td></td>
+                <td>{{ $post->no_nik }}</td>
+                <td>{{ $post->nama_lengkap }}</td>
+                <td>{{ $post->nama_lengkap }}</td>
+                <td>{{ $post->alamat }}</td>
+            </tr>
+            @endforeach
     </table><br>
     <table align="center">
         <tr>

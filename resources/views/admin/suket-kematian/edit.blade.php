@@ -31,35 +31,34 @@
               <div class="col-md-7">
                 <label for="inputName">No Surat</label>
                 <input type="text" name="no_surat" class="form-control" value="{{ $kematian->no_surat}}" readonly>
-                </div>
-             
+                </div>  
           <div class="col-md-6">
           <label for="inputName">NIK</label>
           <input type="text" name="nik_yg_bersangkutan" id="no_nik" class="form-control input-lg"  value="{{ $kematian->nik_yg_bersangkutan}}" readonly />
         </div>
         <div class="col-md-6">
           <label for="inputName">Nama Lengkap</label>
-          <input type="text" name="nama_lengkap" id="nama_lengkap" class="form-control input-lg"  value="{{ $kematian->nama_lengkap}}" readonly/>
+          <input type="text" name="nama_lengkap" id="nama_lengkap" class="form-control input-lg"  value="{{ $data_warga->nama_lengkap}}" readonly/>
         </div>
         <div class="col-md-6">
           <label for="inputName">Tempat Lahir</label>
-          <input type="text" name="tempat_lahir" id="tempat_lahir" class="form-control input-lg" value="{{ $kematian->tempat_lahir}}" readonly/>
+          <input type="text" name="tempat_lahir" id="tempat_lahir" class="form-control input-lg" value="{{ $data_warga->tempat_lahir}}" readonly/>
         </div>
         <div class="col-md-6">
           <label for="inputName">Tanggal Lahir</label>
-          <input type="date" name="tanggal_lahir" id="tanggal_lahir" class="form-control input-lg" value="{{ $kematian->tanggal_lahir}}" readonly/>
+          <input type="date" name="tanggal_lahir" id="tanggal_lahir" class="form-control input-lg" value="{{ $data_warga->tanggal_lahir}}" readonly/>
         </div>
         <div class="col-md-6">
           <label for="inputName">Agama</label>
-          <input type="text" name="agama" id="agama" class="form-control input-lg" value="{{ $kematian->agama}}" readonly/>
+          <input type="text" name="agama" id="agama" class="form-control input-lg" value="{{ $data_warga->agama}}" readonly/>
         </div>
         <div class="col-md-6">
           <label for="inputName">Status</label>
-          <input type="text" name="status_perkawinan" class="form-control input-lg" value="{{ $kematian->status_perkawinan}}" readonly/>
+          <input type="text" name="status_perkawinan" class="form-control input-lg" value="{{ $data_warga->status_perkawinan}}" readonly/>
         </div>
         <div class="col-md-6">
           <label for="inputName">Pekerjaan</label>
-          <input type="text" name="pekerjaan" id="pekerjaan" class="form-control input-lg" value="{{ $kematian->pekerjaan}}" readonly/>
+          <input type="text" name="pekerjaan" id="pekerjaan" class="form-control input-lg" value="{{ $data_warga->pekerjaan}}" readonly/>
         </div>
             <div class="col-md-7">
               <label for="inputName">Alamat</label>
@@ -83,25 +82,21 @@
         </div>
         <div class="col-md-6">
           <label for="inputName">Tanggal Kematian</label>
-          <input type="date" name="tgl_kematian" class="form-control input-lg" value="{{ $kematian->tgl_kematian}}" readonly/>
+          <input type="date" name="tgl_kematian" class="form-control input-lg" value="{{ $kematian->tgl_kematian}}" />
         </div>
         <div class="col-md-6">
           <label for="inputName">Tempat Kematian</label>
-          <input type="text" name="tempat_kematian" class="form-control input-lg" value="{{ $kematian->tempat_kematian}}" readonly />
+          <input type="text" name="tempat_kematian" class="form-control input-lg" value="{{ $kematian->tempat_kematian}}" />
         </div>
         <div class="col-md-6">
           <label for="inputName">Penyebab Kematian</label>
-          <input type="text" name="penyebab_kematian" class="form-control input-lg" value="{{ $kematian->penyebab_kematian}}" readonly/>
+          <input type="text" name="penyebab_kematian" class="form-control input-lg" value="{{ $kematian->penyebab_kematian}}" />
         </div>
       <div class="col-md-5">
         <label for="inputName">Status Surat</label>
         <select class="form-control custom-select"  name="status_surat" >
-          <option selected disabled>Pilih Status</option>
-          @if (isset($kematian->status_surat))
-          <option selected>{{$kematian->status_surat}}</option>
-          @endif
-          <option>Proses</option>
-          <option>Selesai</option>
+          <option <?= $kematian->status_surat == 'Proses'? 'Selected' : 'Proses' ?>>Proses</option>
+          <option <?= $kematian->status_surat == 'Selesai'? 'Selected' : 'Selesai' ?>>Selesai</option>
         </select>
     </div>
       </div></div>

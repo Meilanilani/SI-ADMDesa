@@ -9,6 +9,7 @@ use App\User;
 use PDF;
 use App\Notifications\SKTMRSNotifikasiSelesai;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class SKTMRSController extends Controller
@@ -106,6 +107,7 @@ class SKTMRSController extends Controller
         $data['no_surat'] = $request->no_surat; 
         $data['status_surat'] = $request->status_surat;
         $data['id_warga'] = $request->id_warga;
+        $data['id']= Auth::id();
         $data_detail['nik_pemohon'] = $request->nik_pemohon;
         $data_detail['nik_yg_bersangkutan'] = $request->nik_yg_bersangkutan;
 
@@ -155,10 +157,22 @@ class SKTMRSController extends Controller
      * @param  \App\SKTMRS  $sKTMRS
      * @return \Illuminate\Http\Response
      */
-    public function show(SKTMRS $sKTMRS)
-    {
-        //
+    public function show($id_persuratan)
+    {    
+        $sktmrs = DB::table('persuratan') 
+        ->join('warga', 'persuratan.id_warga','=','warga.id_warga')
+        ->join('detail_sktmrs', 'persuratan.id_persuratan','=','detail_sktmrs.id_persuratan')
+        ->select('persuratan.created_at', 'persuratan.status_surat','persuratan.foto_pengantar','persuratan.foto_ktp','persuratan.foto_kk','warga.id_warga','warga.no_nik', 'warga.no_kk', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.updated_at', 'detail_sktmrs.nik_yg_bersangkutan', 'detail_sktmrs.nik_pemohon' )
+        ->where('persuratan.id_persuratan',$id_persuratan)
+        ->first();
+
+        $data = DB::table('warga')
+        ->where('no_nik', $sktmrs->nik_yg_bersangkutan)
+        ->get();
+
+        return view('admin.suket-tidakmampu-rs.show', compact('sktmrs', 'data'));
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -176,10 +190,10 @@ class SKTMRSController extends Controller
         ->where('persuratan.id_persuratan',$id_persuratan)
         ->first();
         
-        $data_anak = DB::table('warga')
+        $data = DB::table('warga')
         ->where('no_nik', $sktmrs->nik_yg_bersangkutan)
         ->first();
-        return view('admin.suket-tidakmampu-rs.edit', compact('sktmrs', 'data_anak'));
+        return view('admin.suket-tidakmampu-rs.edit', compact('sktmrs', 'data'));
     }
 
     /**
@@ -197,8 +211,7 @@ class SKTMRSController extends Controller
         $sktmrs = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->update($data);
 
 
-         //Notifikasi
-
+         //Notifikasi Status-Surat Ke User
         $data = DB::table('persuratan')
         ->where('id_persuratan', $id_persuratan)
         ->first();

@@ -43,7 +43,7 @@
                         </div>
                         <div class="col-md-6">
                           <label for="inputName">Tempat Lahir</label>
-                          <input type="text" name="tempat_lahir" id="ttl_anak1" class="form-control input-lg"  value="{{ $sktmsekolah->tempat_lahir}}"readonly/>
+                          <input type="text" name="tempat_lahir" id="ttl_anak1" class="form-control input-lg"  value="{{ $data_anak->tempat_lahir}}"readonly/>
                         </div>
                         <div class="col-md-6">
                           <label for="inputName">Tanggal Lahir</label>

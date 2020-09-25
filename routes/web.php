@@ -17,6 +17,12 @@ Auth::routes();
 
 Route::get('/', 'DashboardController@index');
 
+//Ganti Password
+Route::get('ganti-password', 'DashboardController@ubah_password')->name('ubah_password');
+Route::post('ganti-password/update', 'DashboardController@update_password')->name('update_password');
+
+
+
 //RUD-Data-Pengguna
 Route::get('data-pengguna', 'PenggunaController@index')->name('pengguna.index');
 Route::get('data-pengguna/edit/{id}', 'PenggunaController@edit');
@@ -43,6 +49,7 @@ Route::get('suket-tidakmampu-sekolah/edit/{id}', 'SKTMSekolahController@edit');
 Route::get('suket-tidakmampu-sekolah/delete/{id}', 'SKTMSekolahController@destroy');
 Route::post('suket-tidakmampu-sekolah/update/{id}', 'SKTMSekolahController@update');
 Route::get('suket-tidakmampu-sekolah/cetak_pdf/{id}','SKTMSekolahController@cetak_pdf')->name('cetak_pdf');
+Route::get('suket-tidakmampu-sekolah/show/{id}', 'SKTMSekolahController@show')->name('sktmsekolah.show');
 
 
 //CRUD-SKTM-RS
@@ -54,6 +61,7 @@ Route::get('suket-tidakmampu-rumahsakit/edit/{id}', 'SKTMRSController@edit');
 Route::get('suket-tidakmampu-rumahsakit/delete/{id}', 'SKTMRSController@destroy');
 Route::post('suket-tidakmampu-rumahsakit/update/{id}', 'SKTMRSController@update');
 Route::get('suket-tidakmampu-rumahsakit/cetak_pdf/{id}','SKTMRSController@cetak_pdf')->name('cetak_pdf');
+Route::get('suket-tidakmampu-rumahsakit/show/{id}', 'SKTMRSController@show')->name('sktmrs.show');
 
 
 //CRUD-Suket_kelahiran
@@ -64,6 +72,8 @@ Route::get('suket-kelahiran/edit/{id}', 'KelahiranController@edit');
 Route::get('suket-kelahiran/delete/{id}', 'KelahiranController@destroy');
 Route::post('suket-kelahiran/update/{id}', 'KelahiranController@update');
 Route::get('suket-kelahiran/cari', 'KelahiranController@ajax_select')->name('kelahiran.ajax_select');
+Route::get('suket-kelahiran/cetak_pdf/{id}','KelahiranController@cetak_pdf')->name('cetak_pdf');
+Route::get('suket-kelahiran/show/{id}', 'KelahiranController@show')->name('kelahiran.show');
 
 
 //CRUD-Suket-KTP Sementara
@@ -108,6 +118,8 @@ Route::post('suket-kematian/update/{id}', 'KematianController@update');
 
 Route::get('suket-kematian/cetak_pdf/{id}','KematianController@cetak_pdf')->name('cetak_pdf');
 
+Route::get('suket-kematian/show/{id}', 'KematianController@show')->name('kematian.show');
+
 
 //CRUD-Suket-Pengantar Nikah
 Route::get('suket-pengantar-nikah', 'PengantarNikahController@index')->name('pnikah.index');
@@ -143,10 +155,13 @@ Route::get('suket-pindah/edit/{id}', 'PindahController@edit');
 Route::get('suket-pindah/delete/{id}', 'PindahController@destroy');
 Route::post('suket-pindah/update/{id}', 'PindahController@update');
 
+Route::get('suket-pindah/cetak_pdf/{id}','PindahController@cetak_pdf')->name('cetak_pdf');
+
 //Hak Akses User
 Route::get('/user', 'UserController@index')->name('pengajuan.index');
 Route::get('user-suket-tidakmampu-sekolah/create', 'UserController@create_sktmsekolah')->name('pengajuan.create_sktmsekolah');
 Route::post('user-suket-tidakmampu-sekolah/store', 'UserController@store_sktmsekolah')->name('pengajuan.store_sktmsekolah');
+
 Route::get('user-suket-tidakmampu-sekolah/cari', 'UserController@ajax_select_sktmsekolah')->name('pengajuan.ajax_select_sktmsekolah');
 Route::get('user-suket-tidakmampu-rumahsakit/create', 'UserController@create_sktmrs')->name('pengajuan.create_sktmrs');
 Route::post('user-suket-tidakmampu-rumahsakit/store', 'UserController@store_sktmrs')->name('pengajuan.store_sktmrs');

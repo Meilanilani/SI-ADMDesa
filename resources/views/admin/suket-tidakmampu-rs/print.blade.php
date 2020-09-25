@@ -75,16 +75,7 @@ hr.style2{
         </tr>
         <tr>
             <td><font size="2">Tempat/ Tanggal Lahir </font> </td>
-            <td width="350px"><font size="2"> : {{ $sktmrs->tempat_lahir }} , {{ $sktmrs->tanggal_lahir }} </font></td>
-        </tr>
-        <tr>
-            <td><font size="2">Umur</font> </td>
-            @php
-                $dbDate = \Carbon\Carbon::parse($sktmrs->tanggal_lahir); 
-                $diffYears = \Carbon\Carbon::now()->diffInYears($dbDate);
-
-            @endphp
-            <td width="350px"><font size="2"> : {{ $diffYears}} </font></td>
+            <td width="350px"><font size="2"> : {{ $sktmrs->tempat_lahir }} , {{ Carbon\Carbon::createFromFormat('Y-m-d', $sktmrs->tanggal_lahir)->isoFormat('D-MM-Y') }} </font></td>
         </tr>
         
         <tr>
@@ -101,7 +92,7 @@ hr.style2{
         </tr>
         <tr>
             <td><font size="2">Alamat</font></td>
-            <td width="350px"> : {{ $sktmrs->alamat }}</font></td>
+            <td width="350px"><font size="2"> : {{ $sktmrs->alamat }}</font></td>
         </tr>
 
     </table>
@@ -112,7 +103,7 @@ hr.style2{
         <tr>
             <td align="left" width="566px">
                 <font size="2">Orang tersebut diatas tersebut adalah betul warga kami berdasarkan data yang ada pada kami  
-                    bahwa betul orang tersebut diatas termasuk Golongan Pra-KS/KS-1 atau <strong> Keluarga Tidak Mampu </strong> dan surat keterangan ini dipergunakan untuk <strong> {{ $sktmrs->ket_keperluan_surat }} @foreach ($data as $row)  Atas nama {{ $row->nama_lengkap }} ({{ $row->tempat_lahir }}, {{ Carbon\Carbon::createFromFormat('Y-m-d', $row->tanggal_lahir)->isoFormat('D MMMM Y') }} )@endforeach
+                    bahwa betul orang tersebut diatas termasuk Golongan Pra-KS/KS-1 atau <strong> Keluarga Tidak Mampu </strong> dan surat keterangan ini dipergunakan untuk <strong> {{ $sktmrs->ket_keperluan_surat }} @foreach ($data as $row) Atas nama {{ $row->nama_lengkap }} ({{ $row->tempat_lahir }}, {{ Carbon\Carbon::createFromFormat('Y-m-d', $row->tanggal_lahir)->isoFormat('D-MM-Y') }} )@endforeach
                     </strong></font>
             </td>
         </tr>

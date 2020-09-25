@@ -13,9 +13,14 @@ class CreatePengajuanKKSTable extends Migration
      */
     public function up()
     {
-        Schema::create('pengajuan_k_k_s', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::create('detail_kk', function (Blueprint $table) {
+            $table->increments('id_detail_kk');
+            $table->string('nik_pemohon',16);
+            $table->integer('id_persuratan')->unsigned();
+            
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent(); 
+            $table->foreign('id_persuratan')->references('id_persuratan')->on('persuratan')->onDelete('cascade');
         });
     }
 
@@ -26,6 +31,6 @@ class CreatePengajuanKKSTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pengajuan_k_k_s');
+        Schema::dropIfExists('detail_kk');
     }
 }

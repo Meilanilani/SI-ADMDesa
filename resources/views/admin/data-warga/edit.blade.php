@@ -44,10 +44,11 @@
                             </div>
                             <div class="col-md-6">
                                 <label for="inputName">Jenis Kelamin</label>
-                                <select name="jenis_kelamin" value="{{ old('jenis_kelamin') }}" id="warga-jenis_kelamin"
-                                    class="form-control">
-                                    <option>Laki-Laki</option>
-                                    <option>Perempuan</option>
+                                <select class="form-control custom-select" name="jenis_kelamin">
+                                    <option <?= $warga->jenis_kelamin == 'Laki-Laki'? 'Selected' : 'Laki-Laki' ?>>
+                                        Laki-Laki</option>
+                                    <option <?= $warga->jenis_kelamin == 'Perempuan'? 'Selected' : 'Perempuan' ?>>
+                                        Perempuan</option>
                                 </select>
                             </div>
                             <div class="col-md-6">
@@ -66,28 +67,36 @@
                             </div>
                             <div class="col-md-6">
                                 <label for="inputName">Agama</label>
-                                <select name="agama" value="{{ old('agama') }}" id="warga-agama" class="form-control">
-                                    <option>Islam</option>
-                                    <option>Katolik</option>
-                                    <option>Protestan</option>
-                                    <option>Hindu</option>
-                                    <option>Buddha</option>
-                                    <option>Kong Hu Cu</option>
-                                    <option>Lain-lain</option>
+                                <select class="form-control custom-select" name="agama">
+                                    <option <?= $warga->agama == 'Islam'? 'Selected' : 'Islam' ?>>Islam</option>
+                                    <option <?= $warga->agama == 'Katolik'? 'Selected' : 'Katolik' ?>>Katolik</option>
+                                    <option <?= $warga->agama == 'Protestan'? 'Selected' : 'Protestan' ?>>Protestan
+                                    </option>
+                                    <option <?= $warga->agama == 'Hindu'? 'Selected' : 'Hindu' ?>>Hindu</option>
+                                    <option <?= $warga->agama == 'Buddha'? 'Selected' : 'Buddha' ?>>Buddha</option>
+                                    <option <?= $warga->agama == 'Kong Hu Cu'? 'Selected' : 'Kong Hu Cu' ?>>Kong Hu Cu
+                                    </option>
+                                    <option <?= $warga->agama == 'Lain-lain'? 'Selected' : 'Lain-lain' ?>>Lain-lain
+                                    </option>
                                 </select>
                             </div>
                             <div class="col-md-6">
                                 <label for="inputName">Pendidikan</label>
-                                <select name="pendidikan" value="{{ old('pendidikan') }}" id="warga-pendidikan"
-                                    class="form-control">
-                                    <option>Belum Sekolah</option>
-                                    <option>SD/ MI</option>
-                                    <option>SMP/MTs</option>
-                                    <option>SMA/MA/SMK</option>
-                                    <option>D3</option>
-                                    <option>D4/S1</option>
-                                    <option>S2</option>
-                                    <option>S3</option>
+                                <select class="form-control custom-select" name="pendidikan">
+                                    <option <?= $warga->pendidikan == 'Belum Sekolah'? 'Selected' : 'Belum Sekolah' ?>>
+                                        Belum Sekolah</option>
+                                    <option <?= $warga->pendidikan == 'SD/ MI'? 'Selected' : 'SD/ MI' ?>>SD/ MI</option>
+                                    <option <?= $warga->pendidikan == 'SMP/MTs'? 'Selected' : 'SMP/MTs' ?>>SMP/MTs
+                                    </option>
+                                    <option <?= $warga->pendidikan == 'SMA/MA/SMK'? 'Selected' : 'SMA/MA/SMK' ?>>
+                                        SMA/MA/SMK</option>
+                                    <option <?= $warga->pendidikan == 'D3'? 'Selected' : 'D3' ?>>D3</option>
+                                    <option <?= $warga->pendidikan == 'D4/S1'? 'Selected' : 'D4/S1' ?>>D4/S1
+                                    </option>
+                                    <option <?= $warga->pendidikan == 'S2'? 'Selected' : 'S2' ?>>S2
+                                    </option>
+                                    <option <?= $warga->pendidikan == 'S3'? 'Selected' : 'S3' ?>>S3
+                                    </option>
                                 </select>
                                 </span></div>
                             <div class="col-md-6">
@@ -100,23 +109,34 @@
                             </div>
                             <div class="col-md-6">
                                 <label for="inputName">Status Perkawinan</label>
-                                <select name="status_perkawinan" value="{{ old('status_perkawinan') }}"
-                                    id="warga-status_perkawinan" class="form-control" class="form-control">
-                                    <option>Belum Menikah</option>
-                                    <option>Menikah</option>
-                                    <option>Cerai Mati</option>
-                                    <option>Cerai Hidup</option>
+                                <select class="form-control custom-select" name="status_perkawinan">
+                                    <option
+                                        <?= $warga->status_perkawinan == 'Belum Menikah'? 'Selected' : 'Belum Menikah' ?>>
+                                        Belum Menikah</option>
+                                    <option <?= $warga->status_perkawinan == 'Menikah'? 'Selected' : 'Menikah' ?>>
+                                        Menikah</option>
+                                    <option <?= $warga->status_perkawinan == 'Cerai Mati'? 'Selected' : 'Cerai Mati' ?>>
+                                        Cerai Mati
+                                    </option>
+                                    <option
+                                        <?= $warga->status_perkawinan == 'Cerai Hidup'? 'Selected' : 'Cerai Hidup' ?>>
+                                        Cerai Hidup</option>
                                 </select>
                             </div>
                             <div class="col-md-6">
                                 <label for="inputName">Status Hub Keluarga</label>
-                                <select name="status_hub_keluarga" value="{{ old('status_hub_keluarga') }}"
-                                    id="warga-status_hub_keluarga" class="form-control" class="form-control">
-                                    <option>Kepala Keluarga</option>
-                                    <option>Istri</option>
-                                    <option>Anak</option>
-                                    <option>Famili Lain</option>
+                                <select class="form-control custom-select" name="status_hub_keluarga">
+                                    <option
+                                        <?= $warga->status_hub_keluarga == 'Kepala Keluarga'? 'Selected' : 'Kepala Keluarga' ?>>
+                                        Kepala Keluarga</option>
+                                    <option <?= $warga->status_hub_keluarga == 'Istri'? 'Selected' : 'Istri' ?>>Istri
+                                    </option>
+                                    <option <?= $warga->status_hub_keluarga == 'Anak'? 'Selected' : 'Anak' ?>>Anak
+                                    </option>
+                                    <option <?= $warga->pendidikan == 'Famili Lain'? 'Selected' : 'Famili Lain' ?>>
+                                        Famili Lain</option>
                                 </select>
+
                             </div>
                         </div>
                     </div>
@@ -153,7 +173,7 @@
             </div>
             <div class="card-footer">
                 <button type="submit" class="btn btn-success">Simpan</button>
-                <a class="btn btn-success" href="{{route('sktmsekolah.index')}}">Kembali</a>
+                <a class="btn btn-success" href="{{route('warga.index')}}">Kembali</a>
             </div>
         </div>
     </div>

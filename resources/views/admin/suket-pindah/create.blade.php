@@ -93,12 +93,9 @@
                    console.log(data);
                    var json = data;
 
-                   $.each( , function(index, value) {
+                    var id_pemohon = json.id_warga;
                     var nik_pemohon = json.no_nik;
-                  });
-                    
 
-                    
 
                     $('#id_pemohon').val(id_pemohon);     
                     $('#nik_pemohon').val(nik_pemohon);                   

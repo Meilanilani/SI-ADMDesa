@@ -80,6 +80,7 @@ class UserController extends Controller
         $data['ket_keperluan_surat'] = $request->ket_keperluan_surat;
         $data['status_surat'] = $request->status_surat; 
         $data['id_warga'] = $request->id_warga;
+        $data['id']= Auth::id();
         $data_detail['nik_anak'] = $request->nik_anak;
         $data_detail['nik_pemohon'] = $request->nik_pemohon;
         
@@ -119,7 +120,7 @@ class UserController extends Controller
         $data_detail['id_persuratan'] = $sktmsekolah;
         $sktmsekolah = DB::table('detail_sktms')->insertGetId($data_detail);
             
-         //Notifikasi
+         //Notifikasi Create Data ke Admin
          $data_admin = User::where('name','admin')
          ->first();
  

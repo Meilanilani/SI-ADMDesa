@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Notifications\DataProses;
+use App\Notifications\SKTMSekolahNotifikasiSelesai;
 use App\Persuratan;
 use App\SKTMSekolah;
 use App\Warga;
+use App\User;
 use PDF;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 
@@ -113,6 +116,7 @@ class SKTMSekolahController extends Controller
         $data['no_surat'] = $request->no_surat;
         $data['status_surat'] = $request->status_surat;
         $data['id_warga'] = $request->id_warga;
+        $data['id']= Auth::id();
         $data_detail['nik_anak'] = $request->nik_anak;
         $data_detail['nik_pemohon'] = $request->nik_pemohon;
         
@@ -165,9 +169,20 @@ class SKTMSekolahController extends Controller
      * @param  \App\SKTMSekolah  $sKTMSekolah
      * @return \Illuminate\Http\Response
      */
-    public function show(SKTMSekolah $sKTMSekolah)
+    public function show($id_persuratan)
     {    
-    
+        $sktmsekolah = DB::table('persuratan') 
+        ->join('warga', 'persuratan.id_warga','=','warga.id_warga')
+        ->join('detail_sktms', 'persuratan.id_persuratan','=','detail_sktms.id_persuratan')
+        ->select('persuratan.created_at', 'persuratan.status_surat','persuratan.foto_pengantar','persuratan.foto_ktp','persuratan.foto_kk','warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.updated_at', 'detail_sktms.nik_anak', 'detail_sktms.nik_pemohon' )
+        ->where('persuratan.id_persuratan',$id_persuratan)
+        ->first();
+
+        $data_anak = DB::table('warga')
+        ->where('no_nik', $sktmsekolah->nik_anak)
+        ->get();
+
+        return view('admin.suket-tidakmampu-sekolah.show', compact('sktmsekolah', 'data_anak'));
     }
 
     /**
@@ -178,18 +193,19 @@ class SKTMSekolahController extends Controller
      */
     public function edit($id_persuratan)
     {
-        
-        
         $sktmsekolah = DB::table('persuratan') 
         ->join('warga', 'persuratan.id_warga','=','warga.id_warga')
         ->join('detail_sktms', 'persuratan.id_persuratan','=','detail_sktms.id_persuratan')
         ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat','persuratan.status_surat', 'detail_sktms.nik_anak', 'detail_sktms.nik_pemohon' )
         ->where('persuratan.id_persuratan',$id_persuratan)
         ->first();  
-        
+       
         $data_anak = DB::table('warga')
         ->where('no_nik', $sktmsekolah->nik_anak)
         ->first();
+
+        dd($data_anak);
+
         return view('admin.suket-tidakmampu-sekolah.edit', compact('sktmsekolah','data_anak'));
     }
 
@@ -205,10 +221,20 @@ class SKTMSekolahController extends Controller
     public function update(Request $request, $id_persuratan)
     {
         
-        $data_detail['nama_anak'] = $request->nama_anak;
         $data['status_surat'] = $request->status_surat;
+       
         
-        $kelahiran = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->update($data);
+        $sktmsekolah = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->update($data);
+
+          //Notifikasi Status-Surat Ke User
+        $data = DB::table('persuratan')
+        ->where('id_persuratan', $id_persuratan)
+        ->first();
+
+        $data_user = User::find($data->id);
+        
+        $data_user->notify(new SKTMSekolahNotifikasiSelesai($id_persuratan));
+
         return redirect()->route('sktmsekolah.index')
                             ->with('success', 'Data berhasil diupdate!');
     }
