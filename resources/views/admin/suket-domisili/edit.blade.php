@@ -70,29 +70,22 @@
           <div class="row">
             
         {{ csrf_field() }}
-        <div class="col-md-8">
-          <label for="inputName">Foto Pengantar RT/ RW</label>
-          <input type="file"  name="foto_pengantar">
+          <input type="hidden" name="id_warga" id="id_pemohon" class="form-control input-lg" value="{{$domisili->id_warga}}"/>
+        <div class="col-md-6">
+          <label for="inputName">NIK Pemohon</label>
+          <input type="text" name="nik_pemohon" id="nik_pemohon" class="form-control" value="{{$domisili->nik_pemohon}}" readonly>
         </div>
-        <div class="col-md-8">
-          <label for="inputName">Foto Kartu Keluarga</label>
-          <input type="file"  name="foto_kk">
+        <div class="col-md-6">
+          <label for="inputName">Nama Pemohon</label>
+          <input type="text" name="nama_lengkap" id="nama_pemohon" class="form-control input-lg" value="{{$domisili->nama_lengkap}}" readonly>
         </div>
-        <div class="col-md-8">
-          <label for="inputName">Foto KTP yang bersangkutan</label>
-          <input type="file"  name="foto_ktp">
+        <div class="col-md-5">
+          <label for="inputName">Status Surat</label>
+          <select class="form-control custom-select"  name="status_surat" >
+            <option <?= $domisili->status_surat == 'Proses'? 'Selected' : 'Proses' ?>>Proses</option>
+            <option <?= $domisili->status_surat == 'Selesai'? 'Selected' : 'Selesai' ?>>Selesai</option>
+          </select>
         </div>
-      <div class="col-md-5">
-        <label for="inputName">Status Surat</label>
-        <select class="form-control custom-select"  name="status_surat" >
-          <option selected disabled>Pilih Status</option>
-          @if (isset($domisili->status_surat))
-          <option selected>{{$domisili->status_surat}}</option>
-          @endif
-          <option>Proses</option>
-          <option>Selesai</option>
-        </select>
-    </div>
       </div></div>
       <div class="card-footer">
         <button type="submit" class="btn btn-success">Simpan</button>

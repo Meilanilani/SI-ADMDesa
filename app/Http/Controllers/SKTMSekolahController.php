@@ -110,7 +110,11 @@ class SKTMSekolahController extends Controller
 
         $this->validate($request,[
             'nik_anak' => ['required', 'string', 'min:16', 'max:16'],
-            'nik_pemohon' => ['required', 'string', 'min:16', 'max:16']
+            'nik_pemohon' => ['required', 'string', 'min:16', 'max:16'],
+            'foto_pengantar' => ['required'],
+            'foto_kk' => ['required'],
+            'foto_ktp' => ['required'],
+
         ], $message);  
 
         $data['no_surat'] = $request->no_surat;
@@ -204,7 +208,6 @@ class SKTMSekolahController extends Controller
         ->where('no_nik', $sktmsekolah->nik_anak)
         ->first();
 
-        dd($data_anak);
 
         return view('admin.suket-tidakmampu-sekolah.edit', compact('sktmsekolah','data_anak'));
     }

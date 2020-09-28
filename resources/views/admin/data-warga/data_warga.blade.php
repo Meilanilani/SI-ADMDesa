@@ -72,6 +72,10 @@
                                     <a class="btn btn-primary btn-sm"
                                         href="{{URL::to('data-warga/delete/'.$post->id_warga)}}"><i
                                             class="nav-icon fas fa-trash"></i> Hapus</a>
+                                        <a class="btn btn-primary btn-sm"
+                                            href="{{URL::to('data-warga/show/'.$post->id_warga)}}"><i
+                                                class="nav-icon fas fa-trash"></i> Detail</a>
+                                            
                                 </td>
                             </tr>
                             </form>

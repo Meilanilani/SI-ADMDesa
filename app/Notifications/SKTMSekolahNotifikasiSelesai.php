@@ -55,7 +55,7 @@ class SKTMSekolahNotifikasiSelesai extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            'message'=>'Pengajuan SKTMSekolah sudah selesai diproses! ','from'=>Auth::id(), 'id_persuratan'=>$this->id_persuratan
+            'message'=>'SKTM Sekolah selesai diproses! ','from'=>Auth::id(), 'id_persuratan'=>$this->id_persuratan
         ];
     }
 }

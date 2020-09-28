@@ -101,7 +101,10 @@ class SKTMRSController extends Controller
 
         $this->validate($request,[
             'nik_yg_bersangkutan' => ['required', 'string', 'min:16', 'max:16'],
-            'nik_pemohon' => ['required', 'string', 'min:16', 'max:16']
+            'nik_pemohon' => ['required', 'string', 'min:16', 'max:16'],
+            'foto_pengantar' => ['required'],
+            'foto_kk' => ['required'],
+            'foto_ktp' => ['required'],
         ], $message);  
 
         $data['no_surat'] = $request->no_surat; 

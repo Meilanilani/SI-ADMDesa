@@ -14,27 +14,20 @@
 <section class="content">
   <div class="card-group">
     <div class="card">
-        @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li> {{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-        @endif
+
       <div class="card-body">
-        <form action="{{ route('pnikah.store')}}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('pengajuan.store_pengantarnikah')}}" method="POST" enctype="multipart/form-data">
           @csrf
           <div class="form-group">
             <div class="row">
-            <div class="col-md-7">
-            <label for="inputName">No Surat</label>
-            <input type="text" name="no_surat" class="form-control" value="" readonly>
-            </div>
+            <input type="hidden" name="no_surat" class="form-control" value="{{ $surat}}" readonly>
+           
             <div class="col-md-6">
               <label for="inputName">NIK Anak</label>
-              <input type="text" name="nik_anak" id="nik_anak" class="form-control input-lg" />
+              <input type="text" name="nik_anak" id="nik_anak" class="form-control @error('nik_anak') is-invalid @enderror">
+              @error('nik_anak')
+              <div class="invalid-feedback">{{ $message }}</div>
+              @enderror
             </div>
             <div class="col-md-6">
               <label for="inputName">Nama Anak</label>
@@ -48,14 +41,6 @@
               <label for="inputName">Tanggal Lahir</label>
               <input type="date" name="tempat_lahir" id="ttl_anak2" class="form-control input-lg" readonly/>
             </div>
-            <div class="col-md-6">
-              <label for="inputName">Agama</label>
-              <input type="text" name="tempat_lahir" id="agama_anak" class="form-control input-lg" readonly/>
-            </div>
-            <div class="col-md-6">
-              <label for="inputName">Pekerjaan</label>
-              <input type="text" name="tempat_lahir" id="pekerjaan_anak" class="form-control input-lg" readonly/>
-            </div>
             <div class="col-md-7">
               <label for="inputName">Alamat</label>
               <textarea name="alamat" id="alamat" class="form-control" rows="4" readonly></textarea>
@@ -66,39 +51,19 @@
     <div class="card">
       <div class="card-body">
           <div class="row">
-              <input type="hidden" name="id_warga" id="id_pemohon" class="form-control input-lg" />
+            <input type="hidden" name="id_warga" id="id_pemohon" class="form-control input-lg" value="{{Auth::user()->id}}"/>
            
-        <div class="col-md-6">
-          <label for="inputName">NIK Ayah</label>
-          <input type="text" name="nik_ayah" id="nik_ayah" class="form-control input-lg" />
-        </div>
-        <div class="col-md-6">
-          <label for="inputName">Nama Ayah</label>
-          <input type="text" name="nama_lengkap" id="nama_ayah" class="form-control input-lg" />
-        </div>
-        <div class="col-md-6">
-          <label for="inputName">Tempat Lahir</label>
-          <input type="text" name="tempat_lahir" id="ttl_ayah1" class="form-control input-lg" readonly/>
-        </div>
-        <div class="col-md-6">
-          <label for="inputName">Tanggal Lahir</label>
-          <input type="date" name="tanggal_lahir" id="ttl_ayah2" class="form-control input-lg" readonly/>
-        </div>
-        <div class="col-md-6">
-          <label for="inputName">Agama</label>
-          <input type="text" name="agama" id="agama_ayah" class="form-control input-lg" readonly/>
-        </div>
-        <div class="col-md-6">
-          <label for="inputName">Pekerjaan</label>
-          <input type="text" name="pekerjaan" id="pekerjaan_ayah" class="form-control input-lg" readonly/>
-        </div>
+            <input type="hidden" name="nik_pemohon" id="nik_pemohon" class="form-control input-lg" value="{{Auth::user()->name}}"/>
         <div class="col-md-6">
           <label for="inputName">NIK Ibu</label>
-          <input type="text" name="nik_ibu" id="nik_ibu" class="form-control input-lg" />
+          <input type="text" name="nik_ibu" id="nik_ibu"  class="form-control @error('nik_ibu') is-invalid @enderror">
+          @error('nik_ibu')
+          <div class="invalid-feedback">{{ $message }}</div>
+          @enderror
         </div>
         <div class="col-md-6">
           <label for="inputName">Nama Ibu</label>
-          <input type="text" name="nama_lengkap" id="nama_ibu" class="form-control input-lg" />
+          <input type="text" name="nama_lengkap" id="nama_ibu" class="form-control input-lg" readonly/>
         </div>
         <div class="col-md-6">
           <label for="inputName">Tempat Lahir</label>
@@ -108,43 +73,41 @@
           <label for="inputName">Tanggal Lahir</label>
           <input type="date" name="tanggal_lahir" id="ttl_ibu2" class="form-control input-lg" readonly/>
         </div>
-        <div class="col-md-6">
-          <label for="inputName">Agama</label>
-          <input type="text" name="agama" id="agama_ibu" class="form-control input-lg" readonly/>
-        </div>
-        <div class="col-md-6">
-          <label for="inputName">Pekerjaan</label>
-          <input type="text" name="pekerjaan" id="pekerjaan_ibu" class="form-control input-lg" readonly/>
-        </div>
         {{ csrf_field() }}
         <div class="col-md-8">
           <label for="inputName">Foto Pengantar RT/ RW</label>
-          <input type="file"  name="foto_pengantar">
+          <input type="file"  name="foto_pengantar" class="@error('foto_pengantar') is-invalid @enderror">
+          @error('foto_pengantar')
+          <div class="invalid-feedback">{{ $message }}</div>
+          @enderror
         </div>
         <div class="col-md-8">
           <label for="inputName">Foto Kartu Keluarga</label>
-          <input type="file"  name="foto_kk">
+          <input type="file"  name="foto_kk" class="@error('foto_kk') is-invalid @enderror">
+          @error('foto_kk')
+          <div class="invalid-feedback">{{ $message }}</div>
+          @enderror
         </div>
         <div class="col-md-8">
-          <label for="inputName">Foto KTP yang bersangkutan</label>
-          <input type="file"  name="foto_ktp">
+          <label for="inputName">Foto KTP Ayah, Ibu, dan Yang Bersangkutan</label>
+          <input type="file"  name="foto_ktp" class="@error('foto_ktp') is-invalid @enderror">
+          @error('foto_ktp')
+          <div class="invalid-feedback">{{ $message }}</div>
+          @enderror
         </div>
-        <div class="col-md-5">
-        <label for="inputName">Tanggal Pembuatan</label>
-        <input type="date"  name="tgl_pembuatan" class="form-control">
-      </div>
+        <div class="col-md-8">
+          <label for="inputName">Foto Ijazah Terakhir </label>
+          <input type="file"  name="foto_ijazah" class="@error('foto_ijazah') is-invalid @enderror">
+          @error('foto_ijazah')
+          <div class="invalid-feedback">{{ $message }}</div>
+          @enderror
+        </div>
       <div class="col-md-5">
-        <label for="inputName">Status Surat</label>
-        <select class="form-control custom-select"  name="status_surat">
-          <option selected disabled>Pilih Status</option>
-          <option>Proses</option>
-          <option>Selesai</option>
-        </select>
+        <input type="hidden" name="status_surat" value="{{ $status_surat }}" class="form-control" readonly>
     </div>
       </div></div>
       <div class="card-footer">
         <button type="submit" class="btn btn-success">Simpan</button>
-                  <a class="btn btn-success" href="{{route('pnikah.index')}}">Kembali</a>
       </div>
     </div>
   </div>
@@ -157,13 +120,16 @@
              var no_nik=$(this).val();
              $.ajax({
                  type : "GET",
-                 url  : "{{ route('pnikah.ajax_select') }}",
+                 url  : "{{ route('pengajuan.ajax_select_pengantarnikah') }}",
                  dataType : "JSON",
                  data : {no_nik: no_nik},
                  cache:false,
                  success: function(data){
                    console.log(data);
                    var json = data;
+                   if (!json) {
+                        return alert("NIK yang anda masukkan tidak ada!");
+                    }
 
                     var nama_anak = json.nama_lengkap;
                     var ttl_anak1 = json.tempat_lahir;
@@ -183,8 +149,6 @@
                     $('#nama_anak').val(nama_anak);
                     $('#ttl_anak1').val(ttl_anak1);
                     $('#ttl_anak2').val(ttl_anak2);
-                    $('#agama_anak').val(agama_anak);
-                    $('#pekerjaan_anak').val(pekerjaan_anak);
                     $('#alamat').val(alamat);                      
                  }
              });
@@ -196,35 +160,32 @@
              var no_nik=$(this).val();
              $.ajax({
                  type : "GET",
-                 url  : "{{ route('pnikah.ajax_select') }}",
+                 url  : "{{ route('pengajuan.ajax_select_pengantarnikah') }}",
                  dataType : "JSON",
                  data : {no_nik: no_nik},
                  cache:false,
                  success: function(data){
                    console.log(data);
                    var json = data;
+                   if (!json) {
+                        return alert("NIK yang anda masukkan tidak ada!");
+                    }
 
                     var id_pemohon = json.id_warga;
                     var nama_ayah = json.nama_lengkap;
                     var ttl_ayah1 = json.tempat_lahir;
                     var ttl_ayah2 = json.tanggal_lahir;
-                    var agama_ayah = json.agama;
-                    var pekerjaan_ayah = json.pekerjaan;
                     
                     console.log(id_pemohon);
                     console.log(nama_ayah);
                     console.log(ttl_ayah1);
                     console.log(ttl_ayah2);
-                    console.log(agama_ayah);
-                    console.log(pekerjaan_ayah);
 
 
                     $('#id_pemohon').val(id_pemohon);
                     $('#nama_ayah').val(nama_ayah);
                     $('#ttl_ayah1').val(ttl_ayah1);
                     $('#ttl_ayah2').val(ttl_ayah2);
-                    $('#agama_ayah').val(agama_ayah);
-                    $('#pekerjaan_ayah').val(pekerjaan_ayah);
                       
                  }
              });
@@ -236,33 +197,30 @@
              var no_nik=$(this).val();
              $.ajax({
                  type : "GET",
-                 url  : "{{ route('pnikah.ajax_select') }}",
+                 url  : "{{ route('pengajuan.ajax_select_pengantarnikah') }}",
                  dataType : "JSON",
                  data : {no_nik: no_nik},
                  cache:false,
                  success: function(data){
                    console.log(data);
                    var json = data;
+                   if (!json) {
+                        return alert("NIK yang anda masukkan tidak ada!");
+                    }
 
                    
                     var nama_ibu = json.nama_lengkap;
                     var ttl_ibu1 = json.tempat_lahir;
                     var ttl_ibu2 = json.tanggal_lahir;
-                    var agama_ibu = json.agama;
-                    var pekerjaan_ibu = json.pekerjaan;
                     
                     console.log(nama_ibu);
                     console.log(ttl_ibu1);
                     console.log(ttl_ibu2);
-                    console.log(agama_ibu);
-                    console.log(pekerjaan_ibu);
 
 
                     $('#nama_ibu').val(nama_ibu);
                     $('#ttl_ibu1').val(ttl_ibu1);
                     $('#ttl_ibu2').val(ttl_ibu2);
-                    $('#agama_ibu').val(agama_ibu);
-                    $('#pekerjaan_ibu').val(pekerjaan_ibu);
                       
                  }
              });

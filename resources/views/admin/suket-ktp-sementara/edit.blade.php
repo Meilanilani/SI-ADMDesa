@@ -38,31 +38,31 @@
         </div>
         <div class="col-md-6">
           <label for="inputName">Nama Lengkap</label>
-          <input type="text" name="nama_lengkap" id="nama_lengkap" class="form-control input-lg" readonly/>
+          <input type="text" name="nama_lengkap" id="nama_lengkap" class="form-control input-lg" value="{{ $data_warga->nama_lengkap}}" readonly/>
         </div>
         <div class="col-md-6">
           <label for="inputName">Tempat Lahir</label>
-          <input type="text" name="tempat_lahir" id="tempat_lahir" class="form-control input-lg" readonly/>
+          <input type="text" name="tempat_lahir" id="tempat_lahir" class="form-control input-lg" value="{{ $data_warga->tempat_lahir}}" readonly/>
         </div>
         <div class="col-md-6">
           <label for="inputName">Tanggal Lahir</label>
-          <input type="date" name="tanggal_lahir" id="tanggal_lahir" class="form-control input-lg" readonly/>
+          <input type="date" name="tanggal_lahir" id="tanggal_lahir" class="form-control input-lg" value="{{ $data_warga->tanggal_lahir}}" readonly/>
         </div>
         <div class="col-md-6">
           <label for="inputName">Agama</label>
-          <input type="text" name="agama" id="agama" class="form-control input-lg" readonly/>
+          <input type="text" name="agama" id="agama" class="form-control input-lg" value="{{ $data_warga->agama}}" readonly/>
         </div>
         <div class="col-md-6">
-          <label for="inputName">Status</label>
-          <input type="text" name="status_perkawinan" id="status_perkawinan" class="form-control input-lg" readonly/>
+          <label for="inputName">Status Perkawinan</label>
+          <input type="text" name="status_perkawinan" id="status_perkawinan" class="form-control input-lg" value="{{ $data_warga->status_perkawinan}}" readonly/>
         </div>
         <div class="col-md-6">
           <label for="inputName">Pekerjaan</label>
-          <input type="text" name="pekerjaan" id="pekerjaan" class="form-control input-lg" readonly/>
+          <input type="text" name="pekerjaan" id="pekerjaan" class="form-control input-lg" value="{{ $data_warga->pekerjaan}}" readonly/>
         </div>
             <div class="col-md-7">
               <label for="inputName">Alamat</label>
-              <textarea name="alamat" id="alamat" class="form-control" rows="4" readonly></textarea>
+              <textarea name="alamat" id="alamat" class="form-control" rows="4" readonly>{{ $data_warga->alamat}}</textarea>
             </span></div>
             </div></div>
       </div> 
@@ -74,37 +74,19 @@
         <input type="hidden" name="id_warga" id="id_pemohon" class="form-control input-lg" />
         <div class="col-md-6">
           <label for="inputName">NIK Pemohon</label>
-          <input type="text" name="nik_pemohon" id="nik_pemohon" class="form-control input-lg" />
+          <input type="text" name="nik_pemohon" id="nik_pemohon" class="form-control input-lg" value="{{ $ktp->nik_pemohon}}" readonly />
         </div>
         <div class="col-md-6">
           <label for="inputName">Nama Pemohon</label>
-          <input type="text" name="nama_lengkap" id="nama_pemohon" class="form-control input-lg" />
+          <input type="text" name="nama_lengkap" id="nama_pemohon" class="form-control input-lg" value="{{ $ktp->nama_lengkap}}" readonly/>
         </div>
-        <div class="col-md-8">
-          <label for="inputName">Foto Pengantar RT/ RW</label>
-          <input type="file"  name="foto_pengantar">
-        </div>
-        <div class="col-md-8">
-          <label for="inputName">Foto Kartu Keluarga</label>
-          <input type="file"  name="foto_kk">
-        </div>
-        <div class="col-md-8">
-          <label for="inputName">Foto KTP yang bersangkutan</label>
-          <input type="file"  name="foto_ktp">
-        </div>
-      <div class="col-md-7">
-        <label for="inputName">Tanggal Masa Berlaku Surat</label>
-        <input type="date"  name="tgl_masa_berlaku" class="form-control">
-      </div>
+        <input type="hidden"  name="tgl_masa_berlaku" class="form-control" value="{{ $ktp->tgl_masa_berlaku}}">
+      
       <div class="col-md-5">
         <label for="inputName">Status Surat</label>
         <select class="form-control custom-select"  name="status_surat" >
-          <option selected disabled>Pilih Status</option>
-          @if (isset($ktp->status_surat))
-          <option selected>{{$ktp->status_surat}}</option>
-          @endif
-          <option>Proses</option>
-          <option>Selesai</option>
+          <option <?= $ktp->status_surat == 'Proses'? 'Selected' : 'Proses' ?>>Proses</option>
+          <option <?= $ktp->status_surat == 'Selesai'? 'Selected' : 'Selesai' ?>>Selesai</option>
         </select>
       </div>
       </div></div>

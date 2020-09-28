@@ -14,15 +14,6 @@
 <section class="content">
   <div class="card-group">
     <div class="card">
-        @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li> {{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-        @endif
       <div class="card-body">
         <form action="{{ url('suket-pengantar-nikah/update/'.$pnikah->id_persuratan)}}" method="POST" enctype="multipart/form-data">
           @csrf
@@ -121,12 +112,8 @@
       <div class="col-md-5">
         <label for="inputName">Status Surat</label>
         <select class="form-control custom-select"  name="status_surat" >
-          <option selected disabled>Pilih Status</option>
-          @if (isset($pnikah->status_surat))
-          <option selected>{{$pnikah->status_surat}}</option>
-          @endif
-          <option>Proses</option>
-          <option>Selesai</option>
+          <option <?= $pnikah->status_surat == 'Proses'? 'Selected' : 'Proses' ?>>Proses</option>
+          <option <?= $pnikah->status_surat == 'Selesai'? 'Selected' : 'Selesai' ?>>Selesai</option>
         </select>
     </div>
       </div></div>

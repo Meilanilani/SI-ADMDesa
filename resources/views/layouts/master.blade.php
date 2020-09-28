@@ -93,9 +93,9 @@
                     <img src="/assets/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
                 </div>
                 <div class="info">
-                    <h5>
+                    <font size="2">
                         <font color="white">Welcome {{Auth::user()->name}}</font>
-                    </h5>
+                    </font>
                     <a href="/ganti-password" class="d-block">Ubah Password</a>
                 </div>
             </div>
@@ -197,7 +197,12 @@
                                     <p>Surat Domisili</p>
                                 </a>
                             </li>
-
+                            <li class="nav-item">
+                                <a href="/suket-pengantar-kk" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Surat Pengantar KK</p>
+                                </a>
+                            </li>
                         </ul>
 
 
@@ -215,7 +220,9 @@
         @yield('content')
     </div>
     <!-- /.content-wrapper -->
-
+    <footer class="main-footer">
+        <strong> Desa Cihampelas-Copyright&copy;2020</strong> 
+      </footer>
     <!-- Control Sidebar -->
     <aside class="control-sidebar control-sidebar-dark">
         <!-- Control sidebar content goes here -->
@@ -269,8 +276,22 @@
             $('#data_usaha').DataTable();
 
         });
+        $(document).ready(function () {
+            $('#data_kk').DataTable();
 
+        });
+        $(document).ready(function () {
+            $('#data_ktp').DataTable();
+
+        });
+        $(document).ready(function () {
+         $('#data_pindah').DataTable();
+
+        });
+        $(document).ready(function () {
+         $('#data_domisili').DataTable();
+
+        });
     </script>
 </body>
-
 </html>

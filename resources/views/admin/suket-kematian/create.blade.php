@@ -143,6 +143,9 @@
                  success: function(data){
                    console.log(data);
                    var json = data;
+                   if (!json) {
+                        return alert("NIK yang anda masukkan tidak ada!");
+                    }
 
                     var nama_lengkap = json.nama_lengkap;
                     var tempat_lahir = json.tempat_lahir;
@@ -173,6 +176,9 @@
                  success: function(data){
                    console.log(data);
                    var json = data;
+                   if (!json) {
+                        return alert("NIK yang anda masukkan tidak ada!");
+                    }
 
                     var id_pemohon = json.id_warga;
                     var nama_pemohon = json.nama_lengkap;

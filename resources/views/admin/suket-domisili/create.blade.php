@@ -14,15 +14,7 @@
 <section class="content">
   <div class="card-group">
     <div class="card">
-        @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li> {{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-        @endif
+       
       <div class="card-body">
         <form action="{{ route('domisili.store')}}" method="POST" enctype="multipart/form-data">
           @csrf
@@ -34,7 +26,10 @@
                 </div>
         <div class="col-md-6">
           <label for="inputName">NIK</label>
-          <input type="text" name="nik_yg_bersangkutan" id="nik_yg_bersangkutan" class="form-control input-lg" />
+          <input type="text" name="nik_yg_bersangkutan" id="nik_yg_bersangkutan" class="form-control @error('nik_yg_bersangkutan') is-invalid @enderror">
+          @error('nik_yg_bersangkutan')
+          <div class="invalid-feedback">{{ $message }}</div>
+          @enderror
         </div>
         <div class="col-md-6">
           <label for="inputName">Nama Lengkap</label>
@@ -74,7 +69,10 @@
         <input type="hidden" name="id_warga" id="id_pemohon" class="form-control input-lg" />
         <div class="col-md-6">
           <label for="inputName">NIK Pemohon</label>
-          <input type="text" name="nik_pemohon" id="nik_pemohon" class="form-control input-lg" />
+          <input type="text" name="nik_pemohon" id="nik_pemohon" class="form-control @error('nik_pemohon') is-invalid @enderror">
+          @error('nik_pemohon')
+          <div class="invalid-feedback">{{ $message }}</div>
+          @enderror
         </div>
         <div class="col-md-6">
           <label for="inputName">Nama Pemohon</label>
@@ -110,13 +108,16 @@
              var no_nik=$(this).val();
              $.ajax({
                  type : "GET",
-                 url  : "{{ route('usaha.ajax_select') }}",
+                 url  : "{{ route('domisili.ajax_select') }}",
                  dataType : "JSON",
                  data : {no_nik: no_nik},
                  cache:false,
                  success: function(data){
                    console.log(data);
                    var json = data;
+                   if (!json) {
+                      return alert("NIK yang anda masukkan tidak ada!");
+                  }
 
                     var nama_lengkap = json.nama_lengkap;
                     var tempat_lahir = json.tempat_lahir;
@@ -142,13 +143,16 @@
              var no_nik=$(this).val();
              $.ajax({
                  type : "GET",
-                 url  : "{{ route('usaha.ajax_select') }}",
+                 url  : "{{ route('domisili.ajax_select') }}",
                  dataType : "JSON",
                  data : {no_nik: no_nik},
                  cache:false,
                  success: function(data){
                    console.log(data);
                    var json = data;
+                   if (!json) {
+                      return alert("NIK yang anda masukkan tidak ada!");
+                  }
 
                     var id_pemohon = json.id_warga;
                     var nama_pemohon = json.nama_lengkap;

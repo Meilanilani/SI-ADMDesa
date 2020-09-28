@@ -56,7 +56,7 @@ hr.style2{
             <td align="center"><strong><u>SURAT KETERANGAN USAHA </u></strong></td>
         </tr>
         <tr>
-            <td align="center">Nomor :</td>
+        <td align="center">Nomor : {{$usaha->no_surat}}</td>
         </tr>
     </table><br>
     <table align="center">
@@ -69,39 +69,40 @@ hr.style2{
     <br>
     <table align="center">
         <tr>
-            <td><font size="2">Nama</td>
-            <td ><font size="2"> :</td>
+            @foreach ($data_warga as $post)
+            <td><font size="2">Nama</font></td>
+            <td ><font size="2"> : {{$post->nama_lengkap}}</font></td>
         </tr>
         <tr>
-            <td><font size="2">Tempat/ Tanggal lahir</td>
-            <td width="350px"><font size="2"> :</td>
+            <td><font size="2">Tempat/ Tanggal lahir</font></td>
+            <td width="350px"><font size="2"> : {{$post->tempat_lahir}}, {{ Carbon\Carbon::createFromFormat('Y-m-d', $post->tanggal_lahir)->isoFormat('DD-MM-Y') }}</font></td>
         </tr>
         <tr>
-            <td><font size="2">Agama</td>
-            <td width="350px"><font size="2"> : </td>
+            <td><font size="2">Agama</font></td>
+            <td width="350px"><font size="2"> : {{$post->agama}}</font></td>
         </tr>
         <tr>
             <td><font size="2">Kewarganegaraan</td>
             <td width="350px"><font size="2"> : Indonesia</td>
         </tr>  
         <tr>
-            <td><font size="2">Status Perkawinan</td>
-            <td width="350px"><font size="2"> : </td>
+            <td><font size="2">Status Perkawinan</font></td>
+            <td width="350px"><font size="2"> : {{$post->status_perkawinan}}</font> </td>
         </tr>
         <tr>
-            <td><font size="2">Pekerjaan</td>
-            <td width="350px"><font size="2"> : </td>
+            <td><font size="2">Pekerjaan</font></td>
+            <td width="350px"><font size="2"> : {{$post->pekerjaan}}</font> </td>
         </tr>
         
         <tr>
-            <td><font size="2">NIK</td>
-            <td width="350px"><font size="2"> :</td>
+            <td><font size="2">NIK </font></td>
+            <td width="350px"><font size="2"> : {{$usaha->nik_pemilik_usaha}}</font></td>
         </tr>
         <tr>
-            <td><font size="2">Alamat</td>
-            <td width="350px"><font size="2"> : </td>
+            <td><font size="2">Alamat</font></td>
+            <td width="350px"><font size="2"> : {{$post->alamat}}</font> </td>
         </tr>
-        
+        @endforeach
     </table>
     <br>
     <table align="center">
@@ -116,16 +117,16 @@ hr.style2{
     <br>
     <table align="center">
         <tr>
-            <td><font size="2">Bidang Usaha</td>
-            <td ><font size="2"> :</td>
+            <td><font size="2">Bidang Usaha</font></td>
+            <td ><font size="2"> : {{$usaha->jenis_usaha}}</font></td>
         </tr>
         <tr>
-            <td><font size="2">Penghasilan</td>
-            <td width="350px"><font size="2"> :</td>
+            <td><font size="2">Penghasilan</font></td>
+            <td width="350px"><font size="2"> : {{$usaha->penghasilan_bulanan}}/ bulan</font></td>
         </tr>
         <tr>
             <td><font size="2">Alamat</td>
-            <td width="350px"><font size="2"> : </td>
+            <td width="350px"><font size="2"> : {{$usaha->alamat_usaha}}</td>
         </tr>
     </table>
     
@@ -142,14 +143,14 @@ hr.style2{
     <table align="center">
         <tr>
             <td width="400px"> </td>
-            <td><font size="2">Cihampelas, 27 Maret 2019</td>
+            <td><font size="2">Cihampelas, {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $post->updated_at)->isoFormat('DD MMMM Y') }}</td>
         </tr>
     </table>
         <table align="center">
         <tr>
             <td><font size="2"></td>
             <td width="380px"> </td>
-            <td align="center"><font size="2"> a.n KEPALA DESA CIHAMPELAS <br>KASI PELAYANAN 
+            <td align="center"><font size="2">KEPALA DESA CIHAMPELAS  
             </td>   
         </tr>
     </table>
@@ -158,7 +159,7 @@ hr.style2{
         <tr>
             <td align="center"></td>
             <td width="380px"> </td>
-            <td align="center"><font size="2"><strong><u>ACENG KURNIA</u></strong></font></td> 
+            <td align="center"><font size="2"><strong><u>ASEP MULYADI</u></strong></font></td> 
         </tr>
     </table>
 </body>

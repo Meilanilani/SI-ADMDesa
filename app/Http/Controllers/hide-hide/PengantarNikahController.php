@@ -1,10 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Notifications\NANotifikasiSelesai;
 use App\Persuratan;
 use App\Warga;
+use PDF;
 use App\PengantarNikah;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class PengantarNikahController extends Controller
@@ -75,9 +80,12 @@ class PengantarNikahController extends Controller
             'agama' =>  $pnikah['agama'],
             'pekerjaan' =>  $pnikah['pekerjaan'],
             'alamat' =>  $pnikah['alamat'],
-            'status_perkawinan' => $pnikah['status_perkawinan'],
-        );
-        return json_encode($data);}
+            'status_perkawinan' => $pnikah['status_perkawinan'],);
+        }
+        else{
+            $data = null;
+        }
+        return json_encode($data);
     }
 
     /**
@@ -88,9 +96,27 @@ class PengantarNikahController extends Controller
      */
     public function store(Request $request)
     {
+        $message =[
+            'required' => 'Isi tidak boleh kosong',
+            'min' => 'Isi minimal harus 16 Karakter',
+            'max' => 'Isi maximal harus 16 Karakter'
+        ];
+
+        $this->validate($request,[
+            'nik_anak' => ['required', 'string', 'min:16', 'max:16'],
+            'nik_pemohon' => ['required', 'string', 'min:16', 'max:16'],
+            'nik_ibu' => ['required', 'string', 'min:16', 'max:16'],
+            'foto_pengantar' =>  ['required'],
+            'foto_kk' =>  ['required'],
+            'foto_ktp' => ['required'],
+            'foto_ijazah' => ['required']
+
+        ], $message);  
+
         $data['no_surat'] = $request->no_surat;
         $data['id_warga'] = $request->id_warga;
         $data['status_surat'] = $request->status_surat;
+        $data['id']= Auth::id();
         $data_detail['nik_pemohon'] = $request->nik_pemohon;
         $data_detail['nik_anak'] = $request->nik_anak;
         $data_detail['nik_ibu'] = $request->nik_ibu;
@@ -150,9 +176,26 @@ class PengantarNikahController extends Controller
      * @param  \App\PengantarNikah  $pengantarNikah
      * @return \Illuminate\Http\Response
      */
-    public function show(PengantarNikah $pengantarNikah)
+    public function show($id_persuratan)
     {
-        //
+        $pnikah = DB::table('persuratan') 
+        ->join('warga', 'persuratan.id_warga','=','warga.id_warga')
+        ->join('detail_na', 'persuratan.id_persuratan','=','detail_na.id_persuratan')
+        ->select('warga.id_warga','warga.no_nik', 'warga.no_kk', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 'warga.jenis_kelamin', 'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.status_surat', 'persuratan.foto_ktp','persuratan.foto_kk','persuratan.foto_pengantar','persuratan.foto_ijazah','persuratan.updated_at','persuratan.ket_keperluan_surat', 'detail_na.nik_pemohon', 'detail_na.nik_anak', 'detail_na.nik_ibu' )
+        ->where('persuratan.id_persuratan',$id_persuratan)
+        ->first();
+
+        $data_ibu = DB::table('warga')
+        ->where('no_nik', $pnikah->nik_ibu)
+        ->get();
+        
+        $data_anak = DB::table('warga')
+        ->where('no_nik', $pnikah->nik_anak)
+        ->get();
+        
+        
+    
+        return view('admin.suket-pengantar-nikah.show',compact('pnikah', 'data_ibu', 'data_anak'));
     }
 
     /**
@@ -195,6 +238,16 @@ class PengantarNikahController extends Controller
         $data['status_surat'] = $request->status_surat;
 
         $pnikah = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->update($data);
+
+         //Notifikasi Status-Surat Ke User
+         $data = DB::table('persuratan')
+         ->where('id_persuratan', $id_persuratan)
+         ->first();
+ 
+         $data_user = User::find($data->id);
+         
+         $data_user->notify(new NANotifikasiSelesai($id_persuratan));
+
         return redirect()->route('pnikah.index')
                             ->with('success', 'Data berhasil diupdate!');
     }
@@ -217,22 +270,26 @@ class PengantarNikahController extends Controller
 
     public function cetak_pdf($id_persuratan)
     {
-        $sktmrs = DB::table('persuratan') 
+        $pnikah = DB::table('persuratan') 
         ->join('warga', 'persuratan.id_warga','=','warga.id_warga')
-        ->join('detail', 'persuratan.id_persuratan','=','detail_sktmrs.id_persuratan')
-        ->select('warga.id_warga','warga.no_nik', 'warga.no_kk', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_pembuatan','persuratan.status_surat','persuratan.ket_keperluan_surat', 'detail_sktmrs.nik_kepala_keluarga', 'detail_sktmrs.nik_yg_bersangkutan' )
+        ->join('detail_na', 'persuratan.id_persuratan','=','detail_na.id_persuratan')
+        ->select('warga.id_warga','warga.no_nik', 'warga.no_kk', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 'warga.jenis_kelamin', 'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.status_surat','persuratan.updated_at','persuratan.ket_keperluan_surat', 'detail_na.nik_pemohon', 'detail_na.nik_anak', 'detail_na.nik_ibu' )
         ->where('persuratan.id_persuratan',$id_persuratan)
         ->first();
 
-        $data = DB::table('warga')
-        ->where('no_nik', $sktmrs[1]->nik_yg_bersangkutan)
+        $data_ibu = DB::table('warga')
+        ->where('no_nik', $pnikah->nik_ibu)
+        ->get();
+        
+        $data_anak = DB::table('warga')
+        ->where('no_nik', $pnikah->nik_anak)
         ->get();
         
         
-        
-        $pdf = PDF::loadview('suket-tidakmampu-rs.print',compact('sktmrs', 'data'));
+    
+        $pdf = PDF::loadview('admin.suket-pengantar-nikah.print',compact('pnikah', 'data_ibu', 'data_anak'));
         $pdf->setPaper('Legal','potrait');
-        return $pdf->download('suket-tidak mampu rumahsakit.pdf');
+        return $pdf->download('suket-pengantar-nikah.pdf');
         
     }
 }

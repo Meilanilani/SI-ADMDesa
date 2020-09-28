@@ -14,31 +14,25 @@
 <section class="content">
   <div class="card-group">
     <div class="card">
-        @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li> {{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-        @endif
       <div class="card-body">
         <form action="{{ route('pengajuan.store_sktmsekolah')}}" method="POST" enctype="multipart/form-data">
-          @csrf
+            @csrf
           <div class="form-group">
             <div class="row">
-            <div class="col-md-7">
-            <label for="inputName">No Surat</label>
-            <input type="text" name="no_surat" class="form-control" value="{{$surat}}" readonly>
+            <input type="hidden" name="no_surat" class="form-control" value="{{$surat}}" readonly>
+            
+            <div class="col-md-6">
+                <label for="inputName">NIK Anak</label>
+                <input type="text" name="nik_anak" id="nik_anak"
+                    class="form-control @error('nik_anak') is-invalid @enderror">
+                @error('nik_anak')
+                <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
             <div class="col-md-6">
-              <label for="inputName">NIK Anak</label>
-              <input type="text" name="nik_anak" id="nik_anak" class="form-control input-lg" />
-            </div>
-            <div class="col-md-6">
-              <label for="inputName">Nama Anak</label>
-              <input type="text" name="nama_lengkap" id="nama_anak" class="form-control input-lg" readonly/>
+                <label for="inputName">Nama Anak</label>
+                <input type="text" name="nama_lengkap" id="nama_anak" class="form-control input-lg"
+                    readonly />
             </div>
             <div class="col-md-6">
               <label for="inputName">Tempat Lahir</label>
@@ -66,51 +60,34 @@
     <div class="card">
       <div class="card-body">
           <div class="row">
-            <div class="col-md-6">
-              <label for="inputName">ID Pemohon</label>
-              <input type="text" name="id_warga" id="id_pemohon" class="form-control input-lg" />
-            </div>
-        <div class="col-md-6">
-          <label for="inputName">NIK Ayah</label>
-          <input type="text" name="nik_pemohon" id="nik_pemohon" class="form-control input-lg" value="{{Auth::user()->name}}"/>
-        </div>
-        <div class="col-md-6">
-          <label for="inputName">Nama Ayah</label>
-          <input type="text" name="nama_lengkap" id="nama_ayah" class="form-control input-lg" />
-        </div>
-        <div class="col-md-6">
-          <label for="inputName">Tempat Lahir</label>
-          <input type="text" name="tempat_lahir" id="ttl_ayah1" class="form-control input-lg" readonly/>
-        </div>
-        <div class="col-md-6">
-          <label for="inputName">Tanggal Lahir</label>
-          <input type="date" name="tanggal_lahir" id="ttl_ayah2" class="form-control input-lg" readonly/>
-        </div>
-        <div class="col-md-6">
-          <label for="inputName">Agama</label>
-          <input type="text" name="agama" id="agama_ayah" class="form-control input-lg" readonly/>
-        </div>
-        <div class="col-md-6">
-          <label for="inputName">Pekerjaan</label>
-          <input type="text" name="pekerjaan" id="pekerjaan_ayah" class="form-control input-lg" readonly/>
-        </div>
         {{ csrf_field() }}
-        <div class="col-md-8">
+       <input type="hidden" name="id_warga" id="id_pemohon" class="form-control input-lg" value="{{Auth::user()->id}}"/>
+       <input type="hidden" name="nik_pemohon" id="nik_pemohon" class="form-control input-lg" value="{{Auth::user()->name}}"/>
+          
+        <div class="col-md-8"> 
           <label for="inputName">Foto Pengantar RT/ RW</label>
-          <input type="file"  name="foto_pengantar">
-        </div>
+          <input type="file" name="foto_pengantar"
+           class="@error('foto_pengantar') is-invalid @enderror">
+                            @error('foto_pengantar')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
         <div class="col-md-8">
           <label for="inputName">Foto Kartu Keluarga</label>
-          <input type="file"  name="foto_kk">
+          <input type="file"  name="foto_kk"class="@error('foto_kk') is-invalid @enderror">
+          @error('foto_kk')
+          <div class="invalid-feedback">{{ $message }}</div>
+          @enderror
         </div>
         <div class="col-md-8">
           <label for="inputName">Foto KTP yang bersangkutan</label>
-          <input type="file"  name="foto_ktp">
+          <input type="file"  name="foto_ktp"class="@error('foto_ktp') is-invalid @enderror">
+          @error('foto_ktp')
+          <div class="invalid-feedback">{{ $message }}</div>
+          @enderror
         </div>
-      <div class="col-md-5">
-        <label for="inputName">Status Surat</label>
-      <input type="text" name="status_surat" id="status_surat" value="{{$status_surat}}" class="form-control input-lg" readonly/>
-        </div>
+      <input type="hidden" name="status_surat" id="status_surat" value="{{$status_surat}}" class="form-control input-lg" readonly/>
+        
           </div>
       </div>
       <div class="card-footer">
@@ -127,13 +104,16 @@
              var no_nik=$(this).val();
              $.ajax({
                  type : "GET",
-                 url  : "{{ route('sktmsekolah.ajax_select') }}",
+                 url  : "{{ route('pengajuan.ajax_select_sktmsekolah') }}",
                  dataType : "JSON",
                  data : {no_nik: no_nik},
                  cache:false,
                  success: function(data){
                    console.log(data);
                    var json = data;
+                   if (!json) {
+                      return alert("NIK yang anda masukkan tidak ada!");
+                  }
 
                     var nama_anak = json.nama_lengkap;
                     var ttl_anak1 = json.tempat_lahir;
@@ -166,13 +146,16 @@
              var no_nik=$(this).val();
              $.ajax({
                  type : "GET",
-                 url  : "{{ route('sktmsekolah.ajax_select') }}",
+                 url  : "{{ route('pengajuan.ajax_select_sktmsekolah') }}",
                  dataType : "JSON",
                  data : {no_nik: no_nik},
                  cache:false,
                  success: function(data){
                    console.log(data);
                    var json = data;
+                   if (!json) {
+                      return alert("NIK yang anda masukkan tidak ada!");
+                  }
 
                     var id_pemohon = json.id_warga;
                     var nama_ayah = json.nama_lengkap;
@@ -180,15 +163,7 @@
                     var ttl_ayah2 = json.tanggal_lahir;
                     var agama_ayah = json.agama;
                     var pekerjaan_ayah = json.pekerjaan;
-                    
-                    console.log(id_pemohon);
-                    console.log(nama_ayah);
-                    console.log(ttl_ayah1);
-                    console.log(ttl_ayah2);
-                    console.log(agama_ayah);
-                    console.log(pekerjaan_ayah);
-
-
+                
                     $('#id_pemohon').val(id_pemohon);
                     $('#nama_ayah').val(nama_ayah);
                     $('#ttl_ayah1').val(ttl_ayah1);

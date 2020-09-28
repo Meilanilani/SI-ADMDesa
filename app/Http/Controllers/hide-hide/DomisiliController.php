@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Domisili;
+use App\Notifications\DomisiliNotifikasiSelesai;
 use App\Warga;
 use App\Persuratan;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -87,6 +89,17 @@ class DomisiliController extends Controller
      */
     public function store(Request $request)
     {
+        $message =[
+            'required' => 'Isi tidak boleh kosong',
+            'min' => 'Isi minimal harus 16 Karakter',
+            'max' => 'Isi maximal harus 16 Karakter'
+        ];
+
+        $this->validate($request,[
+            'nik_pemohon' => ['required', 'string', 'min:16', 'max:16'],
+            'nik_yg_bersangkutan' => ['required', 'string', 'min:16', 'max:16']
+        ], $message);
+
         $data['no_surat'] = $request->no_surat;
         $data['status_surat'] = $request->status_surat;
         $data['id_warga'] = $request->id_warga;
@@ -139,9 +152,26 @@ class DomisiliController extends Controller
      * @param  \App\Domisili  $domisili
      * @return \Illuminate\Http\Response
      */
-    public function show(Domisili $domisili)
+    public function show($id_persuratan)
     {
-        //
+        $domisili = DB::table('persuratan') 
+        ->join('warga', 'persuratan.id_warga','=','warga.id_warga')
+        ->join('detail_domisili', 'persuratan.id_persuratan','=','detail_domisili.id_persuratan')
+        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 
+        'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.foto_pengantar', 'persuratan.foto_kk', 'persuratan.foto_ktp',
+        'persuratan.status_surat', 'detail_domisili.nik_yg_bersangkutan' ,'detail_domisili.nik_pemohon')
+        ->where('persuratan.id_persuratan',$id_persuratan)
+        ->first();
+               
+        
+        $data_warga = DB::table('warga')
+        ->where('no_nik', $domisili->nik_yg_bersangkutan)
+        ->get();
+       
+        
+        
+       return view('admin.suket-domisili.show',compact('domisili', 'data_warga'));
+        
     }
 
     /**
@@ -157,7 +187,7 @@ class DomisiliController extends Controller
         ->join('detail_domisili', 'persuratan.id_persuratan','=','detail_domisili.id_persuratan')
         ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 
         'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 
-        'persuratan.status_surat', 'detail_domisili.nik_yg_bersangkutan' )
+        'persuratan.status_surat', 'detail_domisili.nik_yg_bersangkutan' ,'detail_domisili.nik_pemohon')
         ->where('persuratan.id_persuratan',$id_persuratan)
         ->first();
                
@@ -179,40 +209,20 @@ class DomisiliController extends Controller
     public function update(Request $request, $id_persuratan)
     {
         $data['no_surat'] = $request->no_surat;
-        $data['tgl_pembuatan'] = $request->tgl_pembuatan;
         $data['status_surat'] = $request->status_surat;
 
-        $image1 = $request->file('foto_pengantar');
-        $image2 = $request->file('foto_kk');
-        $image3 = $request->file('foto_ktp');
-        if($image1 != null){
-            $image_name = $image1->getClientOriginalName();
-            $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
-            
-            $upload_path = 'public/media/';
-            $image_url = $upload_path.$image_full_name;
-            $succes = $image1->move($upload_path, $image_full_name);
-            $data['foto_pengantar'] = $image_url;
-        } 
-        if($image2 != null){
-            $image_name = $image2->getClientOriginalName();
-            $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
-            
-            $upload_path = 'public/media/';
-            $image_url = $upload_path.$image_full_name;
-            $succes = $image2->move($upload_path, $image_full_name);
-            $data['foto_kk'] = $image_url;
-        } 
-        if($image2 != null){
-            $image_name = $image3->getClientOriginalName();
-            $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
-            
-            $upload_path = 'public/media/';
-            $image_url = $upload_path.$image_full_name;
-            $succes = $image3->move($upload_path, $image_full_name);
-            $data['foto_ktp'] = $image_url;
-        } 
         $domisili = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->update($data);
+
+         //Notifikasi Status-Surat Ke User
+         $data = DB::table('persuratan')
+         ->where('id_persuratan', $id_persuratan)
+         ->first();
+ 
+         $data_user = User::find($data->id);
+         
+         $data_user->notify(new DomisiliNotifikasiSelesai($id_persuratan));
+ 
+
         return redirect()->route('domisili.index')
                             ->with('success', 'Data berhasil diupdate!');
         
@@ -232,5 +242,28 @@ class DomisiliController extends Controller
         
         return redirect()->route('domisili.index')
         ->with('success', 'Data Berhasil Dihapus!');
+    }
+    public function cetak_pdf($id_persuratan)
+    {
+        $domisili = DB::table('persuratan') 
+        ->join('warga', 'persuratan.id_warga','=','warga.id_warga')
+        ->join('detail_domisili', 'persuratan.id_persuratan','=','detail_domisili.id_persuratan')
+        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 
+        'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.updated_at',
+        'persuratan.status_surat', 'detail_domisili.nik_yg_bersangkutan' ,'detail_domisili.nik_pemohon')
+        ->where('persuratan.id_persuratan',$id_persuratan)
+        ->first();
+               
+        
+        $data_warga = DB::table('warga')
+        ->where('no_nik', $domisili->nik_yg_bersangkutan)
+        ->get();
+       
+        
+        
+        $pdf = PDF::loadview('admin.suket-domisili.print',compact('domisili', 'data_warga'));
+        $pdf->setPaper('Legal','potrait');
+        return $pdf->download('suket-domisili.pdf');
+        
     }
 }

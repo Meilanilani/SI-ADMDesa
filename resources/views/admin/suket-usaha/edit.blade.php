@@ -14,15 +14,7 @@
 <section class="content">
   <div class="card-group">
     <div class="card">
-        @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li> {{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-        @endif
+       
       <div class="card-body">
         <form action="{{ url('suket-usaha/update/'.$usaha->id_persuratan)}}" method="POST" enctype="multipart/form-data">
           @csrf
@@ -84,19 +76,30 @@
         </div>
         <div class="col-md-6">
           <label for="inputName">Nama Usaha</label>
-          <input type="text" name="nama_usaha"  class="form-control input-lg" value="{{$usaha->nama_usaha}}" />
+          <input type="text" name="nama_usaha" value="{{$usaha->nama_usaha}}" class="form-control @error('nama_usaha') is-invalid @enderror">
+          @error('nama_usaha')
+          <div class="invalid-feedback">{{ $message }}</div>
+          @enderror  
         </div>
         <div class="col-md-6">
           <label for="inputName">Jenis Usaha</label>
-          <input type="text" name="jenis_usaha"  class="form-control input-lg" value="{{$usaha->jenis_usaha}}" />
+          <input type="text" name="jenis_usaha"  value="{{$usaha->jenis_usaha}}"  class="form-control @error('jenis_usaha') is-invalid @enderror">
+          @error('jenis_usaha')
+          <div class="invalid-feedback">{{ $message }}</div>
+          @enderror
         </div>
         <div class="col-md-6">
           <label for="inputName">Penghasilan Bulanan</label>
-          <input type="text" name="penghasilan_bulanan"  class="form-control input-lg" value="{{$usaha->penghasilan_bulanan}}"  />
+          <input type="text" name="penghasilan_bulanan" value="{{$usaha->penghasilan_bulanan}}"  class="form-control @error('penghasilan_bulanan') is-invalid @enderror">
+          @error('penghasilan_bulanan')
+          <div class="invalid-feedback">{{ $message }}</div>
+          @enderror   
         </div>
         <div class="col-md-7">
           <label for="inputName">Alamat Usaha</label>
-          <textarea name="alamat_usaha" class="form-control" rows="4" >{{$usaha->alamat_usaha}}</textarea>
+          <textarea name="alamat_usaha" rrows="4"  class="form-control @error('alamat_usaha') is-invalid @enderror">{{$usaha->alamat_usaha}}
+            @error('alamat_usaha')
+            @enderror</textarea>
         </span></div>
         <div class="col-md-8">
           <label for="inputName">Foto Pengantar RT/ RW</label>
@@ -113,12 +116,8 @@
       <div class="col-md-5">
         <label for="inputName">Status Surat</label>
         <select class="form-control custom-select"  name="status_surat" >
-          <option selected disabled>Pilih Status</option>
-          @if (isset($usaha->status_surat))
-          <option selected>{{$usaha->status_surat}}</option>
-          @endif
-          <option>Proses</option>
-          <option>Selesai</option>
+          <option <?= $usaha->status_surat == 'Proses'? 'Selected' : 'Proses' ?>>Proses</option>
+          <option <?= $usaha->status_surat == 'Selesai'? 'Selected' : 'Selesai' ?>>Selesai</option>
         </select>
     </div>
       </div></div>

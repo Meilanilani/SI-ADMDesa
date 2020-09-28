@@ -14,15 +14,7 @@
 <section class="content">
   <div class="card-group">
     <div class="card">
-        @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li> {{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-        @endif
+       
       <div class="card-body">
         <form action="{{ route('usaha.store')}}" method="POST" enctype="multipart/form-data">
           @csrf
@@ -35,7 +27,10 @@
               
         <div class="col-md-6">
           <label for="inputName">NIK Pemilik Usaha</label>
-          <input type="text" name="nik_pemilik_usaha" id="no_nik" class="form-control input-lg" />
+          <input type="text" name="nik_pemilik_usaha" id="no_nik" class="form-control @error('nik_pemilik_usaha') is-invalid @enderror">
+          @error('nik_pemilik_usaha')
+          <div class="invalid-feedback">{{ $message }}</div>
+          @enderror
         </div>
         <div class="col-md-6">
           <label for="inputName">Nama Lengkap</label>
@@ -61,11 +56,22 @@
           <label for="inputName">Pekerjaan</label>
           <input type="text" name="pekerjaan" id="pekerjaan" class="form-control input-lg" readonly/>
         </div>
-            <div class="col-md-7">
+            <div class="col-md-6">
               <label for="inputName">Alamat</label>
               <textarea name="alamat" id="alamat" class="form-control" rows="4" readonly></textarea>
             </span></div>
-            
+            <input type="hidden" name="id_warga" id="id_pemohon" class="form-control input-lg" />
+        <div class="col-md-6">
+          <label for="inputName">NIK Pemohon</label>
+          <input type="text" name="nik_pemohon" id="nik_pemohon" class="form-control @error('nik_pemohon') is-invalid @enderror">
+          @error('nik_pemohon')
+          <div class="invalid-feedback">{{ $message }}</div>
+          @enderror
+        </div>
+        <div class="col-md-6">
+          <label for="inputName">Nama Pemohon</label>
+          <input type="text" name="nama_lengkap" id="nama_pemohon" class="form-control input-lg" readonly/>
+        </div>
             </div></div>
       </div> 
     </div>
@@ -73,42 +79,55 @@
       <div class="card-body">
           <div class="row">
         {{ csrf_field() }}
-        <input type="hidden" name="id_warga" id="id_pemohon" class="form-control input-lg" />
-        <div class="col-md-6">
-          <label for="inputName">NIK Pemohon</label>
-          <input type="text" name="nik_pemohon" id="nik_pemohon" class="form-control input-lg" />
-        </div>
-        <div class="col-md-6">
-          <label for="inputName">Nama Pemohon</label>
-          <input type="text" name="nama_lengkap" id="nama_pemohon" class="form-control input-lg" readonly/>
-        </div>
+        
         <div class="col-md-6">
           <label for="inputName">Nama Usaha</label>
-          <input type="text" name="nama_usaha"  class="form-control input-lg" />
+          <input type="text" name="nama_usaha"  class="form-control @error('nama_usaha') is-invalid @enderror">
+          @error('nama_usaha')
+          <div class="invalid-feedback">{{ $message }}</div>
+          @enderror
         </div>
         <div class="col-md-6">
           <label for="inputName">Jenis Usaha</label>
-          <input type="text" name="jenis_usaha"  class="form-control input-lg" />
+          <input type="text" name="jenis_usaha"  class="form-control @error('jenis_usaha') is-invalid @enderror">
+          @error('jenis_usaha')
+          <div class="invalid-feedback">{{ $message }}</div>
+          @enderror
         </div>
         <div class="col-md-6">
           <label for="inputName">Penghasilan Bulanan</label>
-          <input type="text" name="penghasilan_bulanan"  class="form-control input-lg" />
+          <input type="text" name="penghasilan_bulanan" class="form-control @error('penghasilan_bulanan') is-invalid @enderror">
+          @error('penghasilan_bulanan')
+          <div class="invalid-feedback">{{ $message }}</div>
+          @enderror
         </div>
-        <div class="col-md-7">
+        <div class="col-md-6">
           <label for="inputName">Alamat Usaha</label>
-          <textarea name="alamat_usaha" class="form-control" rows="4"></textarea>
+          <textarea name="alamat_usaha"  rows="4" class="form-control @error('alamat_usaha') is-invalid @enderror">
+            @error('alamat_usaha')
+            @enderror
+          </textarea>
         </span></div>
         <div class="col-md-8">
           <label for="inputName">Foto Pengantar RT/ RW</label>
-          <input type="file"  name="foto_pengantar">
+          <input type="file"  name="foto_pengantar" class="@error('foto_pengantar') is-invalid @enderror">
+          @error('foto_pengantar')
+          <div class="invalid-feedback">{{ $message }}</div>
+          @enderror
         </div>
         <div class="col-md-8">
           <label for="inputName">Foto Kartu Keluarga</label>
-          <input type="file"  name="foto_kk">
+          <input type="file"  name="foto_kk" class="@error('foto_kk') is-invalid @enderror">
+          @error('foto_kk')
+          <div class="invalid-feedback">{{ $message }}</div>
+          @enderror
         </div>
         <div class="col-md-8">
           <label for="inputName">Foto Surat Izin Suami/ Istri/ Ortu</label>
-          <input type="file"  name="foto_suratizin">
+          <input type="file"  name="foto_suratizin" class="@error('foto_suratizin') is-invalid @enderror">
+          @error('foto_suratizin')
+          <div class="invalid-feedback">{{ $message }}</div>
+          @enderror
         </div>
       <input type="hidden" name="status_surat"  class="form-control input-lg" value="{{$status_surat}}">
     
@@ -135,8 +154,10 @@
                  success: function(data){
                    console.log(data);
                    var json = data;
+                   if (!json) {
+                      return alert("NIK yang anda masukkan tidak ada!");
+                  }
 
-                    var id_pemohon = json.id_warga;
                     var nama_lengkap = json.nama_lengkap;
                     var tempat_lahir = json.tempat_lahir;
                     var tanggal_lahir = json.tanggal_lahir;
@@ -144,13 +165,7 @@
                     var agama = json.agama;
                     var status_perkawinan = json.status_perkawinan;
                     var alamat = json.alamat;
-
-                    console.log(tempat_lahir);
-                    console.log(tanggal_lahir);
-                    console.log(status_perkawinan);
-                    console.log(agama);
-                    console.log(pekerjaan);
-                    console.log(alamat);
+                    
 
                     $('#nama_lengkap').val(nama_lengkap);
                     $('#tempat_lahir').val(tempat_lahir);
@@ -175,6 +190,9 @@
                  success: function(data){
                    console.log(data);
                    var json = data;
+                   if (!json) {
+                      return alert("NIK yang anda masukkan tidak ada!");
+                  }
 
                     var id_pemohon = json.id_warga;
                     var nama_pemohon = json.nama_lengkap;

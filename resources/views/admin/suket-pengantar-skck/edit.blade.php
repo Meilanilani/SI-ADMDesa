@@ -14,15 +14,7 @@
 <section class="content">
   <div class="card-group">
     <div class="card">
-        @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li> {{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-        @endif
+       
       <div class="card-body">
         <form action="{{ url('suket-pengantar-skck/update/'.$skck->id_persuratan)}}" method="POST" enctype="multipart/form-data">
           @csrf
@@ -79,23 +71,19 @@
           <input type="text" name="nama_lengkap" id="nama_pemohon" class="form-control input-lg" value="{{$skck->nama_lengkap}}" readonly/>
         </div>
         
-        <div class="col-md-7">
+        <div class="col-md-6">
           <label for="inputName">Keperluan Surat</label>
-          <input type="text" name="ket_keperluan_surat"  class="form-control input-lg" value="{{$skck->ket_keperluan_surat}}"/>
+          <input type="text" name="ket_keperluan_surat" value="{{$skck->ket_keperluan_surat}}"  class="form-control @error('ket_keperluan_surat') is-invalid @enderror">
+          @error('ket_keperluan_surat')
+          <div class="invalid-feedback">{{ $message }}</div>
+          @enderror 
         </div>
+        <input type="hidden"  name="tgl_masa_berlaku" class="form-control" value="{{$skck->tgl_masa_berlaku}}">
       <div class="col-md-6">
-        <label for="inputName">Tanggal Masa Berlaku</label>
-        <input type="date"  name="tgl_masa_berlaku" class="form-control" value="{{$skck->tgl_masa_berlaku}}">
-      </div>
-      <div class="col-md-5">
         <label for="inputName">Status Surat</label>
         <select class="form-control custom-select"  name="status_surat" >
-          <option selected disabled>Pilih Status</option>
-          @if (isset($skck->status_surat))
-          <option selected>{{$skck->status_surat}}</option>
-          @endif
-          <option>Proses</option>
-          <option>Selesai</option>
+          <option <?= $skck->status_surat == 'Proses'? 'Selected' : 'Proses' ?>>Proses</option>
+          <option <?= $skck->status_surat == 'Selesai'? 'Selected' : 'Selesai' ?>>Selesai</option>
         </select>
     </div>
       </div></div>

@@ -3,8 +3,13 @@
 namespace App\Http\Controllers;
 use App\Persuratan;
 use App\Warga;
+use PDF;
 use App\KTPSementara;
+use App\Notifications\KTPNotifikasiSelesai;
+use App\User;
+use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class KTPSementaraController extends Controller
@@ -51,7 +56,7 @@ class KTPSementaraController extends Controller
             $no_nik = $request->no_nik;
            
             $ktp = Warga::where('no_nik','=',$no_nik)->first();
-            if(isset($sktmsekolah)){
+            if(isset($ktp)){
                 $data = array(
                 'id_warga' => $ktp['id_warga'],
                 'nama_lengkap' =>  $ktp['nama_lengkap'],
@@ -61,7 +66,11 @@ class KTPSementaraController extends Controller
                 'agama' =>  $ktp['agama'],
                 'pekerjaan' =>  $ktp['pekerjaan'],
                 'alamat' =>  $ktp['alamat'],);
-            return json_encode($data);}
+            }
+            else{
+                $data = null;
+            }
+            return json_encode($data);
         }
 
     /**
@@ -73,9 +82,14 @@ class KTPSementaraController extends Controller
     {
         $ktp = Persuratan::all();
         $ktp = Warga::all();
+        
+        $date = new DateTime('now');
+        $date->modify('+3 month');
+        $date = $date->format('Y-m-d');
+
         $surat = $this->autonumber();
         $status_surat = 'Proses';
-        return view('admin.suket-ktp-sementara.create', ['surat'=>$surat], ['status_surat'=>$status_surat]);
+        return view('admin.suket-ktp-sementara.create', ['surat'=>$surat, 'status_surat'=>$status_surat, 'date'=>$date]);
     }
 
     /**
@@ -86,10 +100,24 @@ class KTPSementaraController extends Controller
      */
     public function store(Request $request)
     {
+        $message =[
+            'required' => 'Isi tidak boleh kosong',
+            'min' => 'Isi minimal harus 16 Karakter',
+            'max' => 'Isi maximal harus 16 Karakter',
+        ];
+
+        $this->validate($request,[
+            'nik_pemohon' => ['required', 'string', 'min:16', 'max:16'],
+            'nik_yg_bersangkutan' => ['required', 'string', 'min:16', 'max:16'],
+            'foto_pengantar' => ['required'],
+            'foto_kk' => ['required']
+        ], $message);
+
         $data['no_surat'] = $request->no_surat;
         $data['tgl_masa_berlaku'] = $request->tgl_masa_berlaku;
         $data['status_surat'] = $request->status_surat;
         $data['id_warga'] = $request->id_warga;
+        $data['id']= Auth::id();
         $data_detail['nik_pemohon'] = $request->nik_pemohon;
         $data_detail['nik_yg_bersangkutan'] = $request->nik_yg_bersangkutan;
 
@@ -128,9 +156,24 @@ class KTPSementaraController extends Controller
      * @param  \App\KTPSementara  $kTPSementara
      * @return \Illuminate\Http\Response
      */
-    public function show(KTPSementara $kTPSementara)
+    public function show($id_persuratan)
     {
-        //
+        $ktp = DB::table('persuratan') 
+        ->join('warga', 'persuratan.id_warga','=','warga.id_warga')
+        ->join('detail_ktp', 'persuratan.id_persuratan','=','detail_ktp.id_persuratan')
+        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.status_perkawinan','warga.agama', 
+        'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_masa_berlaku', 'persuratan.updated_at', 
+        'persuratan.status_surat','persuratan.foto_pengantar','persuratan.foto_kk', 'detail_ktp.nik_yg_bersangkutan', 'detail_ktp.nik_pemohon')
+        ->where('persuratan.id_persuratan',$id_persuratan)
+        ->first();
+
+        $data_warga = DB::table('warga')
+        ->where('no_nik', $ktp->nik_yg_bersangkutan)
+        ->get();
+       
+        
+        
+        return view('admin.suket-ktp-sementara.show',compact('ktp', 'data_warga'));
     }
 
     /**
@@ -150,13 +193,11 @@ class KTPSementaraController extends Controller
         ->where('persuratan.id_persuratan',$id_persuratan)
         ->first();
 
-        
-        
         $data_warga = DB::table('warga')
         ->where('no_nik', $ktp->nik_yg_bersangkutan)
         ->first();
        
-        $ktp = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->first();
+
         return view('admin.suket-ktp-sementara.edit', compact('ktp', 'data_warga'));
     }
 
@@ -175,6 +216,17 @@ class KTPSementaraController extends Controller
 
        
         $ktp = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->update($data);
+
+         //Notifikasi Status-Surat Ke User
+         $data = DB::table('persuratan')
+         ->where('id_persuratan', $id_persuratan)
+         ->first();
+ 
+         $data_user = User::find($data->id);
+         
+         $data_user->notify(new KTPNotifikasiSelesai($id_persuratan));
+ 
+
         return redirect()->route('ktp.index')
                             ->with('success', 'Data berhasil diupdate!');
     }
@@ -189,9 +241,32 @@ class KTPSementaraController extends Controller
     {
         $data = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->first();
        
-        $skck = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->delete();
+        $ktp = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->delete();
         
         return redirect()->route('ktp.index')
         ->with('success', 'Data Berhasil Dihapus!');
+    }
+
+    public function cetak_pdf($id_persuratan)
+    {
+        $ktp = DB::table('persuratan') 
+        ->join('warga', 'persuratan.id_warga','=','warga.id_warga')
+        ->join('detail_ktp', 'persuratan.id_persuratan','=','detail_ktp.id_persuratan')
+        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.status_perkawinan','warga.agama', 
+        'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.tgl_masa_berlaku', 'persuratan.updated_at', 
+        'persuratan.status_surat', 'detail_ktp.nik_yg_bersangkutan', 'detail_ktp.nik_pemohon')
+        ->where('persuratan.id_persuratan',$id_persuratan)
+        ->first();
+
+        $data_warga = DB::table('warga')
+        ->where('no_nik', $ktp->nik_yg_bersangkutan)
+        ->get();
+       
+        
+        
+        $pdf = PDF::loadview('admin.suket-ktp-sementara.print',compact('ktp', 'data_warga'));
+        $pdf->setPaper('Legal','potrait');
+        return $pdf->download('suket-pengantar-skck.pdf');
+        
     }
 }

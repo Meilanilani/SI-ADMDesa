@@ -114,6 +114,7 @@ hr.style2{
         <tr>
             <td><font size="2">No</td>
             <td><font size="2"> NIK</td>
+                <td><font size="2"> Nama Lengkap</td>
             <td><font size="2"> Jenis Kelamin</td>
             <td><font size="2"> Hubungan Keluarga</td>
             <td><font size="2"> Status Perkawinan</td>
@@ -124,21 +125,21 @@ hr.style2{
             @endphp
             @foreach($data_kk as $post)
             <tr>
-              <th scope="row">{{$no}}
-                </th>
+              <td scope="row">{{$no}}
+                </td>
                 @php $no++ @endphp
-                <td></td>
-                <td>{{ $post->no_nik }}</td>
-                <td>{{ $post->nama_lengkap }}</td>
-                <td>{{ $post->nama_lengkap }}</td>
-                <td>{{ $post->alamat }}</td>
+                <td><font size="2">{{ $post->no_nik }}</td>
+                <td><font size="2">{{ $post->nama_lengkap }}</td>
+                <td><font size="2">{{ $post->jenis_kelamin }}</td>
+                <td><font size="2">{{ $post->status_hub_keluarga }}</td>
+                <td><font size="2">{{ $post->status_perkawinan }}</td>
             </tr>
             @endforeach
     </table><br>
     <table align="center">
         <tr>
             <td width="400px"> </td>
-            <td><font size="2">Cihampelas, 27 Maret 2019</td>
+            <td><font size="2">Cihampelas, {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $post->updated_at)->isoFormat('DD MMMM Y') }}</td>
         </tr>
     </table>
         <table align="center">

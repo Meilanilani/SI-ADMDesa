@@ -56,7 +56,7 @@ hr.style2{
             <td align="center"><strong><u>SURAT KETERANGAN KELAKUAN BAIK</u></strong></td>
         </tr>
         <tr>
-            <td align="center">Nomor :</td>
+        <td align="center">Nomor : {{$skck->no_surat}}</td>
         </tr>
     </table><br>
     <table align="center">
@@ -69,42 +69,43 @@ hr.style2{
     <br>
     <table align="center">
         <tr>
-            <td><font size="2">Nama</td>
-            <td ><font size="2"> :</td>
+            @foreach($data_warga as $post)
+            <td><font size="2">Nama</font></td>
+            <td ><font size="2"> : {{$post->nama_lengkap}}</font></td>
         </tr>
         <tr>
             <td><font size="2">Tempat/ Tanggal lahir</td>
-            <td width="350px"><font size="2"> :</td>
+            <td width="350px"><font size="2"> : {{$post->tempat_lahir}}, {{ Carbon\Carbon::createFromFormat('Y-m-d', $post->tanggal_lahir)->isoFormat('DD-MM-Y') }}</font></td>
         </tr>
         <tr>
-            <td><font size="2">Jenis Kelamin</td>
-            <td width="350px"><font size="2"> :</td>
+            <td><font size="2">Jenis Kelamin</font></td>
+            <td width="350px"><font size="2"> : {{$post->jenis_kelamin}}</font></td>
         </tr>
         <tr>
-            <td><font size="2">Agama</td>
-            <td width="350px"><font size="2"> : </td>
+            <td><font size="2">Agama</font></td>
+            <td width="350px"><font size="2"> : {{$post->agama}}</font></td>
         </tr>
         <tr>
-            <td><font size="2">Status Perkawinan</td>
-            <td width="350px"><font size="2"> : </td>
+            <td><font size="2">Status Perkawinan</font></td>
+            <td width="350px"><font size="2"> : {{$post->status_perkawinan}}</font></td>
         </tr>
         <tr>
-            <td><font size="2">Pekerjaan</td>
-            <td width="350px"><font size="2"> : </td>
+            <td><font size="2">Pekerjaan</font></td>
+            <td width="350px"><font size="2"> : {{$post->pekerjaan}}</font></td>
         </tr>
         <tr>
             <td><font size="2">Kewarganegaraan</td>
             <td width="350px"><font size="2"> : Indonesia</td>
         </tr>        
         <tr>
-            <td><font size="2">NIK</td>
-            <td width="350px"><font size="2"> :</td>
+            <td><font size="2">NIK </font></td>
+            <td width="350px"><font size="2"> : {{$skck->nik_yg_bersangkutan}}</font></td>
         </tr>
         <tr>
-            <td><font size="2">Alamat</td>
-            <td width="350px"><font size="2"> : </td>
+            <td><font size="2">Alamat</font></td>
+            <td width="350px"><font size="2"> : {{$post->alamat}}</font></td>
         </tr>
-        
+        @endforeach
     </table>
     <br>
     <table align="center">
@@ -124,8 +125,8 @@ hr.style2{
     <table align="center">
         <tr>
             <td align="center">
-                <font size="2">Dan Surat keterangan Kelakuan Baik ini dipergunakan / persyaratan untuk  :
-                    <br>Berlaku sampai dengan Tanggal  (tiga bulan)
+                <font size="2">Dan Surat keterangan Kelakuan Baik ini dipergunakan / persyaratan untuk  : <br>{{$skck->ket_keperluan_surat}}
+                    <br>Berlaku sampai dengan Tanggal {{ Carbon\Carbon::createFromFormat('Y-m-d', $skck->tgl_masa_berlaku)->isoFormat('DD MMMM Y') }}  (tiga bulan)
                 </font>
             </td>
             <td width="60px">
@@ -145,7 +146,7 @@ hr.style2{
     <table align="center">
         <tr>
             <td width="400px"> </td>
-            <td><font size="2">Cihampelas, 27 Maret 2019</td>
+            <td><font size="2">Cihampelas, {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $skck->updated_at)->isoFormat('DD MMMM Y') }}</td>
         </tr>
     </table>
         <table align="center">

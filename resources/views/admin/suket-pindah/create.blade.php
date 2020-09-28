@@ -14,15 +14,7 @@
 <section class="content">
   <div class="card-group">
     <div class="card">
-        @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li> {{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-        @endif
+       
       <div class="card-body">
         <form action="{{ route('pindah.store')}}" method="POST" enctype="multipart/form-data">
           @csrf
@@ -34,20 +26,27 @@
                 </div>
               <input type="hidden" name="id_warga" id="id_pemohon" class="form-control input-lg" />
               <div class="col-md-6">
-                <label for="inputName">No NIK</label>  
-                <input type="text" name="nik_pemohon" id="nik_pemohon" class="form-control input-lg" />
+                <label for="inputName">No KK</label>  
+                <input type="text" name="no_kk" id="no_kk" class="form-control @error('no_kk') is-invalid @enderror">
+                @error('no_kk')
+                <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
               </div>
-        <div class="col-md-6">
-          <label for="inputName">No KK</label>  
-          <input type="text" name="no_kk" id="no_kk" class="form-control input-lg" />
-        </div>
+              <div class="col-md-6">
+                <label for="inputName">No NIK Kepala Keluarga</label>  
+                <input type="text" name="nik_pemohon" id="nik_pemohon" class="form-control input-lg" readonly/>
+              </div>
         <div class="col-md-8">
           <label for="inputName">Alamat Tujuan</label>
-          <textarea name="alamat_tujuan" id="alamat_tujuan" class="form-control input-lg" rows="4" > </textarea>
+          <textarea name="alamat_tujuan" id="alamat_tujuan"  rows="4"  class="form-control @error('alamat_tujuan') is-invalid @enderror"></textarea>
+            @error('alamat_tujuan')
+            @enderror 
         </div>
         <div class="col-md-8">
           <label for="inputName">Alasan Pindah</label>
-          <textarea name="alasan_pindah" id="alasan_pindah" class="form-control input-lg" rows="4" ></textarea>
+          <textarea name="alasan_pindah" id="alasan_pindah" rows="4"  class="form-control @error('alasan_pindah') is-invalid @enderror"></textarea>
+            @error('alasan_pindah')
+            @enderror
         </div></div></div>
       </div> 
     </div>

@@ -104,7 +104,8 @@ class WargaController extends Controller
      */
     public function show($id_warga)
     {
-        
+        $warga = DB::table('warga')->where('id_warga', $id_warga)->get();
+        return view('admin.data-warga.show', compact('warga'));
     }
 
     /**

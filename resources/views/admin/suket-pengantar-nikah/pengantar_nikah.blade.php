@@ -77,12 +77,14 @@
                 <td>{{ $post->no_surat }}</td>
                 <td>{{ $post->no_nik }}</td>
                 <td>{{ $post->nama_lengkap }}</td>
-                <td>{{ $post->created_at }}</td>
+                <td>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $post->created_at)->isoFormat('DD MMMM Y') }}</td>
                 <td>{{ $post->status_surat }}</td>
                 <td>
                   <a class="btn btn-danger btn-sm" href="{{URL::to('suket-pengantar-nikah/edit/'.$post->id_persuratan)}}"><i class="nav-icon fas fa-edit"></i> Edit</a>
                   <a class="btn btn-primary btn-sm" href="{{URL::to('suket-pengantar-nikah/delete/'.$post->id_persuratan)}}"><i class="nav-icon fas fa-trash"></i> Hapus</a>
                   <a class="btn btn-warning btn-sm" href="{{URL::to('suket-pengantar-nikah/cetak_pdf/'.$post->id_persuratan)}}"><i class="nav-icon fas fa-trash"></i> Cetak</a>
+                  <a class="btn btn-warning btn-sm" href="{{URL::to('suket-pengantar-nikah/show/'.$post->id_persuratan)}}"><i class="fas fa-info-circle"></i> Detail </a>
+                  
                 </td>
                 </td>
               </tr>

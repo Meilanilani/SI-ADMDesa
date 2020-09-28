@@ -17,9 +17,13 @@ Auth::routes();
 
 Route::get('/', 'DashboardController@index');
 
-//Ganti Password
+//Ganti Password Admin
 Route::get('ganti-password', 'DashboardController@ubah_password')->name('ubah_password');
 Route::post('ganti-password/update', 'DashboardController@update_password')->name('update_password');
+
+//Ganti Password User
+Route::get('ganti-password-user', 'UserController@ubah_password_user')->name('ubah_password');
+Route::post('ganti-password-user/update', 'UserController@update_password_user')->name('update_password');
 
 
 
@@ -36,6 +40,7 @@ Route::post('data-warga/store', 'WargaController@store')->name('warga.store');
 Route::get('data-warga/edit/{id}', 'WargaController@edit');
 Route::get('data-warga/delete/{id}', 'WargaController@destroy');
 Route::post('data-warga/update/{id}', 'WargaController@update');
+Route::get('data-warga/show/{id}', 'WargaController@show')->name('warga.show');
 
 
 
@@ -85,6 +90,8 @@ Route::get('suket-ktp-sementara/cari', 'KTPSementaraController@ajax_select')->na
 Route::get('suket-ktp-sementara/edit/{id}', 'KTPSementaraController@edit');
 Route::get('suket-ktp-sementara/delete/{id}', 'KTPSementaraController@destroy');
 Route::post('suket-ktp-sementara/update/{id}', 'KTPSementaraController@update');
+Route::get('suket-ktp-sementara/cetak_pdf/{id}','KTPSementaraController@cetak_pdf')->name('cetak_pdf');
+Route::get('suket-ktp-sementara/show/{id}', 'KTPSementaraController@show')->name('ktp.show');
 
 //CRUD-Suket-Usaha
 Route::get('suket-usaha', 'UsahaController@index')->name('usaha.index');
@@ -95,6 +102,11 @@ Route::get('suket-usaha/cari', 'UsahaController@ajax_select')->name('usaha.ajax_
 Route::get('suket-usaha/edit/{id}', 'UsahaController@edit');
 Route::get('suket-usaha/delete/{id}', 'UsahaController@destroy');
 Route::post('suket-usaha/update/{id}', 'UsahaController@update');
+Route::get('suket-usaha/cetak_pdf/{id}','UsahaController@cetak_pdf')->name('cetak_pdf');
+
+Route::get('suket-usaha/show/{id}', 'UsahaController@show')->name('usaha.show');
+
+
 
 //CRUD-Suket-Pengantar SKCK
 Route::get('suket-pengantar-skck', 'PengantarSKCKController@index')->name('skck.index');
@@ -105,6 +117,9 @@ Route::get('suket-pengantar-skck/cari', 'PengantarSKCKController@ajax_select')->
 Route::get('suket-pengantar-skck/edit/{id}', 'PengantarSKCKController@edit');
 Route::get('suket-pengantar-skck/delete/{id}', 'PengantarSKCKController@destroy');
 Route::post('suket-pengantar-skck/update/{id}', 'PengantarSKCKController@update');
+Route::get('suket-pengantar-skck/cetak_pdf/{id}','PengantarSKCKController@cetak_pdf')->name('cetak_pdf');
+
+Route::get('suket-pengantar-skck/show/{id}', 'PengantarSKCKController@show')->name('skck.show');
 
 //CRUD-Suket-Kematian
 Route::get('suket-kematian', 'KematianController@index')->name('kematian.index');
@@ -130,8 +145,11 @@ Route::get('suket-pengantar-nikah/cari', 'PengantarNikahController@ajax_select')
 Route::get('suket-pengantar-nikah/edit/{id}', 'PengantarNikahController@edit');
 Route::get('suket-pengantar-nikah/delete/{id}', 'PengantarNikahController@destroy');
 Route::post('suket-pengantar-nikah/update/{id}', 'PengantarNikahController@update');
+Route::get('suket-pengantar-nikah/cetak_pdf/{id}','PengantarNikahController@cetak_pdf')->name('cetak_pdf');
 
-Route::get('pdf', 'AdminController@index');
+Route::get('suket-pengantar-nikah/show/{id}', 'PengantarNikahController@show')->name('pnikah.show');
+
+
 
 Route::get('/home', 'DashboardController@index');
 
@@ -143,6 +161,10 @@ Route::get('suket-domisili/cari', 'DomisiliController@ajax_select')->name('domis
 Route::get('suket-domisili/edit/{id}', 'DomisiliController@edit');
 Route::get('suket-domisili/delete/{id}', 'DomisiliController@destroy');
 Route::post('suket-domisili/update/{id}', 'DomisiliController@update');
+
+Route::get('suket-domisili/cetak_pdf/{id}','DomisiliController@cetak_pdf')->name('cetak_pdf');
+
+Route::get('suket-domisili/show/{id}', 'DomisiliController@show')->name('domisili.show');
 
 //CRUD-Suket-Pindah
 Route::get('suket-pindah', 'PindahController@index')->name('pindah.index');
@@ -157,8 +179,25 @@ Route::post('suket-pindah/update/{id}', 'PindahController@update');
 
 Route::get('suket-pindah/cetak_pdf/{id}','PindahController@cetak_pdf')->name('cetak_pdf');
 
+Route::get('suket-pindah/show/{id}', 'PindahController@show')->name('pindah.show');
+
+
+//CRUD-Suket-Pengantar-KK
+Route::get('suket-pengantar-kk', 'PengajuanKKController@index')->name('kk.index');
+Route::get('suket-pengantar-kk/create', 'PengajuanKKController@create')->name('kk.create');
+Route::post('suket-pengantar-kk/store', 'PengajuanKKController@store')->name('kk.store');
+Route::get('suket-pengantar-kk/cari', 'PengajuanKKController@ajax_select')->name('kk.ajax_select');
+Route::get('suket-pengantar-kk/edit/{id}', 'PengajuanKKController@edit');
+Route::get('suket-pengantar-kk/delete/{id}', 'PengajuanKKController@destroy');
+Route::post('suket-pengantar-kk/update/{id}', 'PengajuanKKController@update');
+
+Route::get('suket-pengantar-kk/cetak_pdf/{id}','PengajuanKKController@cetak_pdf')->name('cetak_pdf');
+
+Route::get('suket-pengantar-kk/show/{id}', 'PengajuanKKController@show')->name('kk.show');
+
+
 //Hak Akses User
-Route::get('/user', 'UserController@index')->name('pengajuan.index');
+Route::get('/riwayat-pengajuan', 'UserController@riwayat_pengajuan')->name('pengajuan.riwayat_pengajuan');
 Route::get('user-suket-tidakmampu-sekolah/create', 'UserController@create_sktmsekolah')->name('pengajuan.create_sktmsekolah');
 Route::post('user-suket-tidakmampu-sekolah/store', 'UserController@store_sktmsekolah')->name('pengajuan.store_sktmsekolah');
 
@@ -166,10 +205,36 @@ Route::get('user-suket-tidakmampu-sekolah/cari', 'UserController@ajax_select_skt
 Route::get('user-suket-tidakmampu-rumahsakit/create', 'UserController@create_sktmrs')->name('pengajuan.create_sktmrs');
 Route::post('user-suket-tidakmampu-rumahsakit/store', 'UserController@store_sktmrs')->name('pengajuan.store_sktmrs');
 Route::get('user-suket-tidakmampu-rumahsakit/cari', 'UserController@ajax_select_sktmrs')->name('pengajuan.ajax_select_sktmrs');
+
 Route::get('user-suket-kelahiran/create', 'UserController@create_kelahiran')->name('pengajuan.create_kelahiran');
+Route::post('user-suket-kelahiran/store', 'UserController@store_kelahiran')->name('pengajuan.store_kelahiran');
+Route::get('user-suket-kelahiran/cari', 'UserController@ajax_select_kelahiran')->name('pengajuan.ajax_select_kelahiran');
+
 Route::get('user-suket-kematian/create', 'UserController@create_kematian')->name('pengajuan.create_kematian');
+Route::post('user-suket-kematian/store', 'UserController@store_kematian')->name('pengajuan.store_kematian');
+Route::get('user-suket-kematian/cari', 'UserController@ajax_select_kematian')->name('pengajuan.ajax_select_kematian');
+
 Route::get('user-suket-pengantar-nikah/create', 'UserController@create_pengantarnikah')->name('pengajuan.create_pengantarnikah');
+Route::post('user-suket-pengantar-nikah/store', 'UserController@store_pengantarnikah')->name('pengajuan.store_pengantarnikah');
+Route::get('user-suket-pengantar-nikah/cari', 'UserController@ajax_select_pengantarnikah')->name('pengajuan.ajax_select_pengantarnikah');
+
+
 Route::get('user-suket-skck/create', 'UserController@create_skck')->name('pengajuan.create_skck');
+Route::post('user-suket-skck/store', 'UserController@store_skck')->name('pengajuan.store_skck');
+Route::get('user-suket-skck/cari', 'UserController@ajax_select_skck')->name('pengajuan.ajax_select_skck');
+
 Route::get('user-suket-ktp-sementara/create', 'UserController@create_ktp')->name('pengajuan.create_ktp');
+Route::post('user-suket-ktp-sementara/store', 'UserController@store_ktp')->name('pengajuan.store_ktp');
+Route::get('user-suket-ktp-sementara/cari', 'UserController@ajax_select_ktp')->name('pengajuan.ajax_select_ktp');
+
 Route::get('user-suket-usaha/create', 'UserController@create_usaha')->name('pengajuan.create_usaha');
+Route::post('user-suket-usaha/store', 'UserController@store_usaha')->name('pengajuan.store_usaha');
+Route::get('user-suket-usaha/cari', 'UserController@ajax_select_usaha')->name('pengajuan.ajax_select_usaha');
+
 Route::get('user-suket-domisili/create', 'UserController@create_domisili')->name('pengajuan.create_domisili');
+Route::post('user-suket-domisili/store', 'UserController@store_domisili')->name('pengajuan.store_domisili');
+Route::get('user-suket-domisili/cari', 'UserController@ajax_select_domisili')->name('pengajuan.ajax_select_domisili');
+
+Route::get('user-suket-pindah/create', 'UserController@create_pindah')->name('pengajuan.create_pindah');
+Route::post('user-suket-pindah/store', 'UserController@store_pindah')->name('pengajuan.store_pindah');
+Route::get('user-suket-pindah/cari', 'UserController@ajax_select_pindah')->name('pengajuan.ajax_select_pindah');

@@ -52,7 +52,7 @@
     @endif
     <div class="card-body">
       <div class="table-responsive">
-        <table id="data_sktms" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+        <table id="data_domisili" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
             <thead>
                 <tr>
                     <th> No </th>
@@ -76,12 +76,14 @@
                 <td>{{ $post->no_surat }}</td>
                 <td>{{ $post->no_nik }}</td>
                 <td>{{ $post->nama_lengkap }}</td>
-                <td>{{ $post->created_at }}</td>
+                <td>{{  Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $post->created_at)->isoFormat('DD MMMM Y') }}</td>
                 <td>{{ $post->status_surat }}</td>
                 <td>
                   <a class="btn btn-danger btn-sm" href="{{URL::to('suket-domisili/edit/'.$post->id_persuratan)}}"><i class="nav-icon fas fa-edit"></i> Edit</a>
                   <a class="btn btn-primary btn-sm" href="{{URL::to('suket-domisili/delete/'.$post->id_persuratan)}}"><i class="nav-icon fas fa-trash"></i> Hapus</a>
                   <a class="btn btn-warning btn-sm" href="{{URL::to('suket-domisili/cetak_pdf/'.$post->id_persuratan)}}"><i class="nav-icon fas fa-trash"></i> Cetak</a>
+                  <a class="btn btn-warning btn-sm" href="{{URL::to('suket-domisili/show/'.$post->id_persuratan)}}"><i class="nav-icon fas fa-trash"></i> Detail</a>
+                
                 </td>
                 </td>
               </tr>

@@ -56,7 +56,7 @@ hr.style2{
             <td align="center"><strong><u>SURAT PENGANTAR PERKAWINAN</u></strong></td>
         </tr>
         <tr>
-            <td align="center">Nomor :</td>
+        <td align="center">Nomor : {{$pnikah->no_surat}}</td>
         </tr>
     </table><br>
     <table align="center">
@@ -69,41 +69,45 @@ hr.style2{
     <br>
     <table align="center">
         <tr>
-            <td><font size="2">Nama</td>
-            <td ><font size="2"> :</td>
+            @foreach ($data_anak as $post)
+                
+            
+            <td><font size="2">Nama</font></td>
+        <td ><font size="2"> : {{$post->nama_lengkap}}</font></td>
         </tr>
         <tr>
-            <td><font size="2">Tempat/ Tanggal lahir</td>
-            <td width="350px"><font size="2"> :</td>
+            <td><font size="2">Tempat/ Tanggal lahir</font></td>
+            <td width="350px"><font size="2"> : {{$post->tempat_lahir}}, {{ Carbon\Carbon::createFromFormat('Y-m-d', $post->tanggal_lahir)->isoFormat('DD-MM-Y') }}</font></td>
         </tr>
         <tr>
-            <td><font size="2">No NIK</td>
-            <td width="350px"><font size="2"> :</td>
+            <td><font size="2">No NIK</font></td>
+            <td width="350px"><font size="2"> : {{$pnikah->nik_anak}} </font></td>
         </tr>
         <tr>
-            <td><font size="2">Jenis Kelamin</td>
-            <td width="350px"><font size="2"> :</td>
+            <td><font size="2">Jenis Kelamin</font></td>
+            <td width="350px"><font size="2"> : {{$post->jenis_kelamin}}</font></td>
         </tr>
         <tr>
-            <td><font size="2">Kewarganegaraan</td>
-            <td width="350px"><font size="2"> : Indonesia</td>
+            <td><font size="2">Kewarganegaraan</font></td>
+            <td width="350px"><font size="2"> : Indonesia</font></td>
         </tr>
         <tr>
-            <td><font size="2">Agama</td>
-            <td width="350px"><font size="2"> : </td>
+            <td><font size="2">Agama</font></td>
+            <td width="350px"><font size="2"> : {{$post->agama}} </font> </td>
         </tr>
         <tr>
-            <td><font size="2">Pekerjaan</td>
-            <td width="350px"><font size="2"> : </td>
+            <td><font size="2">Pekerjaan</font></td>
+            <td width="350px"><font size="2"> : {{$post->pekerjaan}}</font></td>
         </tr>
         <tr>
-            <td><font size="2">Alamat</td>
-            <td width="350px"><font size="2"> : </td>
+            <td><font size="2">Alamat</font></td>
+            <td width="350px"><font size="2"> : {{$post->alamat}}</font></td>
         </tr>
         <tr>
-            <td><font size="2">Status Perkawinan</td>
-            <td width="350px"><font size="2"> : </td>
+            <td><font size="2">Status Perkawinan</font></td>
+            <td width="350px"><font size="2"> : {{$post->status_perkawinan}}</font></td>
         </tr>
+        @endforeach
     </table>
     <br>
     <table align="center">
@@ -118,72 +122,75 @@ hr.style2{
     <br>
     <table align="center">
         <tr>
-            <td><font size="2">Nama</td>
-            <td ><font size="2"> :</td>
+            <td><font size="2">Nama</font></td>
+            <td ><font size="2"> : {{$pnikah->nama_lengkap}}</font></td>
         </tr>
         <tr>
-            <td><font size="2">Tempat/ Tanggal lahir</td>
-            <td width="350px"><font size="2"> :</td>
+            <td><font size="2">Tempat/ Tanggal lahir</font></td>
+            <td width="350px"><font size="2"> : {{$pnikah->tempat_lahir}}, {{ Carbon\Carbon::createFromFormat('Y-m-d', $pnikah->tanggal_lahir)->isoFormat('DD-MM-Y') }}</font></td>
+        </tr>
         </tr>
         <tr>
-            <td><font size="2">No NIK</td>
-            <td width="350px"><font size="2"> :</td>
+            <td><font size="2">No NIK</font></td>
+            <td width="350px"><font size="2"> : {{$pnikah->nik_pemohon}}</font></td>
         </tr>
         <tr>
-            <td><font size="2">Jenis Kelamin</td>
-            <td width="350px"><font size="2"> :</td>
+            <td><font size="2">Jenis Kelamin</font></td>
+            <td width="350px"><font size="2"> : {{$pnikah->jenis_kelamin}}</font></td>
         </tr>
         <tr>
-            <td><font size="2">Kewarganegaraan</td>
-            <td width="350px"><font size="2"> : Indonesia</td>
+            <td><font size="2">Kewarganegaraan</font></td>
+            <td width="350px"><font size="2"> : Indonesia</font></td>
         </tr>
         <tr>
             <td><font size="2">Agama</td>
-            <td width="350px"><font size="2"> : </td>
+            <td width="350px"><font size="2"> : {{$pnikah->agama}}</font> </td>
         </tr>
         <tr>
-            <td><font size="2">Pekerjaan</td>
-            <td width="350px"><font size="2"> : </td>
+            <td><font size="2">Pekerjaan</font></td>
+            <td width="350px"><font size="2"> : {{$pnikah->pekerjaan}}</font> </td>
         </tr>
         <tr>
-            <td><font size="2">Alamat</td>
-            <td width="350px"><font size="2"> : </td>
+            <td><font size="2">Alamat</font></td>
+            <td width="350px"><font size="2"> : {{$pnikah->alamat}}</font></td>
         </tr>
     </table>
     <br>
     <table align="center">
         <tr>
-            <td><font size="2">Nama</td>
-            <td ><font size="2"> :</td>
+            @foreach($data_ibu as $row)
+            <td><font size="2">Nama</font></td>
+            <td ><font size="2"> : {{$row->nama_lengkap}}</font></td>
         </tr>
         <tr>
-            <td><font size="2">Tempat/ Tanggal lahir</td>
-            <td width="350px"><font size="2"> :</td>
+            <td><font size="2">Tempat/ Tanggal lahir</font></td>
+            <td width="350px"><font size="2"> : {{$row->tempat_lahir}}, {{ Carbon\Carbon::createFromFormat('Y-m-d', $row->tanggal_lahir)->isoFormat('DD-MM-Y') }}</font></td>
         </tr>
         <tr>
-            <td><font size="2">No NIK</td>
-            <td width="350px"><font size="2"> :</td>
+            <td><font size="2">No NIK</font></td>
+            <td width="350px"><font size="2"> : {{$pnikah->nik_ibu}}</font></td>
         </tr>
         <tr>
-            <td><font size="2">Jenis Kelamin</td>
-            <td width="350px"><font size="2"> :</td>
+            <td><font size="2">Jenis Kelamin</font></td>
+            <td width="350px"><font size="2"> : {{$row->jenis_kelamin}}</font></td>
         </tr>
         <tr>
-            <td><font size="2">Kewarganegaraan</td>
-            <td width="350px"><font size="2"> : Indonesia</td>
+            <td><font size="2">Kewarganegaraan</font></td>
+            <td width="350px"><font size="2"> : Indonesia</font></td>
         </tr>
         <tr>
-            <td><font size="2">Agama</td>
-            <td width="350px"><font size="2"> : </td>
+            <td><font size="2">Agama</font></td>
+            <td width="350px"><font size="2"> : {{$row->agama}}</font></td>
         </tr>
         <tr>
-            <td><font size="2">Pekerjaan</td>
-            <td width="350px"><font size="2"> : </td>
+            <td><font size="2">Pekerjaan</font></td>
+            <td width="350px"><font size="2"> : {{$row->pekerjaan}}</font></td>
         </tr>
         <tr>
-            <td><font size="2">Alamat</td>
-            <td width="350px"><font size="2"> : </td>
+            <td><font size="2">Alamat</font></td>
+            <td width="350px"><font size="2"> : {{$row->alamat}}</font></td>
         </tr>
+        @endforeach
     </table>
     <br>
     <table align="center">
@@ -198,7 +205,7 @@ hr.style2{
     <table align="center">
         <tr>
             <td width="400px"> </td>
-            <td><font size="2">Cihampelas, 27 Maret 2019</td>
+            <td><font size="2">Cihampelas, {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $pnikah->updated_at)->isoFormat('DD MMMM Y') }}</td>
         </tr>
     </table>
         <table align="center">

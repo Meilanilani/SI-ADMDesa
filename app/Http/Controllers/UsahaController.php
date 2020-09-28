@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Notifications\UsahaNotifikasiSelesai;
 use App\Usaha;
 use App\Warga;
 use App\Persuratan;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class UsahaController extends Controller
@@ -61,9 +64,11 @@ class UsahaController extends Controller
                 'agama' =>  $usaha['agama'],
                 'pekerjaan' =>  $usaha['pekerjaan'],
                 'alamat' =>  $usaha['alamat'],);
+            }
+            else{
+                $data = null;
+            }
             return json_encode($data);
-        
-        }
         }
 
     /**
@@ -88,9 +93,29 @@ class UsahaController extends Controller
      */
     public function store(Request $request)
     {
+
+        $message =[
+            'required' => 'Isi tidak boleh kosong',
+            'min' => 'Isi minimal harus 16 Karakter',
+            'max' => 'Isi maximal harus 16 Karakter'
+        ];
+
+        $this->validate($request,[
+            'nik_pemohon' => ['required', 'string', 'min:16', 'max:16'],
+            'nik_pemilik_usaha' => ['required', 'string', 'min:16', 'max:16'],
+            'nama_usaha' => ['required'],
+            'jenis_usaha' => ['required'],
+            'penghasilan_bulanan' => ['required'],
+            'foto_pengantar' => ['required'],
+            'foto_kk' => ['required'],
+            'foto_suratizin' => ['required'],
+
+        ], $message);
+
         $data['no_surat'] = $request->no_surat;
         $data['id_warga'] = $request->id_warga;
         $data['status_surat'] = $request->status_surat;
+        $data['id']= Auth::id();
         $data2['nik_pemohon'] = $request->nik_pemohon;
         $data2['nik_pemilik_usaha'] = $request->nik_pemilik_usaha;
         $data2['nama_usaha'] = $request->nama_usaha;
@@ -134,7 +159,7 @@ class UsahaController extends Controller
             $usaha = DB::table('detail_usaha')->insertGetId($data2);
 
             return redirect()->route('usaha.index')
-                            ->with('success', 'Product Created Successfully!');
+                            ->with('success', 'Data behasil ditambahkan!');
     }
 
     /**
@@ -143,9 +168,22 @@ class UsahaController extends Controller
      * @param  \App\Usaha  $usaha
      * @return \Illuminate\Http\Response
      */
-    public function show(Usaha $usaha)
+    public function show($id_persuratan)
     {
-        //
+        $usaha = DB::table('persuratan') 
+        ->join('warga', 'persuratan.id_warga','=','warga.id_warga')
+        ->join('detail_usaha', 'persuratan.id_persuratan','=','detail_usaha.id_persuratan')
+        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 'warga.status_perkawinan',
+        'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.foto_pengantar', 'persuratan.foto_kk', 'persuratan.foto_suratizin',
+        'persuratan.status_surat', 'detail_usaha.nik_pemilik_usaha','detail_usaha.nik_pemohon',  'detail_usaha.nama_usaha', 'detail_usaha.jenis_usaha', 'detail_usaha.penghasilan_bulanan','detail_usaha.alamat_usaha')
+        ->where('persuratan.id_persuratan',$id_persuratan)
+        ->first();
+
+        $data_warga = DB::table('warga')
+        ->where('no_nik', $usaha->nik_pemilik_usaha)
+        ->get();
+
+        return view('admin.suket-usaha.show', compact('usaha', 'data_warga'));
     }
 
     /**
@@ -168,8 +206,7 @@ class UsahaController extends Controller
         $data_warga = DB::table('warga')
         ->where('no_nik', $usaha->nik_pemilik_usaha)
         ->first();
-       
-        $ktp = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->first();
+
         return view('admin.suket-usaha.edit', compact('usaha', 'data_warga'));
     }
 
@@ -182,47 +219,45 @@ class UsahaController extends Controller
      */
     public function update(Request $request, $id_persuratan)
     {
-        $data['no_surat'] = $request->no_surat;
-        $data['id_warga'] = $request->id_warga;
-        $data2['nik_pemohon'] = $request->nik_pemohon;
-        $data2['nik_pemilik_usaha'] = $request->nik_pemilik_usaha;
-        $data2['nama_usaha'] = $request->nama_usaha;
-        $data2['jenis_usaha'] = $request->jenis_usaha;
-        $data2['penghasilan_bulanan'] = $request->penghasilan_bulanan;
-        $data2['alamat_usaha'] = $request->alamat_usaha;
-        $data['status_surat'] = $request->status_surat;
 
-        $image1 = $request->file('foto_pengantar');
-        $image2 = $request->file('foto_kk');
-        $image3 = $request->file('foto_suratizin');
-        if($image1 != null){
-            $image_name = $image1->getClientOriginalName();
-            $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
-            
-            $upload_path = 'public/media/';
-            $image_url = $upload_path.$image_full_name;
-            $succes = $image1->move($upload_path, $image_full_name);
-            $data['foto_pengantar'] = $image_url;
-        } 
-        if($image2 != null){
-            $image_name = $image2->getClientOriginalName();
-            $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
-            
-            $upload_path = 'public/media/';
-            $image_url = $upload_path.$image_full_name;
-            $succes = $image2->move($upload_path, $image_full_name);
-            $data['foto_kk'] = $image_url;
-        } 
-        if($image3 != null){
-            $image_name = $image3->getClientOriginalName();
-            $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
-            
-            $upload_path = 'public/media/';
-            $image_url = $upload_path.$image_full_name;
-            $succes = $image3->move($upload_path, $image_full_name);
-            $data['foto_suratizin'] = $image_url;
-        } 
-        $usaha = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->update($data);
+        $message =[
+            'required' => 'Isi tidak boleh kosong',
+            'min' => 'Isi minimal harus 16 Karakter',
+            'max' => 'Isi maximal harus 16 Karakter'
+        ];
+
+        $this->validate($request,[
+            'nama_usaha' => ['required'],
+            'jenis_usaha' => ['required'],
+            'penghasilan_bulanan' => ['required'],
+            'alamat_usaha' => ['required'],
+
+        ], $message);
+
+
+        $data['status_surat'] = $request->status_surat;
+        $data_detail['nik_pemohon'] = $request->nik_pemohon;
+        $data_detail['nik_pemilik_usaha'] = $request->nik_pemilik_usaha;
+        $data_detail['nama_usaha'] = $request->nama_usaha;
+        $data_detail['jenis_usaha'] = $request->jenis_usaha;
+        $data_detail['penghasilan_bulanan'] = $request->penghasilan_bulanan;
+        $data_detail['alamat_usaha'] = $request->alamat_usaha;
+        
+
+        $id_persuratan = DB::table('detail_usaha')->select('id_persuratan')->where('id_persuratan', $id_persuratan)->first();
+        $lahir = DB::table('persuratan')->where('id_persuratan', $id_persuratan->id_persuratan)->update($data);
+        $lahir = DB::table('detail_usaha')->where('id_persuratan', $id_persuratan->id_persuratan)->update($data_detail);
+        
+         //Notifikasi Status-Surat Ke User
+         $data = DB::table('persuratan')
+         ->where('id_persuratan', $id_persuratan)
+         ->first();
+ 
+         $data_user = User::find($data->id);
+         
+         $data_user->notify(new UsahaNotifikasiSelesai($id_persuratan));
+ 
+
         return redirect()->route('usaha.index')
                         ->with('success', 'Data Berhasil diupdate!');
     }
@@ -242,4 +277,26 @@ class UsahaController extends Controller
         return redirect()->route('usaha.index')
         ->with('success', 'Data Berhasil Dihapus!');
     }
+
+    public function cetak_pdf($id_persuratan)
+    {
+        $usaha = DB::table('persuratan') 
+        ->join('warga', 'persuratan.id_warga','=','warga.id_warga')
+        ->join('detail_usaha', 'persuratan.id_persuratan','=','detail_usaha.id_persuratan')
+        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 'warga.status_perkawinan',
+        'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.updated_at', 
+        'persuratan.tgl_masa_berlaku','persuratan.status_surat', 'detail_usaha.nik_pemilik_usaha','detail_usaha.nik_pemohon',  'detail_usaha.nama_usaha', 'detail_usaha.jenis_usaha', 'detail_usaha.penghasilan_bulanan','detail_usaha.alamat_usaha')
+        ->where('persuratan.id_persuratan',$id_persuratan)
+        ->first();
+
+        $data_warga = DB::table('warga')
+        ->where('no_nik', $usaha->nik_pemilik_usaha)
+        ->get();
+        
+        $pdf = PDF::loadview('admin.suket-usaha.print', compact('usaha', 'data_warga'));
+        $pdf->setPaper('Legal','potrait');
+        return $pdf->download('suket usaha.pdf');
+        
+    }
 }
+

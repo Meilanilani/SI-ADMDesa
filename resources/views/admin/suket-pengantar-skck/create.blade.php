@@ -14,15 +14,7 @@
 <section class="content">
   <div class="card-group">
     <div class="card">
-        @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li> {{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-        @endif
+        
       <div class="card-body">
         <form action="{{ route('skck.store')}}" method="POST" enctype="multipart/form-data">
           @csrf
@@ -35,7 +27,10 @@
               
         <div class="col-md-6">
           <label for="inputName">NIK Yang Bersangkutan</label>
-          <input type="text" name="nik_yg_bersangkutan" id="nik_yg_bersangkutan" class="form-control input-lg" />
+          <input type="text" name="nik_yg_bersangkutan" id="nik_yg_bersangkutan"  class="form-control @error('nik_yg_bersangkutan') is-invalid @enderror">
+          @error('nik_yg_bersangkutan')
+          <div class="invalid-feedback">{{ $message }}</div>
+          @enderror
         </div>
         <div class="col-md-6">
           <label for="inputName">Nama Lengkap</label>
@@ -75,34 +70,47 @@
         <input type="hidden" name="id_warga" id="id_pemohon" class="form-control input-lg" />
         <div class="col-md-6">
           <label for="inputName">NIK Pemohon</label>
-          <input type="text" name="nik_pemohon" id="nik_pemohon" class="form-control input-lg" />
+          <input type="text" name="nik_pemohon" id="nik_pemohon" class="form-control @error('nik_pemohon') is-invalid @enderror">
+          @error('nik_pemohon')
+          <div class="invalid-feedback">{{ $message }}</div>
+          @enderror
         </div>
         <div class="col-md-6">
           <label for="inputName">Nama Pemohon</label>
           <input type="text" name="nama_lengkap" id="nama_pemohon" class="form-control input-lg" readonly/>
         </div>
-        
+        <div class="col-md-6">
+          <label for="inputName">Keterangan Keperluan Surat</label>
+          <input type="text" name="ket_keperluan_surat" class="form-control @error('ket_keperluan_surat') is-invalid @enderror">
+          @error('ket_keperluan_surat')
+          <div class="invalid-feedback">{{ $message }}</div>
+          @enderror
+        </div>
         <div class="col-md-8">
           <label for="inputName">Foto Pengantar RT/ RW</label>
-          <input type="file"  name="foto_pengantar">
+          <input type="file"  name="foto_pengantar"  class="@error('foto_pengantar') is-invalid @enderror">
+          @error('foto_pengantar')
+          <div class="invalid-feedback">{{ $message }}</div>
+          @enderror
         </div>
         <div class="col-md-8">
           <label for="inputName">Foto Kartu Keluarga</label>
-          <input type="file"  name="foto_kk">
+          <input type="file"  name="foto_kk"  class="@error('foto_kk') is-invalid @enderror">
+          @error('foto_kk')
+          <div class="invalid-feedback">{{ $message }}</div>
+          @enderror
         </div>
         <div class="col-md-8">
           <label for="inputName">Foto KTP yang bersangkutan</label>
-          <input type="file"  name="foto_ktp">
+          <input type="file"  name="foto_ktp"  class="@error('foto_ktp') is-invalid @enderror">
+          @error('foto_ktp')
+          <div class="invalid-feedback">{{ $message }}</div>
+          @enderror
         </div>
         <input type="hidden" name="status_surat" value="{{ $status_surat }}" class="form-control" readonly>
-        <div class="col-md-6">
-          <label for="inputName">Keterangan Keperluan Surat</label>
-          <input type="text" name="ket_keperluan_surat" class="form-control input-lg" />
-        </div>
-        <div class="col-md-6">
-          <label for="inputName">Tanggal Masa Berlaku</label>
-          <input type="text" name="tgl_masa_berlaku" class="form-control" value="{{ $date}}" readonly>
-        </div>
+        
+          <input type="hidden" name="tgl_masa_berlaku" class="form-control" value="{{ $date}}" readonly>
+        
     </div>
       </div>
       <div class="card-footer">
@@ -127,6 +135,9 @@
                  success: function(data){
                    console.log(data);
                    var json = data;
+                   if (!json) {
+                        return alert("NIK yang anda masukkan tidak ada!");
+                    }
 
                     var nama_lengkap = json.nama_lengkap;
                     var tempat_lahir = json.tempat_lahir;
@@ -159,6 +170,9 @@
                  success: function(data){
                    console.log(data);
                    var json = data;
+                   if (!json) {
+                        return alert("NIK yang anda masukkan tidak ada!");
+                    }
 
                     var id_pemohon = json.id_warga;
                     var nama_pemohon = json.nama_lengkap;

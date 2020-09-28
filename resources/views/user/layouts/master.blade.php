@@ -1,25 +1,32 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>SI Administrasi Desa</title>
-  <!-- Tell the browser to be responsive to screen width -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="/assets/plugins/fontawesome-free/css/all.min.css">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-  <!-- overlayScrollbars -->
-  <link rel="stylesheet" href="/assets/css/adminlte.min.css">
-  <!-- Google Font: Source Sans Pro -->
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-  <!-- Ajax -->  
-  
-  
-  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Aplikasi Administrasi Desa</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="/assets/plugins/fontawesome-free/css/all.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="/assets/css/adminlte.min.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <!-- Data Table -->
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" />
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.20/datatables.min.css" />
+
 </head>
 <body class="hold-transition sidebar-mini">
 <!-- Site wrapper -->
@@ -102,7 +109,7 @@
           <span class="dropdown-item dropdown-header">{{count(Auth::user()->unreadNotifications)}} Notifications</span>
           @foreach (Auth::user()->unreadNotifications as $notification)
           <div class="dropdown-divider"></div>
-          <a href="{{route('pengajuan.index')}}" class="dropdown-item">
+          <a href="{{route('pengajuan.riwayat_pengajuan')}}" class="dropdown-item">
             <i class="fas fa-envelope mr-2"></i> {{$notification->data['message']}}
             <span class="float-right text-muted text-sm">{{$notification->created_at->diffForHumans() }}</span>
           </a>
@@ -139,7 +146,9 @@
           <img src="/assets/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Welcome User !</a>
+          <font size="2">
+            <font color="white">Welcome {{Auth::user()->name}}</font>
+            <a href="/ganti-password-user" class="d-block">Ubah Password</a></font>
         </div>
       </div>
 
@@ -149,13 +158,13 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                <li class="nav-item has-treeview">
-                <a href=/user class="nav-link">
+                <a href="/" class="nav-link">
                   <i class="nav-icon fas fa-home"></i>
                   <p> Halaman Utama </p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/user" class="nav-link">
+                <a href="/riwayat-pengajuan" class="nav-link">
                   <i class="nav-icon fas fa-th"></i>
                   <p>
                     Riwayat Pengajuan Surat
@@ -222,7 +231,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/user-suket-pindah" class="nav-link">
+                <a href="/user-suket-pindah/create" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Surat Ket-Pindah</p>
                 </a>
@@ -309,5 +318,59 @@
 <script src="/assets/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="/assets/js/demo.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#pengajuan-sktmsekolah').DataTable();
+    });
+    $(document).ready(function () {
+        $('#data_warga').DataTable();
+    });
+    $(document).ready(function () {
+        $('#data_sktms').DataTable();
+
+    });
+    $(document).ready(function () {
+        $('#data_sktmrs').DataTable();
+    });
+    $(document).ready(function () {
+        $('#data_kelahiran').DataTable();
+    });
+    $(document).ready(function () {
+        $('#data_kematian').DataTable();
+    });
+    $(document).ready(function () {
+        $('#data_na').DataTable();
+    });
+    $(document).ready(function () {
+        $('#data_skck').DataTable();
+    });
+    $(document).ready(function () {
+        $('#data_ktp').DataTable();
+    });
+    $(document).ready(function () {
+        $('#data_usaha').DataTable();
+
+    });
+    $(document).ready(function () {
+        $('#data_kk').DataTable();
+
+    });
+    $(document).ready(function () {
+        $('#data_ktp').DataTable();
+
+    });
+    $(document).ready(function () {
+     $('#data_pindah').DataTable();
+
+    });
+    $(document).ready(function () {
+     $('#data_domisili').DataTable();
+
+    });
+</script>
 </body>
 </html>

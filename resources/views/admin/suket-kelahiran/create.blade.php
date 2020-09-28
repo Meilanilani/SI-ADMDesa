@@ -140,7 +140,6 @@
                         <input type="text" name="nama_lengkap" id="nama_ayah" class="form-control input-lg" readonly />
                     </div>
                     
-                   
                     <div class="col-md-6">
                         <label for="inputName">NIK Ibu</label>
                         <input type="text" name="nik_ibu" id="nik_ibu"
@@ -172,7 +171,6 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('#nik_ayah').on('input', function () {
-
             var no_nik = $(this).val();
             $.ajax({
                 type: "GET",
@@ -184,27 +182,21 @@
                 cache: false,
                 success: function (data) {
                     console.log(data);
-
                     var json = data;
                     if (!json) {
                         return alert("NIK yang anda masukkan tidak ada!");
                     }
-
                     var id_pemohon = json.id_warga;
                     var nama_ayah = json.nama_lengkap;
                     var alamat = json.alamat;
-
                     $('#id_pemohon').val(id_pemohon);
                     $('#nama_ayah').val(nama_ayah);
                     $('#alamat').val(alamat);
-
                 }
             });
             return false;
         });
-
         $('#nik_ibu').on('input', function () {
-
             var no_nik = $(this).val();
             $.ajax({
                 type: "GET",
@@ -216,28 +208,18 @@
                 cache: false,
                 success: function (data) {
                     console.log(data);
-
                     var json = data;
                     if (!json) {
                         return alert("NIK yang anda masukkan tidak ada!");
                     }
-
                     var nama_ibu = json.nama_lengkap;
-
                    
-
                     $('#nama_ibu').val(nama_ibu);
                    
-
                 }
             });
             return false;
         });
-
     });
-
 </script>
 @endsection
-
-
-

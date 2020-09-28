@@ -56,7 +56,7 @@ hr.style2{
             <td align="center"><strong><u>SURAT KETERANGAN KTP SEMENTARA</u></strong></td>
         </tr>
         <tr>
-            <td align="center">Nomor :</td>
+        <td align="center">Nomor : {{$ktp->no_surat}}</td>
         </tr>
     </table><br>
     <table align="center">
@@ -69,28 +69,29 @@ hr.style2{
     <br>
     <table align="center">
         <tr>
-            <td><font size="2">Nama</td>
-            <td ><font size="2"> :</td>
+            @foreach($data_warga as $post)
+            <td><font size="2">Nama</font></td>
+        <td ><font size="2"> : {{$post->nama_lengkap}}</font></td>
         </tr>
         <tr>
             <td><font size="2">Tempat/ Tanggal lahir</td>
-            <td width="350px"><font size="2"> :</td>
+            <td width="350px"><font size="2"> : {{$post->tempat_lahir}}, {{ Carbon\Carbon::createFromFormat('Y-m-d', $post->tanggal_lahir)->isoFormat('DD-MM-Y') }}</font></td>
         </tr>
         <tr>
             <td><font size="2">Pekerjaan</td>
-            <td width="350px"><font size="2"> : </td>
+            <td width="350px"><font size="2"> : {{$post->pekerjaan}}</td>
         </tr>
         <tr>
             <td><font size="2">Agama</td>
-            <td width="350px"><font size="2"> : </td>
+            <td width="350px"><font size="2"> : {{$post->agama}}</td>
         </tr>
         <tr>
             <td><font size="2">Status Perkawinan</td>
-            <td width="350px"><font size="2"> : </td>
+            <td width="350px"><font size="2"> : {{$post->status_perkawinan}}</td>
         </tr>
         <tr>
             <td><font size="2">NIK</td>
-            <td width="350px"><font size="2"> :</td>
+            <td width="350px"><font size="2"> : {{$ktp->nik_yg_bersangkutan}}</td>
         </tr>
         <tr>
             <td><font size="2">Kewarganegaraan</td>
@@ -99,9 +100,9 @@ hr.style2{
         
         <tr>
             <td><font size="2">Alamat</td>
-            <td width="350px"><font size="2"> : </td>
+            <td width="350px"><font size="2"> : {{$post->alamat}} </td>
         </tr>
-        
+
     </table>
     <br>
     <table align="center">
@@ -114,7 +115,7 @@ hr.style2{
     <table align="center">
         <tr>
             <td align="center">
-                <font size="2"><strong><u> Sampai Dengan Tanggal, 02 Oktober  2019</u></strong>
+                <font size="2"><strong><u> Sampai Dengan Tanggal, {{ Carbon\Carbon::createFromFormat('Y-m-d', $ktp->tgl_masa_berlaku)->isoFormat('DD MMMM Y') }}</u></strong>
                 </font>
             </td>
             <td width="60px">
@@ -139,7 +140,7 @@ hr.style2{
     <table align="center">
         <tr>
             <td width="340px"> </td>
-            <td><font size="2">Cihampelas, 27 Maret 2019</font></td>
+            <td><font size="2">Cihampelas, {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $ktp->updated_at)->isoFormat('DD MMMM Y') }}</font></td>
         </tr>
     </table>
         <table align="center">
@@ -152,10 +153,11 @@ hr.style2{
     <br><br> <br><br> 
     <table align="center">
         <tr>
-            <td><font size="2"><strong><u>ACENG KURNIAAAAAA</u></strong></font></td>
-            <td width="220px"> </td>
-            <td align="center"><strong><u><font size="2">ACENG KURNIAAA</font></u></strong></td>    
+        <td><font size="2"><strong><u>{{$post->nama_lengkap}}</u></strong></font></td>
+            <td width="280px"> </td>
+            <td align="center"><strong><u><font size="2">ACENG KURNIA</font></u></strong></td>    
         </tr>
+        @endforeach
     </table>
 </body>
 </html>

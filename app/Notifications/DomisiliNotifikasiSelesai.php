@@ -6,20 +6,21 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Auth;
 
-
-class DataProses extends Notification implements ShouldQueue
+class DomisiliNotifikasiSelesai extends Notification implements ShouldQueue
 {
     use Queueable;
+    private $id_persuratan;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($id_persuratan)
     {
-        
+        $this->id_persuratan=$id_persuratan;
     }
 
     /**
@@ -31,7 +32,6 @@ class DataProses extends Notification implements ShouldQueue
     public function via($notifiable)
     {
         return ['database'];
-
     }
 
     /**
@@ -42,6 +42,7 @@ class DataProses extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
+        
     }
 
     /**
@@ -53,7 +54,7 @@ class DataProses extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            'message'=>'Pengajuan SKTM Sekolah'
+            'message'=>'Suket Domisili selesai diproses! ','from'=>Auth::id(), 'id_persuratan'=>$this->id_persuratan
         ];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Notifications\PindahNotifikasiSelesai;
 use App\Pindah;
 use App\Warga;
 use Illuminate\Http\Request;
@@ -61,10 +62,12 @@ class PindahController extends Controller
                 $data = array(
                 'id_warga' => $pindah['id_warga'],
                 'nama_lengkap' =>  $pindah['nama_lengkap'],
-                'no_nik' =>  $pindah['no_nik'],
-            );
-                
-            return json_encode($data);}
+                'no_nik' =>  $pindah['no_nik'],);
+            }
+            else{
+                $data = null;
+            }
+            return json_encode($data);
         }
 
     
@@ -88,6 +91,19 @@ class PindahController extends Controller
      */
     public function store(Request $request)
     {
+        $message =[
+            'required' => 'Isi tidak boleh kosong',
+            'min' => 'Isi minimal harus 16 Karakter',
+            'max' => 'Isi maximal harus 16 Karakter'
+        ];
+
+        $this->validate($request,[
+            'no_kk' => ['required', 'string', 'min:16', 'max:16'],
+            'alasan_pindah' => ['required'],
+            'alamat_tujuan' => ['required'],
+
+        ], $message);
+
         $data['no_surat'] = $request->no_surat;
         $data['status_surat'] = $request->status_surat;
         $data['id_warga'] = $request->id_warga;
@@ -162,9 +178,22 @@ class PindahController extends Controller
      * @param  \App\Pindah  $pindah
      * @return \Illuminate\Http\Response
      */
-    public function show(Pindah $pindah)
+    public function show($id_persuratan)
     {
-        //
+        $pindah = DB::table('persuratan')
+        ->join('warga','persuratan.id_warga','=','warga.id_warga')
+        ->join('detail_pindah', 'persuratan.id_persuratan','=','detail_pindah.id_persuratan')
+        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 'warga.pekerjaan','warga.alamat', 'warga.jenis_kelamin', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.foto_pengantar', 'persuratan.foto_kk', 'persuratan.foto_ktp',
+         'detail_pindah.nik_pemohon', 'detail_pindah.no_kk', 'detail_pindah.alamat_tujuan', 'detail_pindah.alasan_pindah')
+        ->where('no_surat', 'LIKE', '%Suket-PH%')
+        ->where('persuratan.id_persuratan',$id_persuratan)
+        ->first();
+        
+        $data_kk = DB::table('warga')
+        ->where('no_kk', $pindah->no_kk)
+        ->get();
+        
+        return view('admin.suket-pindah.show', compact('pindah','data_kk'));
     }
 
     /**
@@ -198,6 +227,17 @@ class PindahController extends Controller
      */
     public function update(Request $request, $id_persuratan)
     {
+        $message =[
+            'required' => 'Isi tidak boleh kosong',
+            'min' => 'Isi minimal harus 16 Karakter',
+            'max' => 'Isi maximal harus 16 Karakter'
+        ];
+
+        $this->validate($request,[
+            'alasan_pindah' => ['required'],
+            'alamat_tujuan' => ['required'],
+
+        ], $message);
         $data['no_surat'] = $request->no_surat;
         $data_detail['alamat_tujuan'] = $request->alamat_tujuan;
         $data_detail['alasan_pindah'] = $request->alasan_pindah;
@@ -205,8 +245,18 @@ class PindahController extends Controller
 
        
         $id_persuratan = DB::table('detail_pindah')->select('id_persuratan')->where('id_persuratan', $id_persuratan)->first();
-        $lahir = DB::table('persuratan')->where('id_persuratan', $id_persuratan->id_persuratan)->update($data);
-        $lahir = DB::table('detail_pindah')->where('id_persuratan', $id_persuratan->id_persuratan)->update($data_detail);
+        $pindah = DB::table('persuratan')->where('id_persuratan', $id_persuratan->id_persuratan)->update($data);
+        $pindah = DB::table('detail_pindah')->where('id_persuratan', $id_persuratan->id_persuratan)->update($data_detail);
+
+         //Notifikasi Status-Surat Ke User
+         $data = DB::table('persuratan')
+         ->where('id_persuratan', $id_persuratan)
+         ->first();
+ 
+         $data_user = User::find($data->id);
+         
+         $data_user->notify(new PindahNotifikasiSelesai($id_persuratan));
+ 
         
 
         return redirect()->route('pindah.index')
@@ -242,10 +292,10 @@ class PindahController extends Controller
         ->where('no_kk', $pindah->no_kk)
         ->get();
         
-        // $pdf = PDF::loadview('admin.suket-tidakmampu-rs.print',compact('sktmrs', 'data'));
-        // $pdf->setPaper('Legal','potrait');
-        // return $pdf->download('suket tidak mampu rumah sakit.pdf');
-        return view('admin.suket-pindah.print', compact('pindah','data_kk'));
+        $pdf = PDF::loadview('admin.suket-pindah.print', compact('pindah','data_kk'));
+        $pdf->setPaper('Legal','potrait');
+        return $pdf->download('suket tidak mampu rumah sakit.pdf');
+       
         
     }
 }

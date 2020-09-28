@@ -1,11 +1,16 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Notifications\SKCKNotifikasiSelesai;
 use App\Persuratan;
 use App\Warga;
 use App\PengantarSKCK;
+use App\User;
+use PDF;
 use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class PengantarSKCKController extends Controller
@@ -61,7 +66,11 @@ class PengantarSKCKController extends Controller
                 'agama' =>  $skck['agama'],
                 'pekerjaan' =>  $skck['pekerjaan'],
                 'alamat' =>  $skck['alamat'],);
-            return json_encode($data);}
+            }
+            else{
+                $data = null;
+            }
+            return json_encode($data);
         }
 
         
@@ -80,11 +89,11 @@ class PengantarSKCKController extends Controller
         $date->modify('+3 month');
         $date = $date->format('Y-m-d');
 
-        dd($date);
+        
 
         $status_surat = 'Proses';
         $surat = $this->autonumber();
-        return view('admin.suket-pengantar-skck.create', ['surat'=>$surat], ['status_surat'=>$status_surat], ['date'=>$date]);
+        return view('admin.suket-pengantar-skck.create', ['surat'=>$surat, 'status_surat'=>$status_surat,'date'=>$date]);
     }
 
     /**
@@ -95,6 +104,21 @@ class PengantarSKCKController extends Controller
      */
     public function store(Request $request)
     {
+        $message =[
+            'required' => 'Isi tidak boleh kosong',
+            'min' => 'Isi minimal harus 16 Karakter',
+            'max' => 'Isi maximal harus 16 Karakter'
+        ];
+
+        $this->validate($request,[
+            'nik_pemohon' => ['required', 'string', 'min:16', 'max:16'],
+            'nik_yg_bersangkutan' => ['required', 'string', 'min:16', 'max:16'],
+            'foto_pengantar' => ['required'],
+            'foto_kk' => ['required'],
+            'foto_ktp' => ['required'],
+
+        ], $message);
+
         $data['no_surat'] = $request->no_surat;
         $data['ket_keperluan_surat'] = $request->ket_keperluan_surat;
         $data['tgl_masa_berlaku'] = $request->tgl_masa_berlaku;
@@ -149,9 +173,24 @@ class PengantarSKCKController extends Controller
      * @param  \App\PengantarSKCK  $pengantarSKCK
      * @return \Illuminate\Http\Response
      */
-    public function show(PengantarSKCK $pengantarSKCK)
+    public function show($id_persuratan)
     {
-        //
+        $skck = DB::table('persuratan') 
+        ->join('warga', 'persuratan.id_warga','=','warga.id_warga')
+        ->join('detail_skck', 'persuratan.id_persuratan','=','detail_skck.id_persuratan')
+        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 
+        'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.updated_at', 'persuratan.foto_pengantar', 'persuratan.foto_kk', 'persuratan.foto_ktp',
+        'persuratan.ket_keperluan_surat','persuratan.tgl_masa_berlaku','persuratan.status_surat', 'detail_skck.nik_yg_bersangkutan', 'detail_skck.nik_pemohon')
+        ->where('persuratan.id_persuratan',$id_persuratan)
+        ->first();
+
+        
+        
+        $data_warga = DB::table('warga')
+        ->where('no_nik', $skck->nik_yg_bersangkutan)
+        ->get();
+
+        return view('admin.suket-pengantar-skck.show', compact('skck', 'data_warga'));
     }
 
     /**
@@ -190,13 +229,29 @@ class PengantarSKCKController extends Controller
      */
     public function update(Request $request, $id_persuratan)
     {
+        $message =[
+            'required' => 'Isi tidak boleh kosong',
+        ];
+
+        $this->validate($request,[
+            'ket_keperluan_surat' => ['required']
+        ], $message);
         
         $data['ket_keperluan_surat'] = $request->ket_keperluan_surat;
-        $data['tgl_masa_berlaku'] = $request->tgl_masa_berlaku;
         $data['status_surat'] = $request->status_surat;
 
         
         $skck = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->update($data);
+
+        //Notifikasi Status-Surat Ke User
+        $data = DB::table('persuratan')
+        ->where('id_persuratan', $id_persuratan)
+        ->first();
+
+        $data_user = User::find($data->id);
+        
+        $data_user->notify(new SKCKNotifikasiSelesai($id_persuratan));
+
         return redirect()->route('skck.index')
                             ->with('success', 'Data berhasil diupdate!');
     }
@@ -215,5 +270,29 @@ class PengantarSKCKController extends Controller
         
         return redirect()->route('skck.index')
         ->with('success', 'Data Berhasil Dihapus!');
+    }
+
+    public function cetak_pdf($id_persuratan)
+    {
+        $skck = DB::table('persuratan') 
+        ->join('warga', 'persuratan.id_warga','=','warga.id_warga')
+        ->join('detail_skck', 'persuratan.id_persuratan','=','detail_skck.id_persuratan')
+        ->select('warga.id_warga','warga.no_nik', 'warga.nama_lengkap', 'warga.tempat_lahir', 'warga.tanggal_lahir', 'warga.agama', 
+        'warga.pekerjaan','warga.alamat', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.updated_at',
+        'persuratan.ket_keperluan_surat','persuratan.tgl_masa_berlaku','persuratan.status_surat', 'detail_skck.nik_yg_bersangkutan', 'detail_skck.nik_pemohon')
+        ->where('persuratan.id_persuratan',$id_persuratan)
+        ->first();
+
+        
+        
+        $data_warga = DB::table('warga')
+        ->where('no_nik', $skck->nik_yg_bersangkutan)
+        ->get();
+        
+        
+        $pdf = PDF::loadview('admin.suket-pengantar-skck.print',compact('skck', 'data_warga'));
+        $pdf->setPaper('Legal','potrait');
+        return $pdf->download('suket-pengantar-skck.pdf');
+        
     }
 }
