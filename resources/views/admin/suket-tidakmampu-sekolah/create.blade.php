@@ -110,7 +110,7 @@
           @enderror
         </div>
         <div class="col-md-8">
-          <label for="inputName">Foto KTP yang bersangkutan</label>
+          <label for="inputName">Foto KTP Orang Tua</label>
           <input type="file"  name="foto_ktp"class="@error('foto_ktp') is-invalid @enderror">
           @error('foto_ktp')
           <div class="invalid-feedback">{{ $message }}</div>

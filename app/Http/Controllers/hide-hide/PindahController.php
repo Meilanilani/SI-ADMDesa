@@ -251,7 +251,7 @@ class PindahController extends Controller
 
          //Notifikasi Status-Surat Ke User
          $data = DB::table('persuratan')
-         ->where('id_persuratan', $id_persuratan)
+         ->where('id_persuratan', $id_persuratan->id_persuratan)
          ->first();
  
          $data_user = User::find($data->id);

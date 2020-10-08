@@ -123,7 +123,7 @@
                         $surat = route('sktmrs.index');
                         }
                         if($notification->data['variable']=='Surat Kelahiran') {
-                        $surat = route('lahir.index');
+                        $surat = route('kelahiran.index');
                         }
                         if($notification->data['variable']=='Surat Kematian') {
                         $surat = route('kematian.index');
