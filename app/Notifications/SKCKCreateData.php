@@ -52,7 +52,7 @@ class SKCKCreateData extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            'message'=>'Pengajuan Surat Pengantar SKCK'
+            'message'=>'Pengajuan Surat Pengantar SKCK','variable'=>'Surat Pengantar SKCK'
         ];
     }
 }

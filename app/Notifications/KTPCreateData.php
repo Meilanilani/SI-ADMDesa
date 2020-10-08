@@ -51,7 +51,7 @@ class KTPCreateData extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            'message'=>'Pengajuan Suket KTP Sementara'
+            'message'=>'Pengajuan Suket KTP Sementara', 'variable'=>'Surat KTP Sementara'
         ];
     }
 }

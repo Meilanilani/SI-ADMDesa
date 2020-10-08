@@ -6,6 +6,7 @@ use App\Notifications\UsahaNotifikasiSelesai;
 use App\Usaha;
 use App\Warga;
 use App\Persuratan;
+use PDF;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

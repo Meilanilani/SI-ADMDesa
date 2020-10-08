@@ -52,7 +52,7 @@ class NACreateData extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            'message'=>'Surat Pengajuan Pengantar Nikah'
+            'message'=>'Surat Pengajuan Pengantar Nikah', 'variable'=>'Surat Pengantar Nikah'
         ];
     }
 }

@@ -52,7 +52,7 @@ class DomisiliCreateData extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            'message'=>'Pengajuan Suket Domisili'
+            'message'=>'Pengajuan Suket Domisili', 'variable'=>'Surat Domisili'
         ];
     }
 }

@@ -73,6 +73,7 @@
                     <td>{{ $post->name }}</td>
                     <td>
                       <a class="btn btn-danger btn-sm" href="{{URL::to('data-pengguna/edit/'.$post->id)}}"><i class="nav-icon fas fa-edit"></i> Edit</a>
+                      <a class="btn btn-danger btn-sm" href="{{URL::to('data-pengguna/delete/'.$post->id)}}"><i class="nav-icon fas fa-edit"></i> Delete</a>
                     </td>
                   </tr>
                 </form>

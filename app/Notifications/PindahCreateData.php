@@ -52,7 +52,7 @@ class PindahCreateData extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            'message'=>'Pengajuan Suket Pindah'
+            'message'=>'Pengajuan Suket Pindah','variable'=>'Surat Keterangan Pindah'
         ];
     }
 }

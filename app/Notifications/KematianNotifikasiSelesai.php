@@ -8,7 +8,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
 
-class SKTMRSNotifikasiSelesai extends Notification implements ShouldQueue
+class KematianNotifikasiSelesai extends Notification implements ShouldQueue
 {
     use Queueable;
     private $id_persuratan;

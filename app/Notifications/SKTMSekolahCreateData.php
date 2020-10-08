@@ -55,7 +55,7 @@ class SKTMSekolahCreateData extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            'message'=>'Pengajuan SKTM Sekolah'
+            'message'=>'Pengajuan SKTM Sekolah','variable'=>'SKTM Sekolah'
         ];
     }
 }

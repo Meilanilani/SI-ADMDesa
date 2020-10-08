@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Notifications\PindahNotifikasiSelesai;
 use App\Pindah;
 use App\Warga;
+use PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;

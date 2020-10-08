@@ -84,18 +84,7 @@
               <input type="date" name="tanggal_lahir" id="tgl_lahir_yg_bersangkutan" class="form-control input-lg" value="{{ $data->tanggal_lahir}}" readonly/>
             </div>
         {{ csrf_field() }}
-        <div class="col-md-8">
-          <label for="inputName">Foto Pengantar RT/ RW</label>
-          <input type="file"  name="foto_pengantar">
-        </div>
-        <div class="col-md-8">
-          <label for="inputName">Foto Kartu Keluarga</label>
-          <input type="file"  name="foto_kk">
-        </div>
-        <div class="col-md-8">
-          <label for="inputName">Foto KTP yang bersangkutan</label>
-          <input type="file"  name="foto_ktp">
-        </div>
+       
         <div class="col-md-5">
           <label for="inputName">Status Surat</label>
           <select class="form-control custom-select"  name="status_surat" >

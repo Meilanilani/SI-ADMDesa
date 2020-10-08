@@ -42,25 +42,9 @@
                       </tr>
                       <tr>
                         <th>Persyaratan Berkas yang harus disiapkan :</th>
-                        <td>
-                            Surat Keterangan Tidak Mampu Sekolah <br>
-                            Surat Keterangan Tidak Mampu RS <br>
-                            Surat Keterangan Kelahiran <br>
-                            Surat Keterangan Kematian <br>
-                            Surat Keterangan Pengantar Nikah/ NA <br>
-                            Surat Keterangan SKCK <br>
-                            Surat Keterangan KTP Sementara <br>
-                            Surat Keterangan Usaha <br>
-                            Surat Keterangan Pindah <br>
-                            Surat Keterangan Domisili <br>
-                            Surat Keterangan Pengajuan KK Baru <br>
-
-                        </td>
-                      </tr>
-                      <tr>
-                        <th>Informasi Kontak Petugas :</th>
                         <td>Klik Disini untuk melihat</td>
                       </tr>
+                      
                       
                     </table>
                   </div>

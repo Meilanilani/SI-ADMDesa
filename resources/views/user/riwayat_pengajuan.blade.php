@@ -60,7 +60,6 @@
                 </tr>
                 <tr>
                     <th> No </th>
-                    <th> No Surat</th>
                     <th> Tanggal Pembuatan </th>
                     <th> Status Surat </th>
                 </tr>
@@ -74,7 +73,6 @@
               <th scope="row">{{$no}}
                 </th>
                 @php $no++ @endphp
-                <td>{{ $post->no_surat }}</td>
                 <td>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $post->created_at)->isoFormat('DD MMMM Y') }}</td>
                 <td>{{ $post->status_surat }}</td>
                 </td>
@@ -83,6 +81,306 @@
               @endforeach
                     </tbody>
               </table>
+              <br>
+              <div class="table-responsive">
+                <table id="pengajuan-sktmrs" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th colspan="4"><center>Pengajuan Surat Keterangan Tidak Mampu RS</center></th>
+                        </tr>
+                        <tr>
+                            <th> No </th>
+                            <th> Tanggal Pembuatan </th>
+                            <th> Status Surat </th>
+                        </tr>
+                    </thead>
+                    <tbody> 
+                      @php
+                    $no=1  
+                    @endphp
+                    @foreach($sktmrs as $post)
+                    <tr>
+                      <th scope="row">{{$no}}
+                        </th>
+                        @php $no++ @endphp
+                        <td>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $post->created_at)->isoFormat('DD MMMM Y') }}</td>
+                        <td>{{ $post->status_surat }}</td>
+                        </td>
+                      </tr>
+                    </form>
+                      @endforeach
+                            </tbody>
+                      </table>
+                      <br>
+              <div class="table-responsive">
+                <table id="pengajuan-lahir" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th colspan="4"><center>Pengajuan Surat Kelahiran</center></th>
+                        </tr>
+                        <tr>
+                            <th> No </th>
+                            <th> Tanggal Pembuatan </th>
+                            <th> Status Surat </th>
+                        </tr>
+                    </thead>
+                    <tbody> 
+                      @php
+                    $no=1  
+                    @endphp
+                    @foreach($lahir as $post)
+                    <tr>
+                      <th scope="row">{{$no}}
+                        </th>
+                        @php $no++ @endphp
+                        <td>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $post->created_at)->isoFormat('DD MMMM Y') }}</td>
+                        <td>{{ $post->status_surat }}</td>
+                        </td>
+                      </tr>
+                    </form>
+                      @endforeach
+                            </tbody>
+                      </table>
+                      <br>
+              <div class="table-responsive">
+                <table id="pengajuan-kematian" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th colspan="4"><center>Pengajuan Surat Kematian</center></th>
+                        </tr>
+                        <tr>
+                            <th> No </th>
+                            <th> Tanggal Pembuatan </th>
+                            <th> Status Surat </th>
+                        </tr>
+                    </thead>
+                    <tbody> 
+                      @php
+                    $no=1  
+                    @endphp
+                    @foreach($kematian as $post)
+                    <tr>
+                      <th scope="row">{{$no}}
+                        </th>
+                        @php $no++ @endphp
+                        <td>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $post->created_at)->isoFormat('DD MMMM Y') }}</td>
+                        <td>{{ $post->status_surat }}</td>
+                        </td>
+                      </tr>
+                    </form>
+                      @endforeach
+                            </tbody>
+                      </table>
+                      <br>
+              <div class="table-responsive">
+                <table id="pengajuan-pnikah" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th colspan="4"><center>Pengajuan Surat Pengantar Nikah</center></th>
+                        </tr>
+                        <tr>
+                            <th> No </th>
+                            <th> Tanggal Pembuatan </th>
+                            <th> Status Surat </th>
+                        </tr>
+                    </thead>
+                    <tbody> 
+                      @php
+                    $no=1  
+                    @endphp
+                    @foreach($pnikah as $post)
+                    <tr>
+                      <th scope="row">{{$no}}
+                        </th>
+                        @php $no++ @endphp
+                        <td>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $post->created_at)->isoFormat('DD MMMM Y') }}</td>
+                        <td>{{ $post->status_surat }}</td>
+                        </td>
+                      </tr>
+                    </form>
+                      @endforeach
+                            </tbody>
+                      </table>
+                      <br>
+              <div class="table-responsive">
+                <table id="pengajuan-skck" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th colspan="4"><center>Pengajuan Surat Pengantar SKCK</center></th>
+                        </tr>
+                        <tr>
+                            <th> No </th>
+                            <th> Tanggal Pembuatan </th>
+                            <th> Status Surat </th>
+                        </tr>
+                    </thead>
+                    <tbody> 
+                      @php
+                    $no=1  
+                    @endphp
+                    @foreach($skck as $post)
+                    <tr>
+                      <th scope="row">{{$no}}
+                        </th>
+                        @php $no++ @endphp
+                        <td>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $post->created_at)->isoFormat('DD MMMM Y') }}</td>
+                        <td>{{ $post->status_surat }}</td>
+                        </td>
+                      </tr>
+                    </form>
+                      @endforeach
+                            </tbody>
+                      </table>
+                      <br>
+              <div class="table-responsive">
+                <table id="pengajuan-ktp" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th colspan="4"><center>Pengajuan Surat KTP Sementara</center></th>
+                        </tr>
+                        <tr>
+                            <th> No </th>
+                            <th> Tanggal Pembuatan </th>
+                            <th> Status Surat </th>
+                        </tr>
+                    </thead>
+                    <tbody> 
+                      @php
+                    $no=1  
+                    @endphp
+                    @foreach($ktp as $post)
+                    <tr>
+                      <th scope="row">{{$no}}
+                        </th>
+                        @php $no++ @endphp
+                        <td>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $post->created_at)->isoFormat('DD MMMM Y') }}</td>
+                        <td>{{ $post->status_surat }}</td>
+                        </td>
+                      </tr>
+                    </form>
+                      @endforeach
+                            </tbody>
+                      </table>
+                      <br>
+              <div class="table-responsive">
+                <table id="pengajuan-usaha" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th colspan="4"><center>Pengajuan Surat Keterangan Usaha</center></th>
+                        </tr>
+                        <tr>
+                            <th> No </th>
+                            <th> Tanggal Pembuatan </th>
+                            <th> Status Surat </th>
+                        </tr>
+                    </thead>
+                    <tbody> 
+                      @php
+                    $no=1  
+                    @endphp
+                    @foreach($usaha as $post)
+                    <tr>
+                      <th scope="row">{{$no}}
+                        </th>
+                        @php $no++ @endphp
+                        <td>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $post->created_at)->isoFormat('DD MMMM Y') }}</td>
+                        <td>{{ $post->status_surat }}</td>
+                        </td>
+                      </tr>
+                    </form>
+                      @endforeach
+                            </tbody>
+                      </table>
+                      <br>
+              <div class="table-responsive">
+                <table id="pengajuan-pindah" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th colspan="4"><center>Pengajuan Surat Keterangan Pindah</center></th>
+                        </tr>
+                        <tr>
+                            <th> No </th>
+                            <th> Tanggal Pembuatan </th>
+                            <th> Status Surat </th>
+                        </tr>
+                    </thead>
+                    <tbody> 
+                      @php
+                    $no=1  
+                    @endphp
+                    @foreach($pindah as $post)
+                    <tr>
+                      <th scope="row">{{$no}}
+                        </th>
+                        @php $no++ @endphp
+                        <td>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $post->created_at)->isoFormat('DD MMMM Y') }}</td>
+                        <td>{{ $post->status_surat }}</td>
+                        </td>
+                      </tr>
+                    </form>
+                      @endforeach
+                            </tbody>
+                      </table>
+                      <br>
+              <div class="table-responsive">
+                <table id="pengajuan-domisili" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th colspan="4"><center>Pengajuan Surat Domisili</center></th>
+                        </tr>
+                        <tr>
+                            <th> No </th>
+                            <th> Tanggal Pembuatan </th>
+                            <th> Status Surat </th>
+                        </tr>
+                    </thead>
+                    <tbody> 
+                      @php
+                    $no=1  
+                    @endphp
+                    @foreach($domisili as $post)
+                    <tr>
+                      <th scope="row">{{$no}}
+                        </th>
+                        @php $no++ @endphp
+                        <td>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $post->created_at)->isoFormat('DD MMMM Y') }}</td>
+                        <td>{{ $post->status_surat }}</td>
+                        </td>
+                      </tr>
+                    </form>
+                      @endforeach
+                            </tbody>
+                      </table>
+                      <br>
+              <div class="table-responsive">
+                <table id="pengajuan-kk" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th colspan="4"><center>Pengajuan Surat Pengantar KK</center></th>
+                        </tr>
+                        <tr>
+                            <th> No </th>
+                            <th> Tanggal Pembuatan </th>
+                            <th> Status Surat </th>
+                        </tr>
+                    </thead>
+                    <tbody> 
+                      @php
+                    $no=1  
+                    @endphp
+                    @foreach($kk as $post)
+                    <tr>
+                      <th scope="row">{{$no}}
+                        </th>
+                        @php $no++ @endphp
+                        <td>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $post->created_at)->isoFormat('DD MMMM Y') }}</td>
+                        <td>{{ $post->status_surat }}</td>
+                        </td>
+                      </tr>
+                    </form>
+                      @endforeach
+                            </tbody>
+                      </table>
             </div>
             <!-- /.card-body -->
           </div>

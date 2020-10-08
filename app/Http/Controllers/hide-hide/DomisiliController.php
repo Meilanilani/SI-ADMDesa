@@ -7,6 +7,7 @@ use App\Notifications\DomisiliNotifikasiSelesai;
 use App\Warga;
 use App\Persuratan;
 use App\User;
+use PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -78,7 +79,10 @@ class DomisiliController extends Controller
                 'agama' =>  $domisili['agama'],
                 'pekerjaan' =>  $domisili['pekerjaan'],
                 'alamat' =>  $domisili['alamat'],);
-            return json_encode($data);}
+            }else{
+                $data = null;
+            }
+            return json_encode($data);
         }
 
     /**
@@ -97,7 +101,10 @@ class DomisiliController extends Controller
 
         $this->validate($request,[
             'nik_pemohon' => ['required', 'string', 'min:16', 'max:16'],
-            'nik_yg_bersangkutan' => ['required', 'string', 'min:16', 'max:16']
+            'nik_yg_bersangkutan' => ['required', 'string', 'min:16', 'max:16'],
+            'foto_pengantar' => ['required'],
+            'foto_kk' => ['required'],
+            'foto_ktp' => ['required'],
         ], $message);
 
         $data['no_surat'] = $request->no_surat;
@@ -115,7 +122,7 @@ class DomisiliController extends Controller
             $image_name = $image1->getClientOriginalName();
             $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
             
-            $upload_path = 'public/media/';
+            $upload_path = 'public/media/foto_pengantar';
             $image_url = $upload_path.$image_full_name;
             $succes = $image1->move($upload_path, $image_full_name);
             $data['foto_pengantar'] = $image_url;
@@ -124,7 +131,7 @@ class DomisiliController extends Controller
             $image_name = $image2->getClientOriginalName();
             $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
             
-            $upload_path = 'public/media/';
+            $upload_path = 'public/media/foto_kk';
             $image_url = $upload_path.$image_full_name;
             $succes = $image2->move($upload_path, $image_full_name);
             $data['foto_kk'] = $image_url;
@@ -133,7 +140,7 @@ class DomisiliController extends Controller
             $image_name = $image3->getClientOriginalName();
             $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
             
-            $upload_path = 'public/media/';
+            $upload_path = 'public/media/foto_ktp';
             $image_url = $upload_path.$image_full_name;
             $succes = $image3->move($upload_path, $image_full_name);
             $data['foto_ktp'] = $image_url;

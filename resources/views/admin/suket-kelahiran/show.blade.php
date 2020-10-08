@@ -63,12 +63,11 @@
                                             RT/RW <br></a>
                                         <a href="{{URL::to($lahir->foto_kk)}}" target="_blank">Foto Kartu Keluarga
                                             <br></a>
-                                        <a href="{{URL::to($lahir->foto_ktp)}}" target="_blank">Foto Kartu Keluarga
+                                        <a href="{{URL::to($lahir->foto_ktp)}}" target="_blank">Foto KTP Suami Istri
                                             <br></a>
                                         <a href="{{URL::to($lahir->foto_suratnikah)}}" target="_blank">Foto Surat Nikah
                                             <br> </a>
-                                        <a href="{{URL::to($lahir->foto_suratkelahiran)}}" target="_blank"> Foto Surat
-                                            Nikah <br> </a>
+                                        <a href="{{URL::to($lahir->foto_suratkelahiran)}}" target="_blank"> Foto Surat Kelahiran dari Bidan/ RS <br> </a>
                                     </td>
                                 </tr>
 

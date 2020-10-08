@@ -9,7 +9,9 @@ use App\Kelahiran;
 use App\Kematian;
 use App\Notifications\DataProses;
 use App\Notifications\DomisiliCreateData;
+use App\Notifications\KelahiranCreateData;
 use App\Notifications\KematianCreateData;
+use App\Notifications\KKCreateData;
 use App\Notifications\KTPCreateData;
 use App\Notifications\NACreateData;
 use App\Notifications\PindahCreateData;
@@ -63,10 +65,82 @@ class UserController extends Controller
         $sktmsekolah = DB::table('persuratan') 
         ->join('warga','persuratan.id_warga','=','warga.id_warga')
         ->select('warga.no_nik', 'warga.nama_lengkap', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.created_at','persuratan.status_surat' )
+        ->where('persuratan.id' ,'=', Auth::id())
         ->where('no_surat', 'LIKE', '%Suket-TMS%')
         ->get();
 
-        return view('user.riwayat_pengajuan',compact('sktmsekolah'));
+        $sktmrs = DB::table('persuratan') 
+        ->join('warga','persuratan.id_warga','=','warga.id_warga')
+        ->select('warga.no_nik', 'warga.nama_lengkap', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.created_at','persuratan.status_surat' )
+        ->where('persuratan.id' ,'=', Auth::id())
+        ->where('no_surat', 'LIKE', '%Suket-TMRS%')
+        ->get();
+
+        $lahir = DB::table('persuratan') 
+        ->join('warga','persuratan.id_warga','=','warga.id_warga')
+        ->select('warga.no_nik', 'warga.nama_lengkap', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.created_at','persuratan.status_surat' )
+        ->where('persuratan.id' ,'=', Auth::id())
+        ->where('no_surat', 'LIKE', '%Suket-Lahir%')
+        ->get();
+
+        $kematian = DB::table('persuratan') 
+        ->join('warga','persuratan.id_warga','=','warga.id_warga')
+        ->select('warga.no_nik', 'warga.nama_lengkap', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.created_at','persuratan.status_surat' )
+        ->where('persuratan.id' ,'=', Auth::id())
+        ->where('no_surat', 'LIKE', '%Suket-KMT%')
+        ->get();
+
+        $pnikah = DB::table('persuratan') 
+        ->join('warga','persuratan.id_warga','=','warga.id_warga')
+        ->select('warga.no_nik', 'warga.nama_lengkap', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.created_at','persuratan.status_surat' )
+        ->where('persuratan.id' ,'=', Auth::id())
+        ->where('no_surat', 'LIKE', '%Suket-NA%')
+        ->get();
+
+        $skck = DB::table('persuratan') 
+        ->join('warga','persuratan.id_warga','=','warga.id_warga')
+        ->select('warga.no_nik', 'warga.nama_lengkap', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.created_at','persuratan.status_surat' )
+        ->where('persuratan.id' ,'=', Auth::id())
+        ->where('no_surat', 'LIKE', '%Suket-SKCK%')
+        ->get();
+
+        $ktp = DB::table('persuratan') 
+        ->join('warga','persuratan.id_warga','=','warga.id_warga')
+        ->select('warga.no_nik', 'warga.nama_lengkap', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.created_at','persuratan.status_surat' )
+        ->where('persuratan.id' ,'=', Auth::id())
+        ->where('no_surat', 'LIKE', '%Suket-KTP%')
+        ->get();
+
+        $usaha = DB::table('persuratan') 
+        ->join('warga','persuratan.id_warga','=','warga.id_warga')
+        ->select('warga.no_nik', 'warga.nama_lengkap', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.created_at','persuratan.status_surat' )
+        ->where('persuratan.id' ,'=', Auth::id())
+        ->where('no_surat', 'LIKE', '%Suket-USAHA%')
+        ->get();
+
+        $pindah = DB::table('persuratan') 
+        ->join('warga','persuratan.id_warga','=','warga.id_warga')
+        ->select('warga.no_nik', 'warga.nama_lengkap', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.created_at','persuratan.status_surat' )
+        ->where('persuratan.id' ,'=', Auth::id())
+        ->where('no_surat', 'LIKE', '%Suket-PH%')
+        ->get();
+
+        $domisili = DB::table('persuratan') 
+        ->join('warga','persuratan.id_warga','=','warga.id_warga')
+        ->select('warga.no_nik', 'warga.nama_lengkap', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.created_at','persuratan.status_surat' )
+        ->where('persuratan.id' ,'=', Auth::id())
+        ->where('no_surat', 'LIKE', '%Suket-DL%')
+        ->get();
+
+        $kk = DB::table('persuratan') 
+        ->join('warga','persuratan.id_warga','=','warga.id_warga')
+        ->select('warga.no_nik', 'warga.nama_lengkap', 'persuratan.id_persuratan','persuratan.no_surat', 'persuratan.created_at','persuratan.status_surat' )
+        ->where('persuratan.id' ,'=', Auth::id())
+        ->where('no_surat', 'LIKE', '%Suket-KK%')
+        ->get();
+
+
+        return view('user.riwayat_pengajuan',compact('sktmsekolah', 'sktmrs', 'lahir', 'kematian', 'pnikah', 'skck', 'ktp', 'usaha', 'pindah', 'domisili', 'kk'));
     }
 
     public function create_sktmsekolah()
@@ -183,7 +257,7 @@ class UserController extends Controller
          $data_user->notify(new SKTMSekolahCreateData());
 
         return redirect()->route('pengajuan.riwayat_pengajuan')
-                             ->with('success', 'Pengajuan Surat Kelahiran berhasil di proses!');
+                             ->with('success', 'Pengajuan SKTM Sekolah berhasil di proses!');
     }
 
 
@@ -298,8 +372,8 @@ class UserController extends Controller
  
         $data_admin->notify(new SKTMRSCreateData());
 
-         return redirect()->route('pengajuan.riwayat_pengajuan')
-                             ->with('success', 'Data Berhasil ditambahkan!');
+        return redirect()->route('pengajuan.riwayat_pengajuan')
+                             ->with('success', 'Pengajuan SKTM RS berhasil di proses!');
     }
 
     public function create_kelahiran()
@@ -311,8 +385,6 @@ class UserController extends Controller
         $status_surat = 'Proses';
         return view('user.suket-pengajuan.create_kelahiran',['surat'=>$surat],['status_surat'=>$status_surat]);
     }
-
-    
 
     public function autonumber_kelahiran(){
         $bln = array(1 => "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII");
@@ -335,7 +407,7 @@ class UserController extends Controller
             $no_nik = $request->no_nik;
            
             $lahir = Warga::where('no_nik','=',$no_nik)->first();
-            if(isset($sktmsekolah)){
+            if(isset($lahir)){
                 $data = array(
                 'id_warga' => $lahir['id_warga'],
                 'nama_lengkap' =>  $lahir['nama_lengkap'],
@@ -348,100 +420,108 @@ class UserController extends Controller
                 return json_encode($data);
         }
 
-        public function store_kelahiran(Request $request)
-        {
+
+        
+    public function store_kelahiran(Request $request)
+    {
+        
+        $message =[
+            'required' => 'Isi tidak boleh kosong',
+            'min' => 'Isi minimal harus 16 Karakter',
+            'max' => 'Isi maximal harus 16 Karakter',
+            'numeric' => 'Isi harus angka'
+        ];
+
+        $this->validate($request,[
+            'nama_anak' => ['required'],
+            'tempat_lahir_anak' => ['required'],
+            'jam_lahir' => ['required'],
+            'anak_ke' => ['required', 'numeric'],
+            'nik_pemohon' => ['required','min:16', 'max:16'],
+            'nik_ibu' => ['required','min:16', 'max:16'],
+            'jenis_kelamin' => ['required'],
+            'tanggal_lahir_anak' => ['required'],
+            'foto_pengantar' => ['required'],
+            'foto_kk' => ['required'],
+            'foto_ktp' => ['required'],
+            'foto_suratnikah' => ['required'],
+            'foto_suratkelahiran' => ['required'],
             
-            $message =[
-                'required' => 'Isi tidak boleh kosong',
-                'min' => 'Isi minimal harus 16 Karakter',
-                'max' => 'Isi maximal harus 16 Karakter',
-                'numeric' => 'Isi harus angka'
-            ];
-    
-            $this->validate($request,[
-                'nama_anak' => ['required'],
-                'tempat_lahir_anak' => ['required'],
-                'jam_lahir' => ['required'],
-                'anak_ke' => ['required', 'numeric'],
-                'nik_pemohon' => ['required','min:16', 'max:16'],
-                'nik_ibu' => ['required','min:16', 'max:16'],
-                'jenis_kelamin' => ['required'],
-                'tanggal_lahir' => ['required'],
-                'foto_pengantar' => ['required'],
-                'foto_kk' => ['required'],
-                'foto_ktp' => ['required'],
-                'foto_suratnikah' => ['required'],
-                'foto_suratkelahiran' => ['required'],
-                
-            ], $message);  
-    
-            $data['no_surat'] = $request->no_surat;
-            $data['status_surat'] = $request->status_surat;
-            $data['id']= Auth::id();
-            $data['id_warga'] = $request->id_warga;
-            $data_detail['nama_anak'] = $request->nama_anak;
-            $data_detail['tempat_lahir_anak'] = $request->tempat_lahir_anak;
-            $data_detail['tanggal_lahir_anak'] = $request->tanggal_lahir_anak;
-            $data_detail['jenis_kelamin'] = $request->jenis_kelamin;
-            $data_detail['jam_lahir'] = $request->jam_lahir;
-            $data_detail['anak_ke'] = $request->anak_ke;
-            $data_detail['nik_pemohon'] = $request->nik_pemohon;
-            $data_detail['nik_ibu'] = $request->nik_ibu;
-            $image1 = $request->file('foto_pengantar');
-            $image2 = $request->file('foto_kk');
-            $image3 = $request->file('foto_ktp');
-            $image4 = $request->file('foto_suratnikah');
-            $image5 = $request->file('foto_suratkelahiran');
-            if($image1 != null){
-                $image_name = $image1->getClientOriginalName();
-                $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
-                
-                $upload_path = 'public/media/';
-                $image_url = $upload_path.$image_full_name;
-                $succes = $image1->move($upload_path, $image_full_name);
-                $data['foto_pengantar'] = $image_url;
-            } 
-            if($image2 != null){
-                $image_name = $image2->getClientOriginalName();
-                $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
-                
-                $upload_path = 'public/media/';
-                $image_url = $upload_path.$image_full_name;
-                $succes = $image2->move($upload_path, $image_full_name);
-                $data['foto_kk'] = $image_url;
-            } 
-            if($image3 != null){
-                $image_name = $image3->getClientOriginalName();
-                $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
-                
-                $upload_path = 'public/media/';
-                $image_url = $upload_path.$image_full_name;
-                $succes = $image3->move($upload_path, $image_full_name);
-                $data['foto_ktp'] = $image_url;
-            } 
-            if($image4 != null){
-                $image_name = $image4->getClientOriginalName();
-                $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
-                
-                $upload_path = 'public/media/';
-                $image_url = $upload_path.$image_full_name;
-                $succes = $image4->move($upload_path, $image_full_name);
-                $data['foto_suratnikah'] = $image_url;
-            } 
-            if($image5 != null){
-                $image_name = $image5->getClientOriginalName();
-                $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
-                
-                $upload_path = 'public/media/';
-                $image_url = $upload_path.$image_full_name;
-                $succes = $image5->move($upload_path, $image_full_name);
-                $data['foto_suratkelahiran'] = $image_url;
-            } 
-                $lahir = DB::table('persuratan')->insertGetId($data);
-                $data_detail['id_persuratan'] = $lahir;
-                $lahir = DB::table('detail_kelahiran')->insertGetId($data_detail);
-    
-         return redirect()->route('pengajuan.riwayat_pengajuan')
+        ], $message);  
+
+        $data['no_surat'] = $request->no_surat;
+        $data['status_surat'] = $request->status_surat;
+        $data['id']= Auth::id();
+        $data['id_warga'] = $request->id_warga;
+        $data_detail['nama_anak'] = $request->nama_anak;
+        $data_detail['tempat_lahir_anak'] = $request->tempat_lahir_anak;
+        $data_detail['tanggal_lahir_anak'] = $request->tanggal_lahir_anak;
+        $data_detail['jenis_kelamin'] = $request->jenis_kelamin;
+        $data_detail['jam_lahir'] = $request->jam_lahir;
+        $data_detail['anak_ke'] = $request->anak_ke;
+        $data_detail['nik_pemohon'] = $request->nik_pemohon;
+        $data_detail['nik_ibu'] = $request->nik_ibu;
+        $image1 = $request->file('foto_pengantar');
+        $image2 = $request->file('foto_kk');
+        $image3 = $request->file('foto_ktp');
+        $image4 = $request->file('foto_suratnikah');
+        $image5 = $request->file('foto_suratkelahiran');
+        if($image1 != null){
+            $image_name = $image1->getClientOriginalName();
+            $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
+            
+            $upload_path = 'public/media/';
+            $image_url = $upload_path.$image_full_name;
+            $succes = $image1->move($upload_path, $image_full_name);
+            $data['foto_pengantar'] = $image_url;
+        } 
+        if($image2 != null){
+            $image_name = $image2->getClientOriginalName();
+            $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
+            
+            $upload_path = 'public/media/';
+            $image_url = $upload_path.$image_full_name;
+            $succes = $image2->move($upload_path, $image_full_name);
+            $data['foto_kk'] = $image_url;
+        } 
+        if($image3 != null){
+            $image_name = $image3->getClientOriginalName();
+            $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
+            
+            $upload_path = 'public/media/';
+            $image_url = $upload_path.$image_full_name;
+            $succes = $image3->move($upload_path, $image_full_name);
+            $data['foto_ktp'] = $image_url;
+        } 
+        if($image4 != null){
+            $image_name = $image4->getClientOriginalName();
+            $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
+            
+            $upload_path = 'public/media/';
+            $image_url = $upload_path.$image_full_name;
+            $succes = $image4->move($upload_path, $image_full_name);
+            $data['foto_suratnikah'] = $image_url;
+        } 
+        if($image5 != null){
+            $image_name = $image5->getClientOriginalName();
+            $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
+            
+            $upload_path = 'public/media/';
+            $image_url = $upload_path.$image_full_name;
+            $succes = $image5->move($upload_path, $image_full_name);
+            $data['foto_suratkelahiran'] = $image_url;
+        } 
+            $lahir = DB::table('persuratan')->insertGetId($data);
+            $data_detail['id_persuratan'] = $lahir;
+            $lahir = DB::table('detail_kelahiran')->insertGetId($data_detail);
+
+             //Notifikasi Create Data ke Admin
+         $data_user = User::where('name','admin')
+         ->first();
+ 
+         $data_user->notify(new KelahiranCreateData());
+
+            return redirect()->route('pengajuan.riwayat_pengajuan')
                              ->with('success', 'Pengajuan Surat Kelahiran berhasil di kirim!');
         }
 
@@ -485,11 +565,6 @@ class UserController extends Controller
             return json_encode($data);
         }
     
-        /**
-         * Show the form for creating a new resource.
-         *
-         * @return \Illuminate\Http\Response
-         */
         public function create_kematian()
         {
             $kematian = Kematian::all();
@@ -499,12 +574,6 @@ class UserController extends Controller
             return view('user.suket-pengajuan.create_kematian', ['surat' => $surat], ['status_surat' => $status_surat]);
         }
     
-        /**
-         * Store a newly created resource in storage.
-         *
-         * @param  \Illuminate\Http\Request  $request
-         * @return \Illuminate\Http\Response
-         */
         public function store_kematian(Request $request)
         {
             $message = [
@@ -1333,6 +1402,131 @@ class UserController extends Controller
 
             return redirect()->route('pengajuan.riwayat_pengajuan')
             ->with('success', 'Pengajuan Surat Keterangan Domisili berhasil di kirim!');
+    }
+
+    public function autonumber_kk(){
+        $bln = array(1 => "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII");
+        $query = DB::table('persuratan')
+        ->select(DB::raw('MAX(LEFT(no_surat,3)) as no_max'))
+        ->where('no_surat', 'LIKE', '%Suket-KK%')->get();
+        if ($query->count()>0) {
+            foreach ($query as $key ) {
+            $tmp = ((int)$key->no_max)+1;
+            $kd = sprintf("%03s", $tmp);
+            }
+           }else {
+            $kd = "001";
+           }
+           $kd_surat = $kd."/Suket-KK/".$bln[date('n')].date('/yy');
+           return $kd_surat;
+          }
+
+          public function ajax_select_kk(Request $request){
+            $no_nik = $request->no_nik;
+           
+            $kk = Warga::where('no_nik','=',$no_nik)->first();
+            if(isset($kk)){
+                $data = array(
+                'id_warga' => $kk['id_warga'],
+                'nama_lengkap' =>  $kk['nama_lengkap'],
+                'tempat_lahir' =>  $kk['tempat_lahir'],
+                'tanggal_lahir' =>  $kk['tanggal_lahir'],
+                'status_perkawinan' => $kk['status_perkawinan'],
+                'agama' =>  $kk['agama'],
+                'pekerjaan' =>  $kk['pekerjaan'],
+                'alamat' =>  $kk['alamat'],);
+            }
+            else{
+                $data = null;
+            }
+            return json_encode($data);
+        }
+
+
+    public function create_kk()
+    {
+        $kk = Persuratan::all();
+        $kk = Warga::all();
+        
+        $surat = $this->autonumber_kk();
+        $status_surat = 'Proses';
+        return view('user.suket-pengajuan.create_kk', ['surat'=>$surat, 'status_surat'=>$status_surat]);
+    }
+
+    public function store_kk(Request $request)
+    {
+        $message =[
+            'required' => 'Isi tidak boleh kosong',
+            'min' => 'Isi minimal harus 16 Karakter',
+            'max' => 'Isi maximal harus 16 Karakter'
+        ];
+
+        $this->validate($request,[
+            'nik_pemohon' => ['required', 'string', 'min:16', 'max:16'],
+        ], $message);
+
+        $data['no_surat'] = $request->no_surat;
+        $data['tgl_masa_berlaku'] = $request->tgl_masa_berlaku;
+        $data['status_surat'] = $request->status_surat;
+        $data['id_warga'] = $request->id_warga;
+        $data['id']= Auth::id();
+        $data_detail['nik_pemohon'] = $request->nik_pemohon;
+
+        $image1 = $request->file('foto_pengantar');
+        $image2 = $request->file('foto_kk');
+        $image3 = $request->file('foto_suratnikah');
+        $image4 = $request->file('foto_ktp');
+        
+        if($image1 != null){
+            $image_name = $image1->getClientOriginalName();
+            $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
+            
+            $upload_path = 'public/media/';
+            $image_url = $upload_path.$image_full_name;
+            $succes = $image1->move($upload_path, $image_full_name);
+            $data['foto_pengantar'] = $image_url;
+        } 
+        if($image2 != null){
+            $image_name = $image2->getClientOriginalName();
+            $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
+            
+            $upload_path = 'public/media/';
+            $image_url = $upload_path.$image_full_name;
+            $succes = $image2->move($upload_path, $image_full_name);
+            $data['foto_kk'] = $image_url;
+        } 
+        if($image3 != null){
+            $image_name = $image3->getClientOriginalName();
+            $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
+            
+            $upload_path = 'public/media/';
+            $image_url = $upload_path.$image_full_name;
+            $succes = $image3->move($upload_path, $image_full_name);
+            $data['foto_suratnikah'] = $image_url;
+        } 
+        if($image4 != null){
+            $image_name = $image4->getClientOriginalName();
+            $image_full_name = date('d-M-Yh-i-s').rand(10,100)."".$image_name;
+            
+            $upload_path = 'public/media/';
+            $image_url = $upload_path.$image_full_name;
+            $succes = $image4->move($upload_path, $image_full_name);
+            $data['foto_ktp'] = $image_url;
+        } 
+        
+            $kk = DB::table('persuratan')->insertGetId($data);
+            $data_detail['id_persuratan'] = $kk;
+            $kk = DB::table('detail_kk')->insertGetId($data_detail);
+            //Notifikasi Create Data ke Admin
+         $data_user = User::where('name','admin')
+         ->first();
+ 
+         $data_user->notify(new KKCreateData());
+         
+
+            return redirect()->route('pengajuan.riwayat_pengajuan')
+            ->with('success', 'Pengajuan Surat Pengantar KK berhasil di kirim!');
+    
     }
 
 }

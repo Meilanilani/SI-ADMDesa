@@ -52,7 +52,7 @@ class KematianCreateData extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            'message'=>'Pengajuan Suket Kematian'
+            'message'=>'Pengajuan Suket Kematian', 'variable'=>'Surat Kematian'
         ];
     }
 }

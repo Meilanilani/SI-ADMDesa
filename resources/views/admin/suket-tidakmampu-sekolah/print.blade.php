@@ -107,28 +107,28 @@ hr.style2{
     <table align="center">
         @foreach ($data_anak as $data)
         <tr>
-            <td><font size="2">Nama</font></td>
-            <td width="350px"><font size="2"> : {{ $data->nama_lengkap }}</font></td>
+            <td align="left"><font size="2">Nama</font></td>
+            <td width="150px"><font size="2"> : {{ $data->nama_lengkap }}</font></td>
         </tr>
         <tr>
             <td><font size="2">Tempat/ Tanggal Lahir </font></td>
-            <td width="350px"><font size="2"> : {{ $data->tempat_lahir }} , {{ Carbon\Carbon::createFromFormat('Y-m-d', $data->tanggal_lahir)->isoFormat('D-MM-Y') }}</font></td>
+            <td width="150px"><font size="2"> : {{ $data->tempat_lahir }} , {{ Carbon\Carbon::createFromFormat('Y-m-d', $data->tanggal_lahir)->isoFormat('D-MM-Y') }}</font></td>
         </tr>
         <tr>
             <td><font size="2">Agama</font></td>
-            <td width="350px"><font size="2"> : {{ $data->agama }} </font></td>
+            <td width="150px"><font size="2"> : {{ $data->agama }} </font></td>
         </tr>
         <tr>
             <td><font size="2">Pekerjaan</td>
-            <td width="350px"><font size="2"> : {{ $data->pekerjaan }} </font></td>
+            <td width="150px"><font size="2"> : {{ $data->pekerjaan }} </font></td>
         </tr>
         <tr>
             <td><font size="2">Kewarganegaraan</font></td>
-            <td width="350px"><font size="2"> : Indonesia</font></td>
+            <td width="150px"><font size="2"> : Indonesia</font></td>
         </tr>
         <tr>
             <td><font size="2">Alamat</font></td>
-            <td width="350px"><font size="2"> : {{ $data->alamat }}</font> </td>
+            <td width="150px"><font size="2"> : {{ $data->alamat }}</font> </td>
         </tr>
         @endforeach
    

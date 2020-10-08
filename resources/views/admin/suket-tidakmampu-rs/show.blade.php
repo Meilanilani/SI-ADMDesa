@@ -25,34 +25,34 @@
                                   <tr>
                                     <th scope="row"> No Surat</th>
                                     <td>:</td>
-                                    <td>{{ $sktmsekolah->no_surat }}</td>
+                                    <td>{{ $sktmrs->no_surat }}</td>
                                   </tr>
                                   <tr>
                                     <th scope="row">NIK Pemohon</th>
                                     <td>:</td>
-                                    <td>{{ $sktmsekolah->no_nik }}</td>
+                                    <td>{{ $sktmrs->no_nik }}</td>
                                   </tr>
                                   <tr>
                                     <th scope="row">Nama Pemohon</th>
                                     <td>:</td>
-                                    <td>{{ $sktmsekolah->nama_lengkap }}</td>
+                                    <td>{{ $sktmrs->nama_lengkap }}</td>
                                   </tr>
                                   <tr>
                                     <th scope="row">Tempat Tanggal Lahir</th>
                                     <td>:</td>
-                                    <td>{{ $sktmsekolah->tempat_lahir }},
-                                        {{ Carbon\Carbon::createFromFormat('Y-m-d', $sktmsekolah->tanggal_lahir)->isoFormat('D-MM-Y')}}
+                                    <td>{{ $sktmrs->tempat_lahir }},
+                                        {{ Carbon\Carbon::createFromFormat('Y-m-d', $sktmrs->tanggal_lahir)->isoFormat('D-MM-Y')}}
                                     </td>
                                   </tr>
                                   <tr>
                                     <th scope="row">Agama</th>
                                     <td>:</td>
-                                    <td>{{ $sktmsekolah->agama }}</td>
+                                    <td>{{ $sktmrs->agama }}</td>
                                   </tr>
                                   <tr>
                                     <th scope="row">Pekerjaan</th>
                                     <td>:</td>
-                                    <td>{{ $sktmsekolah->pekerjaan }}</td>
+                                    <td>{{ $sktmrs->pekerjaan }}</td>
                                   </tr>
                                   <tr>
                                     <th scope="row">Kewarganegaraan</th>
@@ -62,14 +62,14 @@
                                   <tr>
                                     <th scope="row">Alamat</th>
                                     <td>:</td>
-                                    <td>{{ $sktmsekolah->alamat }}</td>
+                                    <td>{{ $sktmrs->alamat }}</td>
                                   </tr>
                                   <tr>
                                     <th scope="row"> Foto Berkas </th>
                                     <td>:</td>
-                                    <td><a href="{{URL::to($sktmsekolah->foto_pengantar)}}" target="_blank">Foto Pengantar RT/RW |</a>  
-                                    <a href="{{URL::to($sktmsekolah->foto_kk)}}" target="_blank">Foto Kartu Keluarga | </a>  
-                                    <a href="{{URL::to($sktmsekolah->foto_ktp)}}" target="_blank">Foto Kartu Keluarga | </a>  </td>
+                                    <td><a href="{{URL::to($sktmrs->foto_pengantar)}}" target="_blank">Foto Pengantar RT/RW |</a>  
+                                    <a href="{{URL::to($sktmrs->foto_kk)}}" target="_blank">Foto Kartu Keluarga | </a>  
+                                    <a href="{{URL::to($sktmrs->foto_ktp)}}" target="_blank">Foto KTP yang diajukan </a>  </td>
                                         
                                 </tbody>
                                 
@@ -86,33 +86,33 @@
                         <thead>
                         </thead>
                         <tbody>
-                          @foreach ($data_anak as $data)
+                          @foreach ($data as $post)
                           <tr>
-                            <th scope="row">NIK Anak yang diajukan</th>
+                            <th scope="row">NIK Anggota yang diajukan</th>
                             <td>:</td>
-                            <td>{{ $data->no_nik }}</td>
+                            <td>{{ $post->no_nik }}</td>
                           </tr>
                           <tr>
                             <th scope="row">Nama Lengkap</th>
                             <td>:</td>
-                            <td>{{ $data->nama_lengkap }}</td>
+                            <td>{{ $post->nama_lengkap }}</td>
                           </tr>
                           <tr>
                             <th scope="row">Tempat Tanggal Lahir</th>
                             <td>:</td>
-                            <td>{{ $data->tempat_lahir }},
-                                {{ Carbon\Carbon::createFromFormat('Y-m-d', $data->tanggal_lahir)->isoFormat('D-MM-Y')}}
+                            <td>{{ $post->tempat_lahir }},
+                                {{ Carbon\Carbon::createFromFormat('Y-m-d', $post->tanggal_lahir)->isoFormat('D-MM-Y')}}
                             </td>
                           </tr>
                           <tr>
                             <th scope="row">Agama</th>
                             <td>:</td>
-                            <td>{{ $data->agama }}</td>
+                            <td>{{ $post->agama }}</td>
                           </tr>
                           <tr>
                             <th scope="row">Pekerjaan</th>
                             <td>:</td>
-                            <td>{{ $data->pekerjaan }}</td>
+                            <td>{{ $post->pekerjaan }}</td>
                           </tr>
                           <tr>
                             <th scope="row">Kewarganegaraan</th>
@@ -122,7 +122,7 @@
                           <tr>
                             <th scope="row">Alamat</th>
                             <td>:</td>
-                            <td>{{ $data->alamat }}</td>
+                            <td>{{ $post->alamat }}</td>
                           </tr>
                         </tbody>
                         @endforeach

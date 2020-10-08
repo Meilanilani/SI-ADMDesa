@@ -80,15 +80,24 @@
         </div>
         <div class="col-md-8">
           <label for="inputName">Foto Pengantar RT/ RW</label>
-          <input type="file"  name="foto_pengantar">
+          <input type="file"  name="foto_pengantar"  class="@error('foto_pengantar') is-invalid @enderror">
+          @error('foto_pengantar')
+          <div class="invalid-feedback">{{ $message }}</div>
+          @enderror
         </div>
         <div class="col-md-8">
           <label for="inputName">Foto Kartu Keluarga</label>
-          <input type="file"  name="foto_kk">
+          <input type="file"  name="foto_kk" class="@error('foto_kk') is-invalid @enderror">
+          @error('foto_kk')
+          <div class="invalid-feedback">{{ $message }}</div>
+          @enderror
         </div>
         <div class="col-md-8">
           <label for="inputName">Foto KTP yang bersangkutan</label>
-          <input type="file"  name="foto_ktp">
+          <input type="file"  name="foto_ktp" class="@error('foto_ktp') is-invalid @enderror">
+          @error('foto_ktp')
+          <div class="invalid-feedback">{{ $message }}</div>
+          @enderror
         </div>
        
     <input type="hidden"  name="status_surat" class="form-control" value="{{$status_surat}}">

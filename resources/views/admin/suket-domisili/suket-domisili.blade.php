@@ -82,7 +82,7 @@
                   <a class="btn btn-danger btn-sm" href="{{URL::to('suket-domisili/edit/'.$post->id_persuratan)}}"><i class="nav-icon fas fa-edit"></i> Edit</a>
                   <a class="btn btn-primary btn-sm" href="{{URL::to('suket-domisili/delete/'.$post->id_persuratan)}}"><i class="nav-icon fas fa-trash"></i> Hapus</a>
                   <a class="btn btn-warning btn-sm" href="{{URL::to('suket-domisili/cetak_pdf/'.$post->id_persuratan)}}"><i class="nav-icon fas fa-trash"></i> Cetak</a>
-                  <a class="btn btn-warning btn-sm" href="{{URL::to('suket-domisili/show/'.$post->id_persuratan)}}"><i class="nav-icon fas fa-trash"></i> Detail</a>
+                  <a class="btn btn-success btn-sm" href="{{URL::to('suket-domisili/show/'.$post->id_persuratan)}}"><i class="nav-icon fas fa-trash"></i> Detail</a>
                 
                 </td>
                 </td>

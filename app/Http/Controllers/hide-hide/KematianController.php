@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Kematian;
 use App\Notifications\KematianNotifikasiSelesai;
+use App\User;
 use App\Warga;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -266,7 +267,7 @@ class KematianController extends Controller
      */
     public function update(Request $request, $id_persuratan)
     {
-
+        
         $data['status_surat'] = $request->status_surat;
         $data2['tgl_kematian'] = $request->tgl_kematian;
         $data2['tempat_kematian'] = $request->tempat_kematian;
@@ -275,12 +276,12 @@ class KematianController extends Controller
         $id_persuratan = DB::table('detail_kematian')->select('id_persuratan')->where('id_persuratan', $id_persuratan)->first();
         $kematian = DB::table('persuratan')->where('id_persuratan', $id_persuratan->id_persuratan)->update($data);
         $kematian = DB::table('detail_kematian')->where('id_persuratan', $id_persuratan->id_persuratan)->update($data2);
-
+        
          //Notifikasi Status-Surat Ke User
          $data = DB::table('persuratan')
-         ->where('id_persuratan', $id_persuratan)
+         ->where('id_persuratan', $id_persuratan->id_persuratan)
          ->first();
- 
+        
          $data_user = User::find($data->id);
          
          $data_user->notify(new KematianNotifikasiSelesai($id_persuratan));

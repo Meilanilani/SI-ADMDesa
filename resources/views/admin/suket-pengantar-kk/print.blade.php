@@ -125,7 +125,7 @@ hr.style2{
         <tr>
             <td align="center" width="566px">
                 <font size="2">
-                    Surat Keterangan Ini dipergunakan untuk pengantar : Membuat KK Baru </strong></font>
+                    Surat Keterangan Ini dipergunakan untuk pengantar : Membuat KK Baru/ Merubah Data KK</strong></font>
             </td>
         </tr>
     </table>

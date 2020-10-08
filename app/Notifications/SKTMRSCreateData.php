@@ -52,7 +52,7 @@ class SKTMRSCreateData extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            'message'=>'Pengajuan SKTM Rumah Sakit'
+            'message'=>'Pengajuan SKTM Rumah Sakit','variable'=>'SKTM RS'
         ];
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Persuratan;
 use App\Kelahiran;
+use App\Notifications\KelahiranNotifikasiSelesai;
 use App\Warga;
 use PDF;
 use Illuminate\Http\Request;
@@ -74,14 +75,14 @@ class KelahiranController extends Controller
           public function ajax_select(Request $request){
             $no_nik = $request->no_nik;
            
-            $sktmsekolah = Warga::where('no_nik','=',$no_nik)->first();
-            if(isset($sktmsekolah)){
+            $lahir = Warga::where('no_nik','=',$no_nik)->first();
+            if(isset($lahir)){
                 $data = array(
-                'id_warga' => $sktmsekolah['id_warga'],
-                'nama_lengkap' =>  $sktmsekolah['nama_lengkap'],
-                'tempat_lahir' =>  $sktmsekolah['tempat_lahir'],
-                'tanggal_lahir' =>  $sktmsekolah['tanggal_lahir'],
-                'alamat' =>  $sktmsekolah['alamat'],);
+                'id_warga' => $lahir['id_warga'],
+                'nama_lengkap' =>  $lahir['nama_lengkap'],
+                'tempat_lahir' =>  $lahir['tempat_lahir'],
+                'tanggal_lahir' =>  $lahir['tanggal_lahir'],
+                'alamat' =>  $lahir['alamat'],);
                 }else{
                     $data = null;
                 }
@@ -113,7 +114,7 @@ class KelahiranController extends Controller
             'nik_pemohon' => ['required','min:16', 'max:16'],
             'nik_ibu' => ['required','min:16', 'max:16'],
             'jenis_kelamin' => ['required'],
-            'tanggal_lahir' => ['required'],
+            'tanggal_lahir_anak' => ['required'],
             'foto_pengantar' => ['required'],
             'foto_kk' => ['required'],
             'foto_ktp' => ['required'],
@@ -273,6 +274,15 @@ class KelahiranController extends Controller
         $lahir = DB::table('persuratan')->where('id_persuratan', $id_persuratan->id_persuratan)->update($data);
         $lahir = DB::table('detail_kelahiran')->where('id_persuratan', $id_persuratan->id_persuratan)->update($data_detail);
         
+         //Notifikasi Status-Surat Ke User
+         $data = DB::table('persuratan')
+         ->where('id_persuratan', $id_persuratan)
+         ->first();
+ 
+         $data_user = User::find($data->id);
+         
+         $data_user->notify(new KelahiranNotifikasiSelesai($id_persuratan));
+ 
 
             return redirect()->route('kelahiran.index')
                             ->with('success', 'Data Berhasil diupdate!');  

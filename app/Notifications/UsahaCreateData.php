@@ -52,7 +52,7 @@ class UsahaCreateData extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            'message'=>'Pengajuan Suket Usaha'
+            'message'=>'Pengajuan Suket Usaha', 'variable'=>'Surat Keterangan Usaha'
         ];
     }
 }

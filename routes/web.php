@@ -238,3 +238,8 @@ Route::get('user-suket-domisili/cari', 'UserController@ajax_select_domisili')->n
 Route::get('user-suket-pindah/create', 'UserController@create_pindah')->name('pengajuan.create_pindah');
 Route::post('user-suket-pindah/store', 'UserController@store_pindah')->name('pengajuan.store_pindah');
 Route::get('user-suket-pindah/cari', 'UserController@ajax_select_pindah')->name('pengajuan.ajax_select_pindah');
+
+
+Route::get('user-pengantar-kk/create', 'UserController@create_kk')->name('pengajuan.create_kk');
+Route::post('user-pengantar-kk/store', 'UserController@store_kk')->name('pengajuan.store_kk');
+Route::get('user-pengantar-kk/cari', 'UserController@ajax_select_kk')->name('pengajuan.ajax_select_kk');

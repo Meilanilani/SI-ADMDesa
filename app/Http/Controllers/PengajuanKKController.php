@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Notifications\KKNotifikasiSelesai;
 use App\PengajuanKK;
 use App\Persuratan;
+use App\User;
+use PDF;
 use App\Warga;
 use DateTime;
 use Illuminate\Http\Request;
@@ -210,6 +213,17 @@ class PengajuanKKController extends Controller
     {
         $data['status_surat'] = $request->status_surat;
         $kk = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->update($data);
+
+        //Notifikasi Status-Surat Ke User
+        $data = DB::table('persuratan')
+        ->where('id_persuratan', $id_persuratan)
+        ->first();
+
+        $data_user = User::find($data->id);
+        
+        $data_user->notify(new KKNotifikasiSelesai($id_persuratan));
+
+
         return redirect()->route('kk.index')
                             ->with('success', 'Data berhasil diupdate!');
     }
@@ -225,6 +239,8 @@ class PengajuanKKController extends Controller
         $data = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->first();
        
         $kk = DB::table('persuratan')->where('id_persuratan', $id_persuratan)->delete();
+
+        
         
         return redirect()->route('kk.index')
         ->with('success', 'Data Berhasil Dihapus!');
@@ -241,9 +257,11 @@ class PengajuanKKController extends Controller
         ->where('persuratan.id_persuratan',$id_persuratan)
         ->first(); 
 
+       
+
         $pdf = PDF::loadview('admin.suket-pengantar-kk.print',compact('kk'));
         $pdf->setPaper('Legal','potrait');
-        return $pdf->download('suket-pengantar-skck.pdf');
+        return $pdf->download('suket-pengantar-kk.pdf');
         
     }
 }

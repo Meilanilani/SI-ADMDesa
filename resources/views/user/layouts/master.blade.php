@@ -102,7 +102,7 @@
          <!-- Notifikasi -->
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="far fa-bell"></i>
+          <i class="far fa-bell fa-2x"></i>
           <span class="badge badge-warning navbar-badge">{{count(Auth::user()->unreadNotifications)}}</span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
@@ -242,14 +242,14 @@
                   <p>Surat Domisili</p>
                 </a>
               </li>
-              <!--
+             
               <li class="nav-item">
-                <a href="/suket-taksiran-tanah" class="nav-link">
+                <a href="/user-pengantar-kk/create" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Surat Taksiran Tanah</p>
+                  <p>Surat Pengantar KK</p>
                 </a>
               </li>
-              
+               <!--
               <li class="nav-item"> 
                 <a href="/suket-domisili-lembaga" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -325,6 +325,36 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('#pengajuan-sktmsekolah').DataTable();
+    });
+    $(document).ready(function () {
+        $('#pengajuan-sktmrs').DataTable();
+    });
+    $(document).ready(function () {
+        $('#pengajuan-lahir').DataTable();
+    });
+    $(document).ready(function () {
+        $('#pengajuan-kematian').DataTable();
+    });
+    $(document).ready(function () {
+        $('#pengajuan-pnikah').DataTable();
+    });
+    $(document).ready(function () {
+        $('#pengajuan-skck').DataTable();
+    });
+    $(document).ready(function () {
+        $('#pengajuan-ktp').DataTable();
+    });
+    $(document).ready(function () {
+        $('#pengajuan-usaha').DataTable();
+    });
+    $(document).ready(function () {
+        $('#pengajuan-pindah').DataTable();
+    });
+    $(document).ready(function () {
+        $('#pengajuan-domisili').DataTable();
+    });
+    $(document).ready(function () {
+        $('#pengajuan-kk').DataTable();
     });
     $(document).ready(function () {
         $('#data_warga').DataTable();
