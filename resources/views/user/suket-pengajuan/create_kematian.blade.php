@@ -49,7 +49,7 @@
               <label for="inputName">Alamat</label>
               <textarea name="alamat" id="alamat" class="form-control" rows="4" readonly></textarea>
             </span></div>
-            <input type="hidden" name="id_warga" id="id_pemohon" class="form-control input-lg" value="{{Auth::user()->id}}"/>
+            <input type="hidden" name="id_warga" id="id_pemohon" class="form-control input-lg" value="{{$join->id_warga}}"/>
        <input type="hidden" name="nik_pemohon" id="nik_pemohon" class="form-control input-lg" value="{{Auth::user()->name}}"/>
             </div></div>
       </div> 

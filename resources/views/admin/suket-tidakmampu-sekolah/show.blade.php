@@ -69,7 +69,7 @@
                                     <td>:</td>
                                     <td><a href="{{URL::to($sktmsekolah->foto_pengantar)}}" target="_blank">Foto Pengantar RT/RW |</a>  
                                     <a href="{{URL::to($sktmsekolah->foto_kk)}}" target="_blank">Foto Kartu Keluarga | </a>  
-                                    <a href="{{URL::to($sktmsekolah->foto_ktp)}}" target="_blank">Foto Kartu Keluarga | </a>  </td>
+                                    <a href="{{URL::to($sktmsekolah->foto_ktp)}}" target="_blank">Foto Kartu KTP | </a>  </td>
                                         
                                 </tbody>
                                 

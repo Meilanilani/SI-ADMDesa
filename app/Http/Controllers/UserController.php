@@ -145,12 +145,16 @@ class UserController extends Controller
 
     public function create_sktmsekolah()
     {
-           
+        $join = DB::table('users') 
+        ->join('warga','users.name','=','warga.no_nik')
+        ->where('users.id' ,'=', Auth::id())
+        ->first();
+
         $surat = Persuratan::all();
         $surat = Warga::all();
         $status_surat = 'Proses';
         $surat = $this->autonumber_sktmsekolah();
-        return view('user.suket-pengajuan.create_sktmsekolah',['surat'=>$surat],['status_surat'=>$status_surat]);
+        return view('user.suket-pengajuan.create_sktmsekolah',['surat'=>$surat, 'status_surat'=>$status_surat, 'join'=>$join]);
     }
 
     public function autonumber_sktmsekolah(){
@@ -263,11 +267,16 @@ class UserController extends Controller
 
     public function create_sktmrs()
     {
+        $join = DB::table('users') 
+        ->join('warga','users.name','=','warga.no_nik')
+        ->where('users.id' ,'=', Auth::id())
+        ->first(); 
+
         $surat = Persuratan::all();
         $surat = Warga::all();
         $surat = $this->autonumber_sktmrs();
         $status_surat = 'Proses';
-        return view('user.suket-pengajuan.create_sktmrs', ['surat'=>$surat],['status_surat'=>$status_surat]);
+        return view('user.suket-pengajuan.create_sktmrs', ['surat'=>$surat,'status_surat'=>$status_surat,'join'=>$join]);
     }
 
     public function autonumber_sktmrs(){
@@ -378,12 +387,17 @@ class UserController extends Controller
 
     public function create_kelahiran()
     {
+        $join = DB::table('users') 
+        ->join('warga','users.name','=','warga.no_nik')
+        ->where('users.id' ,'=', Auth::id())
+        ->first(); 
+
         $surat = Kelahiran::all();
         $surat = Persuratan::all();
         $surat = Warga::all();
         $surat = $this->autonumber_kelahiran();
         $status_surat = 'Proses';
-        return view('user.suket-pengajuan.create_kelahiran',['surat'=>$surat],['status_surat'=>$status_surat]);
+        return view('user.suket-pengajuan.create_kelahiran',['surat'=>$surat,'status_surat'=>$status_surat, 'join'=>$join]);
     }
 
     public function autonumber_kelahiran(){
@@ -567,11 +581,16 @@ class UserController extends Controller
     
         public function create_kematian()
         {
+            $join = DB::table('users') 
+        ->join('warga','users.name','=','warga.no_nik')
+        ->where('users.id' ,'=', Auth::id())
+        ->first(); 
+
             $kematian = Kematian::all();
             $kematian = Warga::all();
             $status_surat = 'Proses';
             $surat = $this->autonumber_kematian();
-            return view('user.suket-pengajuan.create_kematian', ['surat' => $surat], ['status_surat' => $status_surat]);
+            return view('user.suket-pengajuan.create_kematian', ['surat' => $surat, 'status_surat' => $status_surat, 'join'=>$join]);
         }
     
         public function store_kematian(Request $request)
@@ -660,11 +679,16 @@ class UserController extends Controller
 
         public function create_pengantarnikah()
         {
+            $join = DB::table('users') 
+        ->join('warga','users.name','=','warga.no_nik')
+        ->where('users.id' ,'=', Auth::id())
+        ->first(); 
+
             $surat = Persuratan::all();
             $surat = Warga::all();
             $status_surat = 'Proses';
             $surat = $this->autonumber_pengantarnikah();
-            return view('user.suket-pengajuan.create_pengantarnikah', ['surat'=>$surat],['status_surat'=>$status_surat]);
+            return view('user.suket-pengajuan.create_pengantarnikah', ['surat'=>$surat,'status_surat'=>$status_surat,'join'=>$join]);
         }
     
     
@@ -831,6 +855,11 @@ class UserController extends Controller
 
     public function create_skck()
     {
+        $join = DB::table('users') 
+        ->join('warga','users.name','=','warga.no_nik')
+        ->where('users.id' ,'=', Auth::id())
+        ->first(); 
+
         $surat = Persuratan::all();
         $surat = Warga::all();
 
@@ -842,7 +871,7 @@ class UserController extends Controller
 
         $status_surat = 'Proses';
         $surat = $this->autonumber_skck();
-        return view('user.suket-pengajuan.create_skck', ['surat'=>$surat, 'status_surat'=>$status_surat,'date'=>$date]);
+        return view('user.suket-pengajuan.create_skck', ['surat'=>$surat, 'status_surat'=>$status_surat,'date'=>$date, 'join'=>$join]);
     }
 
     public function store_skck(Request $request)
@@ -958,6 +987,11 @@ class UserController extends Controller
 
     public function create_ktp()
     {
+        $join = DB::table('users') 
+        ->join('warga','users.name','=','warga.no_nik')
+        ->where('users.id' ,'=', Auth::id())
+        ->first(); 
+
         $ktp = Persuratan::all();
         $ktp = Warga::all();
         
@@ -967,7 +1001,7 @@ class UserController extends Controller
 
         $surat = $this->autonumber_ktp();
         $status_surat = 'Proses';
-        return view('user.suket-pengajuan.create_ktp', ['surat'=>$surat, 'status_surat'=>$status_surat, 'date'=>$date]);
+        return view('user.suket-pengajuan.create_ktp', ['surat'=>$surat, 'status_surat'=>$status_surat, 'date'=>$date, 'join'=>$join]);
     }
 
     
@@ -1071,11 +1105,16 @@ class UserController extends Controller
 
     public function create_usaha()
     {
+        $join = DB::table('users') 
+        ->join('warga','users.name','=','warga.no_nik')
+        ->where('users.id' ,'=', Auth::id())
+        ->first(); 
+
         $usaha = Usaha::all();
         $usaha = Warga::all();
         $surat = $this->autonumber_usaha();
         $status_surat = 'Proses';
-        return view('user.suket-pengajuan.create_usaha', ['surat'=>$surat], ['status_surat'=>$status_surat]);
+        return view('user.suket-pengajuan.create_usaha', ['surat'=>$surat,'status_surat'=>$status_surat,'join'=>$join]);
     }
 
     
@@ -1196,13 +1235,18 @@ class UserController extends Controller
 
     public function create_pindah()
     {
+        $join = DB::table('users') 
+        ->join('warga','users.name','=','warga.no_nik')
+        ->where('users.id' ,'=', Auth::id())
+        ->first(); 
+
         
 
         $pindah = Pindah::all();
         $pindah = Warga::all();
         $surat = $this->autonumber_pindah();
         $status_surat = 'Proses';
-        return view('user.suket-pengajuan.create_pindah',['surat'=>$surat], ['status_surat'=>$status_surat]);
+        return view('user.suket-pengajuan.create_pindah',['surat'=>$surat, 'status_surat'=>$status_surat, 'join'=>$join]);
     }
 
     public function store_pindah(Request $request)
@@ -1296,11 +1340,16 @@ class UserController extends Controller
 
     public function create_domisili()
     {
+        $join = DB::table('users') 
+        ->join('warga','users.name','=','warga.no_nik')
+        ->where('users.id' ,'=', Auth::id())
+        ->first(); 
+
         $domisili = Persuratan::all();
         $domisili = Warga::all();
         $surat = $this->autonumber_domisili();
         $status_surat = 'Proses';
-        return view('user.suket-pengajuan.create_domisili', ['surat'=>$surat], ['status_surat'=>$status_surat]);
+        return view('user.suket-pengajuan.create_domisili', ['surat'=>$surat, 'status_surat'=>$status_surat, 'join'=>$join]);
     }
 
     public function autonumber_domisili(){
@@ -1445,12 +1494,17 @@ class UserController extends Controller
 
     public function create_kk()
     {
+        $join = DB::table('users') 
+        ->join('warga','users.name','=','warga.no_nik')
+        ->where('users.id' ,'=', Auth::id())
+        ->first(); 
+
         $kk = Persuratan::all();
         $kk = Warga::all();
         
         $surat = $this->autonumber_kk();
         $status_surat = 'Proses';
-        return view('user.suket-pengajuan.create_kk', ['surat'=>$surat, 'status_surat'=>$status_surat]);
+        return view('user.suket-pengajuan.create_kk', ['surat'=>$surat, 'status_surat'=>$status_surat, 'join'=>$join]);
     }
 
     public function store_kk(Request $request)

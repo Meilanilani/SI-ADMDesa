@@ -82,8 +82,9 @@ class WargaController extends Controller
             'nama_ibu' => $request->get('nama_ibu'),
             'alamat' => $request->get('alamat'),
         ]);
-
         $warga->save();
+        
+
 
         if($request->get('status_hub_keluarga')=='Kepala Keluarga'){
             $user = new User();

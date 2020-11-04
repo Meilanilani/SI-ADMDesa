@@ -23,7 +23,7 @@
                 <input type="hidden" name="no_surat" class="form-control" value="{{ $surat}}" readonly>
                 
         <div class="col-md-6">
-          <input type="hidden" name="id_warga" id="id_pemohon" class="form-control input-lg" />
+          <input type="hidden" name="id_warga" id="id_pemohon" class="form-control input-lg" value="{{$join->id_warga}}"/>
           <label for="inputName">NIK Kepala Keluarga</label>
           <input type="text" name="nik_pemohon" id="nik_pemohon" class="form-control @error('nik_pemohon') is-invalid @enderror">
           @error('nik_pemohon')

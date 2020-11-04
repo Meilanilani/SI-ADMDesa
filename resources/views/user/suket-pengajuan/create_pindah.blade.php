@@ -21,7 +21,7 @@
           <div class="form-group">
             <div class="row">
                 <input type="hidden" name="no_surat" class="form-control" value="{{ $surat}}" readonly>
-              <input type="hidden" name="id_warga" id="id_pemohon" class="form-control input-lg" />
+              <input type="hidden" name="id_warga" id="id_pemohon" class="form-control input-lg" value="{{$join->id_warga}}"/>
               <div class="col-md-6">
                 <label for="inputName">No KK</label>  
                 <input type="text" name="no_kk" id="no_kk" class="form-control @error('no_kk') is-invalid @enderror">
